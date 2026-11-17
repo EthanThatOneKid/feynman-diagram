@@ -1,5 +1,7 @@
 # feynman-diagram
 
+[![skills.sh](https://skills.sh/b/EthanThatOneKid/feynman-diagram)](https://skills.sh/EthanThatOneKid/feynman-diagram)
+
 An Agent Skill (`/feynman-diagram`) that draws any process, in any domain, as a Feynman-style diagram. Time runs left to
 right. A line's stroke says **what carries** that stretch, and a vertex's glyph says **what kind of event** happens
 there. Each diagram defines its own vocabulary, or starts from a preset.
@@ -21,7 +23,13 @@ plus a PNG with `--png`.
 
 ## Install
 
-Copy or symlink `skills/feynman-diagram/` into your agent's skills directory:
+With the [`skills`](https://skills.sh) CLI:
+
+```sh
+npx skills add EthanThatOneKid/feynman-diagram
+```
+
+Or copy or symlink `skills/feynman-diagram/` into your agent's skills directory:
 
 ```sh
 # Claude Code (user-level)
