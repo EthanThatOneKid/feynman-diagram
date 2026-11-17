@@ -1,53 +1,133 @@
 {
   "preset": "agent",
-  "legend": { "human": "Sam decides" },
+  "maxWidth": 0,
+  "legend": {
+    "human": "Sam decides"
+  },
   "tracks": [
     {
       "id": "main",
       "lane": 0,
-      "start": { "label": "new mail", "note": "if busy: restart" },
+      "start": {
+        "label": "new mail",
+        "note": "if busy: restart"
+      },
       "steps": [
-        { "line": "code", "len": 150 },
-        { "vertex": "junction", "id": "in" },
-        { "line": "code", "len": 80 },
-        { "vertex": "read", "label": "read thread" },
+        {
+          "line": "code",
+          "len": 150
+        },
+        {
+          "vertex": "junction",
+          "id": "in"
+        },
+        {
+          "line": "code",
+          "len": 80
+        },
+        {
+          "vertex": "read",
+          "label": "read thread"
+        },
         {
           "line": "model",
           "label": "Classify",
-          "note": ["what does this thread need from Sam?", "policy silent ⇒ unsure · holds no tools"]
+          "note": [
+            "what does this thread need from Sam?",
+            "policy silent ⇒ unsure · holds no tools"
+          ]
         },
-        { "vertex": "reversible", "label": "record verdict + reason", "labelPos": "above" },
-        { "line": "code", "len": 90 },
-        { "vertex": "branch", "id": "verdict", "by": "model" },
-        { "line": "code", "label": "needs reply", "len": 190 },
+        {
+          "vertex": "reversible",
+          "label": "record verdict + reason",
+          "labelPos": "above"
+        },
+        {
+          "line": "code",
+          "len": 90
+        },
+        {
+          "vertex": "branch",
+          "id": "verdict",
+          "by": "model"
+        },
+        {
+          "line": "code",
+          "label": "needs reply",
+          "len": 190
+        },
         {
           "line": "model",
           "label": "Draft",
-          "note": ["writes the reply Sam would send", "short, direct, his voice"],
-          "probe": { "vertex": "read", "label": "may search this", "note": "sender's mail" }
+          "note": [
+            "writes the reply Sam would send",
+            "short, direct, his voice"
+          ],
+          "probe": {
+            "vertex": "read",
+            "label": "may search this",
+            "note": "sender's mail"
+          }
         },
-        { "vertex": "reversible", "label": "save draft" },
-        { "line": "code", "len": 90 },
-        { "vertex": "gate", "id": "ask", "label": "Send this reply?", "note": "shows the draft" },
-        { "line": "wait", "note": "asleep · holds no process", "len": 230 },
-        { "vertex": "branch", "id": "answer", "by": "human" },
-        { "line": "code", "label": "send", "len": 200 },
-        { "vertex": "irreversible", "label": "send reply" },
-        { "line": "code", "len": 70 },
-        { "vertex": "stop" }
+        {
+          "vertex": "reversible",
+          "label": "save draft"
+        },
+        {
+          "line": "code",
+          "len": 90
+        },
+        {
+          "vertex": "gate",
+          "id": "ask",
+          "label": "Send this reply?",
+          "note": "shows the draft"
+        },
+        {
+          "line": "wait",
+          "note": "asleep · holds no process",
+          "len": 230
+        },
+        {
+          "vertex": "branch",
+          "id": "answer",
+          "by": "human"
+        },
+        {
+          "line": "code",
+          "label": "send",
+          "len": 200
+        },
+        {
+          "vertex": "irreversible",
+          "label": "send reply"
+        },
+        {
+          "line": "code",
+          "len": 70
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
       "id": "hourly",
       "lane": -1.4,
-      "start": { "label": "every hour", "note": "if busy: ignored" },
+      "start": {
+        "label": "every hour",
+        "note": "if busy: ignored"
+      },
       "merge": "in"
     },
     {
       "id": "note",
       "lane": 1.4,
       "line": "human",
-      "start": { "label": "a note from Sam", "note": "if busy: joins the running work" },
+      "start": {
+        "label": "a note from Sam",
+        "note": "if busy: joins the running work"
+      },
       "merge": "in"
     },
     {
@@ -56,12 +136,29 @@
       "from": "verdict",
       "label": "noise",
       "steps": [
-        { "line": "code", "len": 110 },
-        { "vertex": "reversible", "label": "label “noise”" },
-        { "line": "code", "len": 110 },
-        { "vertex": "reversible", "label": "archive" },
-        { "line": "code", "len": 70 },
-        { "vertex": "stop" }
+        {
+          "line": "code",
+          "len": 110
+        },
+        {
+          "vertex": "reversible",
+          "label": "label “noise”"
+        },
+        {
+          "line": "code",
+          "len": 110
+        },
+        {
+          "vertex": "reversible",
+          "label": "archive"
+        },
+        {
+          "line": "code",
+          "len": 70
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -70,10 +167,21 @@
       "from": "verdict",
       "label": "fyi",
       "steps": [
-        { "line": "code", "len": 110 },
-        { "vertex": "reversible", "label": "label “fyi”" },
-        { "line": "code", "len": 70 },
-        { "vertex": "stop" }
+        {
+          "line": "code",
+          "len": 110
+        },
+        {
+          "vertex": "reversible",
+          "label": "label “fyi”"
+        },
+        {
+          "line": "code",
+          "len": 70
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -82,10 +190,21 @@
       "from": "verdict",
       "label": "unsure",
       "steps": [
-        { "line": "code", "len": 110 },
-        { "vertex": "reversible", "label": "label “needs Sam”" },
-        { "line": "code", "len": 70 },
-        { "vertex": "stop" }
+        {
+          "line": "code",
+          "len": 110
+        },
+        {
+          "vertex": "reversible",
+          "label": "label “needs Sam”"
+        },
+        {
+          "line": "code",
+          "len": 70
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -96,7 +215,10 @@
       "merge": "answer",
       "shape": "square",
       "label": "Sam answers",
-      "note": ["a live trust answers “send” for him", "2 days of silence answers “leave it”"]
+      "note": [
+        "a live trust answers “send” for him",
+        "2 days of silence answers “leave it”"
+      ]
     },
     {
       "id": "send-trust",
@@ -104,12 +226,29 @@
       "from": "answer",
       "label": "send, and trust this sender for a day",
       "steps": [
-        { "line": "code", "len": 150 },
-        { "vertex": "irreversible", "label": "send reply" },
-        { "line": "code", "len": 100 },
-        { "vertex": "trust", "label": "trust 24 h" },
-        { "line": "code", "len": 80 },
-        { "vertex": "stop" }
+        {
+          "line": "code",
+          "len": 150
+        },
+        {
+          "vertex": "irreversible",
+          "label": "send reply"
+        },
+        {
+          "line": "code",
+          "len": 100
+        },
+        {
+          "vertex": "trust",
+          "label": "trust 24 h"
+        },
+        {
+          "line": "code",
+          "len": 80
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -118,8 +257,14 @@
       "from": "answer",
       "label": "leave it",
       "steps": [
-        { "line": "code", "len": 150 },
-        { "vertex": "stop", "note": "nothing sent · draft stays" }
+        {
+          "line": "code",
+          "len": 150
+        },
+        {
+          "vertex": "stop",
+          "note": "nothing sent · draft stays"
+        }
       ]
     }
   ]

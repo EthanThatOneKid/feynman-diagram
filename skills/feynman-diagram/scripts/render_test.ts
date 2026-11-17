@@ -77,3 +77,10 @@ Deno.test("symbol runs are set in monospace", () => {
   assert(/<tspan font-family="[^"]*monospace">⇒<\/tspan>/.test(render(spec).svg));
   assert(/<text[^>]*font-family="[^"]+">a ⇒ b</.test(render(spec, { png: true }).svg));
 });
+
+Deno.test("wide diagrams warn unless maxWidth allows them", () => {
+  const steps = Array.from({ length: 16 }, () => ({ line: "code" as const, len: 120 }));
+  const spec: Spec = { preset: "agent", tracks: [{ lane: 0, start: { label: "go" }, steps }] };
+  assert(render(spec).warnings.some((w) => w.includes("wide")));
+  assertEquals(render({ ...spec, maxWidth: 0 }).warnings, []);
+});
