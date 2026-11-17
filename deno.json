@@ -5,7 +5,10 @@
     "test": "deno test --allow-read skills/feynman-diagram/scripts/"
   },
   "fmt": {
-    "lineWidth": 120
+    "lineWidth": 120,
+    "exclude": [
+      "examples/*.svg"
+    ]
   },
   "lint": {
     "rules": {
