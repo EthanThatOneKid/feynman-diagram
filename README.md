@@ -1,22 +1,23 @@
 # feynman-diagram
 
-An Agent Skill (`/feynman-diagram`) that draws a concept, architecture, or agent as a Feynman-style timeline. Time runs
-left to right. A line's stroke says **who decides** that stretch, and a vertex says **what that moment does to the
-world**.
+An Agent Skill (`/feynman-diagram`) that draws any process, in any domain, as a Feynman-style diagram. Time runs left to
+right. A line's stroke says **what carries** that stretch, and a vertex's glyph says **what kind of event** happens
+there. Each diagram defines its own vocabulary, or starts from a preset.
 
-![Inbox triage agent, drawn by the renderer](examples/inbox-triage.png)
+| particle physics (`qed` preset)               | an agent workflow (`agent` preset)         |
+| --------------------------------------------- | ------------------------------------------ |
+| ![e⁻e⁺ → μ⁻μ⁺](examples/qed-annihilation.png) | ![inbox triage](examples/inbox-triage.png) |
 
-| stroke        | who decides             |   | glyph    | effect                              |
-| ------------- | ----------------------- | - | -------- | ----------------------------------- |
-| solid         | code                    |   | ○        | reads the world                     |
-| wave          | the model               |   | ◆ black  | changes the world, can be undone    |
-| dashed orange | a human                 |   | ◆ red    | changes the world, cannot be undone |
-| dotted gray   | nobody: asleep, waiting |   | □ orange | asks a human                        |
-|               |                         |   | ○ orange | temporary trust                     |
-|               |                         |   | ┃        | stops                               |
+![An international parcel, with a custom vocabulary](examples/package-shipment.png)
 
-The agent writes a small JSON spec (semantics only). [`render.ts`](skills/feynman-diagram/scripts/render.ts) lays it out
-and emits a themeable SVG, plus a PNG with `--png`. It supports light and dark mode.
+The agent writes a small JSON spec: the vocabulary (line kinds, vertex kinds, and what each means) and the timeline.
+[`render.ts`](skills/feynman-diagram/scripts/render.ts) lays it out and emits an SVG that supports light and dark mode,
+plus a PNG with `--png`.
+
+- **Line strokes:** solid, wave, coil, zigzag, dashed, dotted, double, optionally with direction arrows.
+- **Vertex glyphs:** circle, diamond, square, triangle, hexagon, star, cross, dot, bar; solid or hollow.
+- **Colors:** nine palette tokens that adapt to dark mode, or any hex value.
+- **Structure:** triggers, merges, branches, detours that rejoin, approval loops, and physics-style symmetric legs.
 
 ## Install
 
@@ -32,15 +33,16 @@ Then ask for `/feynman-diagram <thing to diagram>`. Rendering requires [Deno](ht
 ## Render by hand
 
 ```sh
-deno task render examples/inbox-triage.json            # -> examples/inbox-triage.svg
-deno task render examples/inbox-triage.json --png examples/inbox-triage.png
+deno task render examples/package-shipment.json --png examples/package-shipment.png
+deno task examples   # re-render every example
+deno task test
 ```
 
 The spec format is in [`references/spec.md`](skills/feynman-diagram/references/spec.md).
 
 ## Provenance
 
-The notation follows a hand-drawn diagram of an inbox-triage agent, which
+The `agent` preset follows a hand-drawn diagram of an inbox-triage agent, which
 [`examples/inbox-triage.json`](examples/inbox-triage.json) recreates. The split between Substance and Style, where the
 agent writes semantics and the renderer owns geometry, comes from Wen et al.,
 [_Feynman: Knowledge-Infused Diagramming Agent for Scalable Visual Designs_](https://arxiv.org/abs/2603.12597) (CMU,

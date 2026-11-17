@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2078.2 574.8" width="2078.2" height="574.8" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">
+<title>An international parcel</title>
+<style>
+.bg{fill:#fafafa}
+.card{fill:#ffffff;stroke:#ececec}
+.f-card{fill:#ffffff}
+.k-card{stroke:#ffffff}
+.f-ink{fill:#1f1f1f}
+.k-ink{stroke:#1f1f1f}
+.f-gray{fill:#8a8a8a}
+.k-gray{stroke:#8a8a8a}
+.f-blue{fill:#4a7bf7}
+.k-blue{stroke:#4a7bf7}
+.f-orange{fill:#f0a030}
+.k-orange{stroke:#f0a030}
+.f-red{fill:#e5484d}
+.k-red{stroke:#e5484d}
+.f-green{fill:#2f9e5b}
+.k-green{stroke:#2f9e5b}
+.f-purple{fill:#8b5cf6}
+.k-purple{stroke:#8b5cf6}
+.f-teal{fill:#0f9fa8}
+.k-teal{stroke:#0f9fa8}
+.f-pink{fill:#e04f9b}
+.k-pink{stroke:#e04f9b}
+@media (prefers-color-scheme: dark) {
+.bg{fill:#141414}
+.card{fill:#1b1b1b;stroke:#2a2a2a}
+.f-card{fill:#1b1b1b}
+.k-card{stroke:#1b1b1b}
+.f-ink{fill:#e8e8e8}
+.k-ink{stroke:#e8e8e8}
+.f-gray{fill:#8f8f8f}
+.k-gray{stroke:#8f8f8f}
+.f-blue{fill:#7aa2ff}
+.k-blue{stroke:#7aa2ff}
+.f-orange{fill:#f5b04a}
+.k-orange{stroke:#f5b04a}
+.f-red{fill:#ff6b6f}
+.k-red{stroke:#ff6b6f}
+.f-green{fill:#4cc47e}
+.k-green{stroke:#4cc47e}
+.f-purple{fill:#a98bff}
+.k-purple{stroke:#a98bff}
+.f-teal{fill:#3cc4cc}
+.k-teal{stroke:#3cc4cc}
+.f-pink{fill:#f27ab8}
+.k-pink{stroke:#f27ab8}
+}</style>
+<rect class="bg" width="100%" height="100%"/>
+<text x="24" y="32" font-size="20" font-weight="650" class="f-ink">An international parcel</text>
+<rect class="card" x="8" y="52" width="2062.2" height="52" rx="10"/>
+<path d="M24 78L94 78" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<text x="106" y="83" font-size="15" text-anchor="start" class="f-ink">by road</text>
+<path d="M188.2 78L258.2 78" fill="none" stroke-linejoin="round" stroke-width="6.5" class="k-blue"/><path d="M188.2 78L258.2 78" fill="none" stroke-linejoin="round" stroke-width="2.3" class="k-card"/>
+<text x="270.2" y="83" font-size="15" text-anchor="start" class="f-ink">by air</text>
+<path d="M344.9 78L414.9 78" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<text x="426.9" y="83" font-size="15" text-anchor="start" class="f-ink">held, nobody moving it</text>
+<path d="M620.8 78L690.8 78" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-green"/>
+<text x="702.8" y="83" font-size="15" text-anchor="start" class="f-ink">local courier</text>
+<path d="M839.7 69.5L848.2 78L839.7 86.5L831.2 78Z" class="f-ink"/>
+<text x="859.7" y="83" font-size="15" text-anchor="start" class="f-ink">customs decides</text>
+<circle cx="1011.4759999999999" cy="78" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="1031.5" y="83" font-size="15" text-anchor="start" class="f-ink">scanned</text>
+<path d="M1123.6 68L1133.6 78L1123.6 88L1113.6 78Z" class="f-ink"/>
+<text x="1143.6" y="83" font-size="15" text-anchor="start" class="f-ink">changes hands</text>
+<path d="M1280.5 68L1290.5 78L1280.5 88L1270.5 78Z" class="f-red"/>
+<text x="1300.5" y="83" font-size="15" text-anchor="start" class="f-ink">money changes hands</text>
+<path d="M1482.1 68.6L1491.1 84.8L1473.1 84.8Z" class="f-orange"/>
+<text x="1502.1" y="83" font-size="15" text-anchor="start" class="f-ink">opened and inspected</text>
+<path d="M1683 69.9L1699.2 69.9L1699.2 86.1L1683 86.1Z" class="f-card k-green" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="1711.1" y="83" font-size="15" text-anchor="start" class="f-ink">recipient signs</text>
+<rect x="1860.9239999999998" y="63" width="4" height="30" rx="1" class="f-ink"/>
+<text x="1882.9" y="83" font-size="15" text-anchor="start" class="f-ink">stops</text>
+<rect class="card" x="8" y="122" width="2062.2" height="444.8" rx="12"/>
+<g transform="translate(4 325)">
+<path d="M40 0L210 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M210 0L310 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M310 0L588 0" fill="none" stroke-linejoin="round" stroke-width="6.5" class="k-blue"/><path d="M310 0L588 0" fill="none" stroke-linejoin="round" stroke-width="2.3" class="k-card"/>
+<path d="M588 0L819.9 0" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M819.9 0L1309.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1309.9 0L1481.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-green"/>
+<path d="M1481.9 0L1631.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-green"/>
+<path d="M1631.9 0L1687.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M819.9 0L823.1 -0.2L826.2 -0.7L829.1 -1.5L831.9 -2.7L834.6 -4.2L837.2 -5.9L839.7 -7.9L842.1 -10.2L844.4 -12.7L846.6 -15.5L848.7 -18.4L850.8 -21.6L852.8 -24.9L854.7 -28.4L856.6 -32L858.4 -35.8L860.2 -39.7L862 -43.7L863.7 -47.7L865.4 -51.9L867 -56.1L868.7 -60.4L870.3 -64.7L871.9 -69L873.5 -73.3L875.2 -77.6L876.8 -81.9L878.5 -86.1L880.2 -90.3L881.9 -94.3L883.6 -98.3L885.4 -102.2L887.2 -106L889.1 -109.6L891 -113.1L893 -116.4L895.1 -119.6L897.2 -122.5L899.5 -125.3L901.8 -127.8L904.2 -130.1L906.6 -132.1L909.2 -133.8L911.9 -135.3L914.7 -136.5L917.7 -137.3L920.7 -137.8L923.9 -138" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M923.9 -138L1147.5 -138" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M1147.5 -138L1206 -138" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M1206 -138L1209.2 -137.8L1212.2 -137.3L1215.1 -136.5L1218 -135.3L1220.6 -133.8L1223.2 -132.1L1225.7 -130.1L1228.1 -127.8L1230.4 -125.3L1232.6 -122.5L1234.8 -119.6L1236.8 -116.4L1238.8 -113.1L1240.8 -109.6L1242.7 -106L1244.5 -102.2L1246.3 -98.3L1248 -94.3L1249.7 -90.3L1251.4 -86.1L1253.1 -81.9L1254.7 -77.6L1256.3 -73.3L1258 -69L1259.6 -64.7L1261.2 -60.4L1262.9 -56.1L1264.5 -51.9L1266.2 -47.7L1267.9 -43.7L1269.7 -39.7L1271.4 -35.8L1273.3 -32L1275.1 -28.4L1277.1 -24.9L1279.1 -21.6L1281.1 -18.4L1283.3 -15.5L1285.5 -12.7L1287.8 -10.2L1290.2 -7.9L1292.7 -5.9L1295.3 -4.2L1298 -2.7L1300.8 -1.5L1303.7 -0.7L1306.8 -0.2L1309.9 0" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M819.9 0L823.2 0.2L826.3 0.7L829.3 1.6L832.2 2.8L834.9 4.4L837.6 6.2L840.1 8.3L842.6 10.6L844.9 13.3L847.2 16.1L849.4 19.2L851.5 22.5L853.6 25.9L855.5 29.6L857.5 33.3L859.3 37.3L861.2 41.3L862.9 45.5L864.7 49.7L866.4 54.1L868.1 58.5L869.8 62.9L871.5 67.4L873.1 71.9L874.8 76.4L876.5 80.8L878.1 85.3L879.8 89.7L881.6 94L883.3 98.3L885.1 102.4L886.9 106.5L888.8 110.4L890.7 114.2L892.7 117.8L894.7 121.3L896.8 124.6L899 127.6L901.3 130.5L903.7 133.1L906.1 135.5L908.7 137.6L911.3 139.4L914.1 140.9L916.9 142.1L919.9 143L923.1 143.6L926.3 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M926.3 143.8L1016.3 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1016.3 143.8L1126.3 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1126.3 143.8L1182.3 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1481.9 0L1485.1 0.2L1488.2 0.7L1491.1 1.5L1493.9 2.7L1496.6 4.2L1499.2 5.9L1501.7 7.9L1504.1 10.2L1506.4 12.7L1508.6 15.5L1510.7 18.4L1512.8 21.6L1514.8 24.9L1516.7 28.4L1518.6 32L1520.4 35.8L1522.2 39.7L1524 43.7L1525.7 47.7L1527.4 51.9L1529 56.1L1530.7 60.4L1532.3 64.7L1533.9 69L1535.5 73.3L1537.2 77.6L1538.8 81.9L1540.5 86.1L1542.2 90.3L1543.9 94.3L1545.6 98.3L1547.4 102.2L1549.2 106L1551.1 109.6L1553 113.1L1555 116.4L1557.1 119.6L1559.2 122.5L1561.5 125.3L1563.8 127.8L1566.2 130.1L1568.6 132.1L1571.2 133.8L1573.9 135.3L1576.7 136.5L1579.7 137.3L1582.7 137.8L1585.9 138" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-green"/>
+<path d="M1585.9 138L1675.9 138" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-green"/>
+<path d="M1675.9 138L1932.9 138" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<circle cx="210" cy="0" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M310 -10L320 0L310 10L300 0Z" class="f-ink"/>
+<circle cx="587.96" cy="0" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M819.9 -8.5L828.4 0L819.9 8.5L811.4 0Z" class="f-orange"/>
+<path d="M1309.9 -10L1319.9 0L1309.9 10L1299.9 0Z" class="f-ink"/>
+<path d="M1481.9 -8.5L1490.4 0L1481.9 8.5L1473.4 0Z" class="f-green"/>
+<path d="M1623.8 -8.1L1640 -8.1L1640 8.1L1623.8 8.1Z" class="f-card k-green" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="1685.94" y="-15" width="4" height="30" rx="1" class="f-ink"/>
+<path d="M1147.5 -148L1157.5 -138L1147.5 -128L1137.5 -138Z" class="f-red"/>
+<path d="M1016.3 134.3L1025.3 150.5L1007.3 150.5Z" class="f-orange"/>
+<path d="M1126.3 133.8L1136.3 143.8L1126.3 153.8L1116.3 143.8Z" class="f-ink"/>
+<rect x="1180.315" y="128.75" width="4" height="30" rx="1" class="f-ink"/>
+<circle cx="1675.9" cy="138" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="1930.9" y="123" width="4" height="30" rx="1" class="f-ink"/>
+<text x="36" y="-14" font-size="15" text-anchor="start" class="f-ink" font-weight="600">order shipped</text>
+<text x="36" y="26" font-size="13" text-anchor="start" class="f-gray">label printed</text>
+<text x="210" y="32" font-size="15" text-anchor="middle" class="f-ink">pickup</text>
+<text x="260" y="-16" font-size="15" text-anchor="middle" class="f-ink">to hub</text>
+<text x="310" y="32" font-size="15" text-anchor="middle" class="f-ink">export hub</text>
+<text x="449" y="-16" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">Flight</text>
+<text x="455.7" y="30" font-size="13" text-anchor="middle" class="f-gray">~14 h in the cargo hold</text>
+<text x="588" y="32" font-size="15" text-anchor="middle" class="f-ink">arrival</text>
+<text x="723.7" y="30" font-size="13" text-anchor="middle" class="f-gray">customs queue · 1–3 days</text>
+<text x="1064.9" y="-16" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">cleared</text>
+<text x="1309.9" y="32" font-size="15" text-anchor="middle" class="f-ink">local depot</text>
+<text x="1395.9" y="-16" font-size="15" text-anchor="middle" class="f-green" font-weight="600">out for delivery</text>
+<text x="1556.9" y="-16" font-size="15" text-anchor="middle" class="f-green" font-weight="600">someone home</text>
+<text x="1631.9" y="32" font-size="15" text-anchor="middle" class="f-green">signature</text>
+<text x="1035.7" y="-152" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">duty owed</text>
+<text x="1000.2" y="-108" font-size="13" text-anchor="middle" class="f-gray">waits for payment</text>
+<text x="1147.5" y="-106" font-size="15" text-anchor="middle" class="f-red" font-weight="600">recipient pays</text>
+<text x="971.3" y="129.8" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">flagged</text>
+<text x="1016.3" y="175.8" font-size="15" text-anchor="middle" class="f-ink">inspected</text>
+<text x="1126.3" y="175.8" font-size="15" text-anchor="middle" class="f-ink">returned to sender</text>
+<text x="1630.9" y="124" font-size="15" text-anchor="middle" class="f-green" font-weight="600">nobody home</text>
+<text x="1675.9" y="170" font-size="15" text-anchor="middle" class="f-ink">notice left</text>
+<text x="1833.2" y="168" font-size="13" text-anchor="middle" class="f-gray">up to 5 days at the depot</text>
+<text x="1946.9" y="143" font-size="13" text-anchor="start" class="f-gray">then returned</text>
+</g>
+<text x="30" y="550.8" font-size="13" text-anchor="start" class="f-gray">time <tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">→</tspan></text>
+</svg>

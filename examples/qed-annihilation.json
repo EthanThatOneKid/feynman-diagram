@@ -1,0 +1,21 @@
+{
+  "title": "e⁻e⁺ → μ⁻μ⁺ (s-channel)",
+  "preset": "qed",
+  "tracks": [
+    {
+      "id": "photon",
+      "lane": 0,
+      "offset": 170,
+      "line": "photon",
+      "steps": [
+        { "vertex": "vertex", "id": "v1", "label": "−ie γ^μ" },
+        { "line": "photon", "label": "γ*", "note": "virtual photon", "len": 220 },
+        { "vertex": "vertex", "id": "v2", "label": "−ie γ^ν" }
+      ]
+    },
+    { "lane": -1, "line": "fermion", "shape": "straight", "start": { "label": "e⁻" }, "merge": "v1" },
+    { "lane": 1, "line": "fermion", "shape": "straight", "reverse": true, "start": { "label": "e⁺" }, "merge": "v1" },
+    { "lane": -1, "line": "fermion", "shape": "straight", "from": "v2", "end": { "label": "μ⁻" } },
+    { "lane": 1, "line": "fermion", "shape": "straight", "reverse": true, "from": "v2", "end": { "label": "μ⁺" } }
+  ]
+}

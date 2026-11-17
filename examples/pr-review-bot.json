@@ -1,4 +1,5 @@
 {
+  "preset": "agent",
   "title": "PR review bot",
   "legend": { "human": "the maintainer decides" },
   "tracks": [
@@ -15,7 +16,7 @@
           "line": "model",
           "label": "Review",
           "note": ["find bugs worth a comment", "read-only token"],
-          "probe": { "label": "may open", "note": "related files" }
+          "probe": { "vertex": "read", "label": "may open", "note": "related files" }
         },
         { "vertex": "reversible", "label": "draft comments", "labelPos": "above" },
         { "line": "code" },

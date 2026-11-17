@@ -1,90 +1,97 @@
 ---
 name: feynman-diagram
 description: >-
-  Diagram a concept, architecture, agent, workflow, or pipeline as a Feynman-style timeline: time runs left to right,
-  each line's stroke says who decides that stretch (code, the model, a human, or nobody while it waits), and each
-  vertex says what that moment does to the world (reads it, changes it reversibly, changes it irreversibly, grants
-  trust, stops). Use when asked for /feynman-diagram, a "Feynman diagram" of a system, an agent control-flow or
-  authority diagram, a who-decides-what map, or a picture of where a system can do irreversible things. Writes a JSON
-  spec and renders it to SVG (and PNG) with a bundled Deno script.
+  Diagram any process, concept, architecture, or system in any domain as a Feynman-style diagram: time runs left to
+  right, a line's stroke says what kind of thing carries the process through that stretch, and a vertex's glyph says
+  what kind of event happens at that moment. Each diagram defines its own vocabulary of line and vertex kinds, or uses
+  a preset (`agent` for software agents, meaning who decides and what changes the world; `qed` for particle
+  physics). Use for /feynman-diagram, "Feynman diagram of X", a timeline or flow diagram where *who or what* carries
+  each step and *what each event does* both matter: agent and software workflows, particle interactions, logistics,
+  legal or business processes, biology pathways, game turns, protocols. Writes a JSON spec and renders it to SVG and
+  PNG with a bundled Deno script.
 ---
 
 # /feynman-diagram
 
-Draw a system the way Feynman drew particle interactions: **time runs left to right, lines carry control, vertices are
-where something happens.** The diagram answers three questions at a glance:
+Draw a process the way Feynman drew particle interactions: **time runs left to right, lines carry the process, vertices
+are where something happens.** What lines and vertices _mean_ depends on the domain, and you choose it.
 
-1. **Who decides** each stretch of time? Code (solid), the model (wave), a human (dashed), or nobody: asleep, waiting
-   (dotted).
-2. **What does each moment do to the world?** Reads it (hollow circle), changes it reversibly (black diamond), changes
-   it irreversibly (red diamond), grants temporary trust (orange ring), asks a human (orange square), stops (bar).
-3. **Where does control split, rejoin, and end?** Branches fan out from a small diamond colored by whoever chose the
-   branch. Triggers sweep in from the left and merge. Every path ends in a stop bar.
+The method is the same for every domain:
+
+| Feynman                     | In your diagram                                                                    |
+| --------------------------- | ---------------------------------------------------------------------------------- |
+| particle type → line style  | **what carries this stretch**: who is in control, what medium, what state          |
+| interaction → vertex        | **what kind of event happens**: its effect, its cost, whether it can be reversed   |
+| lines splitting and joining | branches (someone or something chooses a route), merges (inputs combine)           |
+| external lines              | triggers entering from the left; outcomes leaving on the right or ending at a stop |
 
 You do the semantics; `scripts/render.ts` does the geometry. You never place pixels by hand.
 
 ## Workflow
 
-1. **Understand the system.** Read the code, docs, or description you were given. When the subject is a codebase, trace
-   the real control flow: entry points, scheduler/cron triggers, LLM calls, tool calls, approval steps, writes, and
-   exits. Do not invent steps. Mark guesses as guesses in a note.
+1. **Understand the subject.** Read the code, docs, or description. Trace what really happens, in time order: what
+   starts it, what moves it forward, where it splits, what it touches, how each path ends. Do not invent steps. Mark
+   guesses as guesses in a note.
 
-2. **Inventory before drawing.** Write a short table, either in your scratchpad or to the user:
+2. **Choose the vocabulary.** This is the step that matters most. Pick the two questions this diagram answers:
+   - **Lines answer "what carries this stretch?"** Pick 2–5 kinds that are mutually exclusive and cover every stretch.
+     Examples: code / model / human / waiting (an agent); fermion / photon / gluon (QED); road / air / held / courier
+     (shipping); plaintiff / court / defendant / stayed (litigation); cytosol / membrane / nucleus (signaling).
+   - **Vertices answer "what kind of moment is this?"** Pick 2–6 kinds, chosen for the distinction a reader most needs.
+     Examples: reads / changes reversibly / changes irreversibly (an agent); interaction (QED); scanned / changes hands
+     / money changes hands (shipping); filing / ruling / settlement (litigation).
+   - Give **red** to the moment that most deserves attention (irreversible, costly, dangerous) and **gray dotted** to
+     stretches where nothing moves. Keep everything else ink unless color separates something real.
+   - If a preset fits, use it: `"preset": "agent"` for software agents and automations, `"preset": "qed"` for particle
+     physics. Override or extend a preset's kinds in `lines` / `vertices`.
 
-   | Moment | Who decides the stretch before it | Effect on the world | Branches? |
-   | ------ | --------------------------------- | ------------------- | --------- |
+   Write the vocabulary down as a two-column table (kind → meaning) before you write the spec. If a stretch or moment
+   fits no kind, or fits two, revise the vocabulary first.
 
-   Classify honestly. These rules matter most:
-   - A **model** line means an LLM is choosing. Code that merely _calls_ a model and uses its output deterministically
-     is still a model stretch for the duration of the call, followed by code.
-   - **Reversible vs. irreversible** is about the real world, not the codebase. Saving a draft, adding a label, or
-     writing a row you can delete is reversible. Sending email, paying money, posting publicly, deleting without a
-     backup, or calling an external API with side effects is irreversible. When unsure, use red and say why in a note.
-   - A **human** line is a stretch where a person chooses. A **gate** is the moment the system asks; the wait that
-     follows is dotted (it holds no process); the answer is a branch `by: "human"`.
-   - **Trust** is a grant that lets the system skip a future human decision (for example, "trust this sender 24 h").
-   - A **read** that the model may optionally do mid-stretch is a `probe` on that model line.
+3. **Inventory.** List each moment in time order with its vertex kind, the line kind of the stretch before it, and
+   whether it branches. This becomes the spec almost line for line.
 
-3. **Write the spec** as `<name>.feynman.json`, next to the subject or wherever the user asked. The format is in
-   [references/spec.md](references/spec.md), and a full worked example is in
-   [`examples/inbox-triage.json`](../../examples/inbox-triage.json) at the repo root. Shape:
-   - one `lane: 0` track for the main path, started by its primary trigger;
-   - extra triggers as tracks with `start` + `merge` into a `junction` on the main path (negative lanes above, positive
-     below);
-   - each branch as a track with `from: <branch vertex id>`, fanned out across lanes;
-   - human loops (gate → answer) as `shape: "square"` tracks with `line: "human"`.
+4. **Write the spec** as `<name>.feynman.json`, next to the subject or wherever the user asked. The format is in
+   [references/spec.md](references/spec.md). Shape:
+   - one `lane: 0` track for the main path, opened by its primary trigger (`start`);
+   - extra triggers as `start` + `merge` tracks into a `junction` (negative lanes above, positive below);
+   - each route out of a `branch` as a track with `from: <branch id>`, fanned across lanes;
+   - loops that return (an approval, a retry) as `shape: "square"` tracks with `from` + `merge`;
+   - symmetric, physics-style diagrams as free tracks (`offset`, no `start`) plus `shape: "straight"` legs.
 
-4. **Render** (Deno required):
+5. **Render** (Deno required):
 
    ```sh
    deno run --allow-read --allow-write --allow-env --allow-ffi --allow-sys --allow-net \
      <skill-dir>/scripts/render.ts diagram.feynman.json -o diagram.svg --png diagram.png
    ```
 
-   Drop `--png` (and every permission flag past `--allow-write`) if you only need the SVG. `<skill-dir>` is the
-   directory holding this file.
+   Drop `--png` (and every permission flag past `--allow-write`) for SVG only. `<skill-dir>` is the directory holding
+   this file. The renderer validates the spec and lists the kinds it knows when you name an unknown one.
 
-5. **Look at the PNG** (read the image) and fix what you see. Common fixes:
-   - labels collide → raise `len` on the line between them, or move a vertex label with `labelPos` (`above` | `below` |
-     `right` | `above-left`);
-   - branches crowd → spread their `lane` values further apart (fractional lanes are fine);
-   - a renderer warning says a merge track has no room → lengthen the main-path line before the merge target.
+6. **Look at the PNG** (read the image) and fix what you see:
+   - labels collide → raise `len` on the line between them, or move a vertex label with `labelPos`;
+   - branches crowd → spread their `lane` values (fractions are fine);
+   - a warning says a merge has no room → lengthen the main-path line before the merge target.
 
-   Iterate until nothing overlaps and every path ends. Then hand the user the SVG (and the spec, so they can edit it).
+   Iterate until nothing overlaps and every path ends or exits. Hand the user the SVG and the spec.
 
 ## Style rules
 
-- **Labels are verbs or verdicts, lowercase, short:** `read thread`, `save draft`, `send reply`. Branch labels are the
-  verdict that chose them: `noise`, `needs reply`, `leave it`. Stretch labels on model lines are capitalized task names:
-  `Classify`, `Draft`.
-- **Notes carry the "why" and the limits** in gray: `holds no tools`, `if busy: restart`, `nothing sent · draft stays`.
-  Use `·` to join short clauses.
-- Name the human in the legend when there is one: `"legend": { "human": "Sam decides" }`.
-- One diagram per system. If it needs more than about 8 lanes or 40 vertices, split it into an overview plus close-ups.
-- The legend only lists kinds the diagram uses. Set `"legend": false` to omit it.
+- **Labels are short and lowercase**: verbs for moments (`pickup`, `send reply`), verdicts for routes (`cleared`,
+  `nobody home`). Capitalize a stretch label only when it names a task (`Classify`, `Flight`).
+- **Notes carry the why and the limits** in gray: `holds no tools`, `customs queue · 1–3 days`.
+- **Legend text states the meaning, not the look**: "money changes hands", not "red diamond".
+- One diagram per process. Past about 8 lanes or 40 vertices, split it into an overview and close-ups.
+- The legend lists only kinds the diagram uses. Set `"legend": false` to hide it.
+
+## Examples
+
+`examples/` at the repo root: `inbox-triage` and `pr-review-bot` (preset `agent`), `qed-annihilation` (preset `qed`),
+and `package-shipment` (custom vocabulary). Each has its `.json` spec and rendered `.svg` / `.png`.
 
 ## Provenance
 
-The visual grammar follows a hand-drawn agent diagram of an inbox-triage assistant (recreated in `examples/`). The split
+The `agent` preset follows a hand-drawn diagram of an inbox-triage assistant (recreated in `examples/`). The split
 between Substance and Style, where the agent writes semantics and a renderer owns layout, follows Wen et al., "Feynman:
 Knowledge-Infused Diagramming Agent for Scalable Visual Designs" (arXiv:2603.12597).

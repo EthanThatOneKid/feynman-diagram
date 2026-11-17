@@ -1,298 +1,167 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1996.7 947.8" width="1996.7" height="947.8"
-  font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
-  <style>
-  .bg {
-    fill: #fafafa;
-  }
-  .card {
-    fill: #ffffff;
-    stroke: #ececec;
-  }
-  .s-code,
-  .s-model,
-  .s-human,
-  .s-wait {
-    fill: none;
-    stroke-width: 2.2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .s-code {
-    stroke: #1f1f1f;
-  }
-  .s-model {
-    stroke: #4a7bf7;
-  }
-  .s-human {
-    stroke: #f0a030;
-    stroke-dasharray: 9 7;
-    stroke-linecap: butt;
-  }
-  .s-wait {
-    stroke: #8a8a8a;
-    stroke-dasharray: 0.1 7;
-    stroke-width: 2.6;
-  }
-  .g-ink,
-  .a-code,
-  .t-ink,
-  .t-code,
-  .t-title {
-    fill: #1f1f1f;
-  }
-  .g-danger,
-  .t-danger {
-    fill: #e5484d;
-  }
-  .g-model,
-  .a-model,
-  .t-model {
-    fill: #4a7bf7;
-  }
-  .g-human,
-  .a-human,
-  .t-human {
-    fill: #f0a030;
-  }
-  .a-wait,
-  .t-note {
-    fill: #8a8a8a;
-  }
-  .g-read {
-    fill: #ffffff;
-    stroke: #1f1f1f;
-    stroke-width: 2.4;
-  }
-  .g-trust {
-    fill: #ffffff;
-    stroke: #f0a030;
-    stroke-width: 2.8;
-  }
-  .g-gate {
-    fill: #ffffff;
-    stroke: #f0a030;
-    stroke-width: 2.4;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    .bg {
-      fill: #141414;
-    }
-    .card {
-      fill: #1b1b1b;
-      stroke: #2a2a2a;
-    }
-    .s-code,
-    .s-model,
-    .s-human,
-    .s-wait {
-      fill: none;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-    .s-code {
-      stroke: #e8e8e8;
-    }
-    .s-model {
-      stroke: #7aa2ff;
-    }
-    .s-human {
-      stroke: #f5b04a;
-      stroke-dasharray: 9 7;
-      stroke-linecap: butt;
-    }
-    .s-wait {
-      stroke: #8f8f8f;
-      stroke-dasharray: 0.1 7;
-      stroke-width: 2.6;
-    }
-    .g-ink,
-    .a-code,
-    .t-ink,
-    .t-code,
-    .t-title {
-      fill: #e8e8e8;
-    }
-    .g-danger,
-    .t-danger {
-      fill: #ff6b6f;
-    }
-    .g-model,
-    .a-model,
-    .t-model {
-      fill: #7aa2ff;
-    }
-    .g-human,
-    .a-human,
-    .t-human {
-      fill: #f5b04a;
-    }
-    .a-wait,
-    .t-note {
-      fill: #8f8f8f;
-    }
-    .g-read {
-      fill: #1b1b1b;
-      stroke: #e8e8e8;
-      stroke-width: 2.4;
-    }
-    .g-trust {
-      fill: #1b1b1b;
-      stroke: #f5b04a;
-      stroke-width: 2.8;
-    }
-    .g-gate {
-      fill: #1b1b1b;
-      stroke: #f5b04a;
-      stroke-width: 2.4;
-    }
-  }
-  </style>
-  <rect class="bg" width="100%" height="100%" />
-  <rect class="card" x="8" y="8" width="1980.7" height="90" rx="10" />
-  <path d="M24 34L94 34" class="s-code" />
-  <text x="106" y="39" font-size="15" text-anchor="start" class="t-ink">code decides</text>
-  <path
-    d="M225.4 34L226.9 36.5L228.4 38.5L229.9 39.7L231.4 39.9L232.9 39.1L234.4 37.3L235.8 35L237.3 32.5L238.8 30.2L240.3 28.6L241.8 28L243.3 28.5L244.8 29.9L246.3 32.1L247.8 34.6L249.3 37L250.7 38.9L252.2 39.9L253.7 39.8L255.2 38.8L256.7 36.8L258.2 34.4L259.7 31.9L261.2 29.8L262.7 28.4L264.1 28L265.6 28.7L267.1 30.3L268.6 32.6L270.1 35.2L271.6 37.5L273.1 39.2L274.6 40L276.1 39.7L277.6 38.4L279 36.3L280.5 33.8L282 31.4L283.5 29.4L285 28.2L286.5 28.1L288 29L289.5 30.8L291 33.2L292.4 35.7L293.9 37.9L295.4 39.5"
-    class="s-model" />
-  <text x="307.4" y="39" font-size="15" text-anchor="start" class="t-ink">the model decides</text>
-  <path d="M464.1 34L534.1 34" class="s-human" />
-  <text x="546.1" y="39" font-size="15" text-anchor="start" class="t-ink">Sam decides</text>
-  <path d="M658.1 34L728.1 34" class="s-wait" />
-  <text x="740.1" y="39" font-size="15" text-anchor="start" class="t-ink">asleep, waiting</text>
-  <circle cx="891.8600000000001" cy="34" r="7.5" class="g-read" />
-  <text x="911.9" y="39" font-size="15" text-anchor="start" class="t-ink">reads the world</text>
-  <path d="M1063.64 24L1073.64 34L1063.64 44L1053.64 34Z" class="g-ink" />
-  <text x="1083.6" y="39" font-size="15" text-anchor="start" class="t-ink">changes the world, can be undone</text>
-  <path d="M1362.1040000000003 24L1372.1040000000003 34L1362.1040000000003 44L1352.1040000000003 34Z"
-    class="g-danger" />
-  <text x="1382.1" y="39" font-size="15" text-anchor="start" class="t-ink">changes the world, cannot be undone</text>
-  <rect x="1674.9240000000002" y="26" width="16" height="16" class="g-gate" />
-  <text x="1702.9" y="39" font-size="15" text-anchor="start" class="t-ink">asks a human</text>
-  <circle cx="34" cy="72" r="8" class="g-trust" />
-  <text x="54" y="77" font-size="15" text-anchor="start" class="t-ink">temporary trust</text>
-  <rect x="203.78000000000003" y="57" width="4" height="30" rx="1" class="g-ink" />
-  <text x="225.8" y="77" font-size="15" text-anchor="start" class="t-ink">stops</text>
-  <rect class="card" x="8" y="116" width="1980.7" height="823.8" rx="12" />
-  <g transform="translate(0 468)">
-    <path d="M40 0L190 0" class="s-code" />
-    <path d="M190 0L270 0" class="s-code" />
-    <path
-      d="M270 0L271.5 2.5L273 4.5L274.5 5.8L276 5.9L277.5 5.1L279 3.3L280.5 0.9L282 -1.7L283.5 -3.9L285 -5.5L286.5 -6L288 -5.5L289.5 -3.9L291 -1.7L292.5 0.8L294 3.2L295.5 5L297 5.9L298.5 5.8L300 4.6L301.5 2.5L303 0L304.5 -2.5L306 -4.5L307.5 -5.7L309 -5.9L310.5 -5.1L312 -3.3L313.5 -0.9L315 1.6L316.5 3.9L318 5.4L319.5 6L321 5.5L322.5 4L324 1.7L325.5 -0.8L327 -3.2L328.5 -5L330 -5.9L331.5 -5.8L333 -4.6L334.5 -2.6L336 -0.1L337.5 2.4L339 4.5L340.5 5.7L342 5.9L343.5 5.1L345 3.3L346.5 0.9L348 -1.6L349.5 -3.9L350.9 -5.4L352.4 -6L353.9 -5.5L355.4 -4L356.9 -1.8L358.4 0.8L359.9 3.2L361.4 5L362.9 5.9L364.4 5.8L365.9 4.6L367.4 2.6L368.9 0.1L370.4 -2.4L371.9 -4.5L373.4 -5.7L374.9 -6L376.4 -5.1L377.9 -3.3L379.4 -1L380.9 1.6L382.4 3.8L383.9 5.4L385.4 6L386.9 5.5L388.4 4L389.9 1.8L391.4 -0.7L392.9 -3.1L394.4 -5L395.9 -5.9L397.4 -5.8L398.9 -4.6L400.4 -2.6L401.9 -0.1L403.4 2.4L404.9 4.4L406.4 5.7L407.9 6L409.4 5.1L410.9 3.4L412.4 1L413.9 -1.5L415.4 -3.8L416.9 -5.4L418.4 -6L419.9 -5.5L421.4 -4L422.9 -1.8L424.4 0.7L425.9 3.1L427.4 5L428.9 5.9L430.4 5.8L431.9 4.6L433.4 2.6L434.9 0.2L436.4 -2.3L437.9 -4.4L439.4 -5.7L440.9 -6L442.4 -5.1L443.9 -3.4L445.4 -1L446.9 1.5L448.4 3.8L449.9 5.4L451.4 6L452.9 5.5L454.4 4.1L455.9 1.9L457.4 -0.7L458.9 -3.1L460.4 -4.9L461.9 -5.9L463.4 -5.8L464.9 -4.7L466.4 -2.7L467.9 -0.2L469.4 2.3L470.9 4.4L472.4 5.7L473.9 6L475.4 5.2L476.9 3.4L478.4 1.1L479.9 -1.5L481.4 -3.8L482.9 -5.4L484.4 -6L485.9 -5.5L487.4 -4.1L488.9 -1.9L490.4 0.6L491.9 3L493.4 4.9L494.9 5.9L496.4 5.8L497.9 4.7L499.4 2.7L500.9 0.2L502.4 -2.3L503.9 -4.4L505.4 -5.7L506.9 -6L508.4 -5.2L509.9 -3.5L511.4 -1.1L512.8 1.4L514.3 3.7L515.8 5.3L517.3 6L518.8 5.6L520.3 4.1L521.8 1.9L523.3 -0.6L524.8 -3L526.3 -4.9L527.8 -5.9L529.3 -5.8L530.8 -4.7L532.3 -2.7L533.8 -0.3L535.3 2.2L536.8 4.3L538.3 5.7L539.8 6L541.3 5.2L542.8 3.5L544.3 1.1L545.8 -1.4L547.3 -3.7L548.8 -5.3L550.3 -6L551.8 -5.6L553.3 -4.2L554.8 -2L556.3 0.6L557.8 3L559.3 4.9L560.8 5.9L562.3 5.8L563.8 4.7L565.3 2.8L566.8 0.3L568.3 -2.2L569.8 -4.3L571.3 -5.7L572.8 -6L574.3 -5.2L575.8 -3.5L577.3 -1.2L578.8 1.4L580.3 3.7L581.8 5.3L583.3 6L584.8 5.6L586.3 4.2L587.8 2L589.3 -0.5L590.8 -3L592.3 -4.9L593.8 -5.9L595.3 -5.8L596.8 -4.8L598.3 -2.8L599.8 -0.3L601.3 2.2L602.8 4.3L604.3 5.6L605.8 6L607.3 5.2L608.8 3.5L610.3 1.2L611.8 -1.3L613.3 -3.6L614.8 -5.3L616.3 -6L617.8 -5.6L619.3 -4.2L620.8 -2L622.3 0.5L623.8 2.9L625.3 4.8"
-      class="s-model" />
-    <path d="M625.3 0L715.3 0" class="s-code" />
-    <path d="M715.3 0L905.3 0" class="s-code" />
-    <path
-      d="M905.3 0L906.8 2.5L908.3 4.5L909.8 5.8L911.3 5.9L912.8 5.1L914.3 3.3L915.7 0.9L917.2 -1.6L918.7 -3.9L920.2 -5.4L921.7 -6L923.2 -5.5L924.7 -4L926.2 -1.8L927.7 0.7L929.2 3.1L930.7 5L932.2 5.9L933.7 5.8L935.2 4.6L936.7 2.6L938.2 0.2L939.7 -2.3L941.2 -4.4L942.7 -5.7L944.2 -6L945.7 -5.2L947.2 -3.4L948.7 -1.1L950.1 1.5L951.6 3.7L953.1 5.4L954.6 6L956.1 5.6L957.6 4.1L959.1 2L960.6 -0.6L962.1 -3L963.6 -4.9L965.1 -5.9L966.6 -5.8L968.1 -4.7L969.6 -2.8L971.1 -0.3L972.6 2.2L974.1 4.3L975.6 5.6L977.1 6L978.6 5.2L980.1 3.6L981.6 1.2L983 -1.3L984.5 -3.6L986 -5.3L987.5 -6L989 -5.6L990.5 -4.2L992 -2.1L993.5 0.4L995 2.8L996.5 4.8L998 5.9L999.5 5.9L1001 4.8L1002.5 2.9L1004 0.5L1005.5 -2L1007 -4.2L1008.5 -5.6L1010 -6L1011.5 -5.3L1013 -3.7L1014.5 -1.4L1015.9 1.1L1017.4 3.5L1018.9 5.2L1020.4 6L1021.9 5.7L1023.4 4.4L1024.9 2.3L1026.4 -0.2L1027.9 -2.7L1029.4 -4.7L1030.9 -5.8L1032.4 -5.9L1033.9 -4.9L1035.4 -3.1L1036.9 -0.7L1038.4 1.9L1039.9 4.1L1041.4 5.5L1042.9 6L1044.4 5.4L1045.9 3.8L1047.4 1.6L1048.9 -1L1050.3 -3.3L1051.8 -5.1L1053.3 -6L1054.8 -5.7L1056.3 -4.5L1057.8 -2.4L1059.3 0.1L1060.8 2.5L1062.3 4.6L1063.8 5.8L1065.3 5.9L1066.8 5L1068.3 3.2L1069.8 0.8L1071.3 -1.7L1072.8 -3.9L1074.3 -5.5L1075.8 -6L1077.3 -5.5L1078.8 -4L1080.3 -1.7L1081.8 0.8L1083.2 3.2L1084.7 5L1086.2 5.9L1087.7 5.8L1089.2 4.6L1090.7 2.6L1092.2 0.1L1093.7 -2.4L1095.2 -4.5L1096.7 -5.7L1098.2 -6L1099.7 -5.1L1101.2 -3.4L1102.7 -1L1104.2 1.5L1105.7 3.8L1107.2 5.4L1108.7 6L1110.2 5.5L1111.7 4.1L1113.2 1.9L1114.7 -0.6L1116.2 -3.1L1117.6 -4.9L1119.1 -5.9L1120.6 -5.8L1122.1 -4.7L1123.6 -2.7L1125.1 -0.3L1126.6 2.2L1128.1 4.3L1129.6 5.7L1131.1 6L1132.6 5.2L1134.1 3.5L1135.6 1.2L1137.1 -1.4L1138.6 -3.7L1140.1 -5.3L1141.6 -6L1143.1 -5.6L1144.6 -4.2L1146.1 -2L1147.6 0.5L1149.1 2.9L1150.5 4.8L1152 5.9L1153.5 5.9L1155 4.8L1156.5 2.9L1158 0.4L1159.5 -2.1L1161 -4.2L1162.5 -5.6L1164 -6L1165.5 -5.3L1167 -3.6L1168.5 -1.3L1170 1.2L1171.5 3.5L1173 5.2L1174.5 6L1176 5.7L1177.5 4.3L1179 2.2L1180.5 -0.3L1182 -2.8L1183.4 -4.7L1184.9 -5.8L1186.4 -5.9L1187.9 -4.9L1189.4 -3L1190.9 -0.6L1192.4 1.9L1193.9 4.1L1195.4 5.5L1196.9 6L1198.4 5.4L1199.9 3.8"
-      class="s-model" />
-    <path
-      d="M1091.1 0L1093.6 -1.5L1095.6 -3L1096.8 -4.5L1097 -6L1096.2 -7.4L1094.4 -8.9L1092.1 -10.4L1089.5 -11.9L1087.3 -13.4L1085.7 -14.9L1085.1 -16.4L1085.5 -17.9L1087 -19.4L1089.2 -20.9L1091.7 -22.3L1094.1 -23.8L1096 -25.3L1097 -26.8L1096.9 -28.3L1095.9 -29.8L1093.9 -31.3L1091.5 -32.8L1089 -34.3L1086.9 -35.7L1085.5 -37.2L1085.1 -38.7L1085.8 -40.2L1087.4 -41.7L1089.7 -43.2L1092.2 -44.7L1094.6 -46.2L1096.3 -47.7L1097.1 -49.1L1096.8 -50.6L1095.5 -52.1L1093.4 -53.6L1090.9 -55.1L1088.4 -56.6L1086.5 -58.1L1085.3 -59.6L1085.2 -61.1L1086.1 -62.6L1087.9 -64L1090.3 -65.5L1092.8 -67L1095 -68.5L1096.5 -70"
-      class="s-model" />
-    <path d="M1199.9 0L1289.9 0" class="s-code" />
-    <path d="M1289.9 0L1519.9 0" class="s-wait" />
-    <path d="M1519.9 0L1719.9 0" class="s-code" />
-    <path d="M1719.9 0L1789.9 0" class="s-code" />
-    <path
-      d="M40 -161L44.6 -160.8L49 -160.2L53.2 -159.2L57.3 -157.8L61.2 -156.1L64.9 -154.1L68.5 -151.7L71.9 -149.1L75.3 -146.1L78.5 -142.9L81.6 -139.5L84.5 -135.8L87.4 -132L90.2 -127.9L92.9 -123.7L95.6 -119.3L98.1 -114.7L100.6 -110.1L103.1 -105.3L105.5 -100.4L107.9 -95.5L110.3 -90.5L112.7 -85.5L115 -80.5L117.3 -75.5L119.7 -70.5L122.1 -65.5L124.5 -60.6L126.9 -55.7L129.4 -50.9L131.9 -46.3L134.4 -41.7L137.1 -37.3L139.8 -33.1L142.6 -29L145.5 -25.2L148.4 -21.5L151.5 -18.1L154.7 -14.9L158.1 -11.9L161.5 -9.3L165.1 -6.9L168.8 -4.9L172.7 -3.2L176.8 -1.8L181 -0.8L185.4 -0.2L190 0"
-      class="s-code" />
-    <path
-      d="M40 161L44.6 160.8L49 160.2L53.2 159.2L57.3 157.8L61.2 156.1L64.9 154.1L68.5 151.7L71.9 149.1L75.3 146.1L78.5 142.9L81.6 139.5L84.5 135.8L87.4 132L90.2 127.9L92.9 123.7L95.6 119.3L98.1 114.7L100.6 110.1L103.1 105.3L105.5 100.4L107.9 95.5L110.3 90.5L112.7 85.5L115 80.5L117.3 75.5L119.7 70.5L122.1 65.5L124.5 60.6L126.9 55.7L129.4 50.9L131.9 46.3L134.4 41.7L137.1 37.3L139.8 33.1L142.6 29L145.5 25.2L148.4 21.5L151.5 18.1L154.7 14.9L158.1 11.9L161.5 9.3L165.1 6.9L168.8 4.9L172.7 3.2L176.8 1.8L181 0.8L185.4 0.2L190 0"
-      class="s-human" />
-    <path
-      d="M715.3 0L718.5 0.2L721.7 0.7L724.7 1.6L727.5 2.8L730.3 4.4L732.9 6.2L735.5 8.3L737.9 10.6L740.3 13.3L742.6 16.1L744.7 19.2L746.9 22.5L748.9 25.9L750.9 29.6L752.8 33.3L754.7 37.3L756.5 41.3L758.3 45.5L760 49.7L761.8 54.1L763.5 58.5L765.1 62.9L766.8 67.4L768.5 71.9L770.1 76.4L771.8 80.8L773.5 85.3L775.2 89.7L776.9 94L778.6 98.3L780.4 102.4L782.3 106.5L784.1 110.4L786.1 114.2L788 117.8L790.1 121.3L792.2 124.6L794.4 127.6L796.6 130.5L799 133.1L801.4 135.5L804 137.6L806.6 139.4L809.4 140.9L812.3 142.1L815.3 143L818.4 143.6L821.7 143.8"
-      class="s-code" />
-    <path d="M821.7 143.8L931.7 143.8" class="s-code" />
-    <path d="M931.7 143.8L1041.7 143.8" class="s-code" />
-    <path d="M1041.7 143.8L1111.7 143.8" class="s-code" />
-    <path
-      d="M715.3 0L719.9 0.3L724.3 1.3L728.5 2.9L732.6 5.1L736.4 7.8L740.2 11.1L743.8 14.9L747.2 19.2L750.5 23.9L753.7 29L756.8 34.5L759.8 40.4L762.7 46.7L765.5 53.2L768.2 60L770.8 67.1L773.4 74.4L775.9 81.9L778.4 89.5L780.8 97.3L783.2 105.2L785.6 113.2L787.9 121.3L790.3 129.4L792.6 137.5L795 145.5L797.3 153.5L799.7 161.4L802.2 169.2L804.6 176.9L807.2 184.4L809.7 191.7L812.4 198.7L815.1 205.6L817.9 212.1L820.7 218.3L823.7 224.2L826.8 229.7L830 234.9L833.3 239.6L836.8 243.8L840.4 247.6L844.1 250.9L848 253.7L852.1 255.8L856.3 257.4L860.7 258.4L865.3 258.8"
-      class="s-code" />
-    <path d="M865.3 258.8L975.3 258.8" class="s-code" />
-    <path d="M975.3 258.8L1045.3 258.8" class="s-code" />
-    <path
-      d="M715.3 0L719.9 0.5L724.3 1.9L728.5 4.2L732.6 7.4L736.4 11.3L740.2 16.1L743.8 21.5L747.2 27.7L750.5 34.5L753.7 41.9L756.8 49.9L759.8 58.4L762.7 67.4L765.5 76.8L768.2 86.7L770.8 96.9L773.4 107.4L775.9 118.3L778.4 129.3L780.8 140.6L783.2 152L785.6 163.6L787.9 175.2L790.3 186.9L792.6 198.5L795 210.2L797.3 221.7L799.7 233.2L802.2 244.4L804.6 255.5L807.2 266.3L809.7 276.9L812.4 287.1L815.1 296.9L817.9 306.4L820.7 315.4L823.7 323.9L826.8 331.8L830 339.3L833.3 346.1L836.8 352.2L840.4 357.7L844.1 362.4L848 366.4L852.1 369.6L856.3 371.9L860.7 373.3L865.3 373.8"
-      class="s-code" />
-    <path d="M865.3 373.8L975.3 373.8" class="s-code" />
-    <path d="M975.3 373.8L1045.3 373.8" class="s-code" />
-    <path d="M1289.9 0L1289.9 -253" class="s-human" />
-    <path d="M1289.9 -253L1519.9 -253" class="s-human" />
-    <path d="M1519.9 -253L1519.9 0" class="s-human" />
-    <path
-      d="M1519.9 0L1522.8 -0.1L1525.6 -0.6L1528.2 -1.3L1530.8 -2.3L1533.2 -3.5L1535.6 -4.9L1537.8 -6.6L1540 -8.5L1542.1 -10.6L1544.1 -12.9L1546 -15.4L1547.9 -18L1549.7 -20.7L1551.5 -23.6L1553.2 -26.7L1554.8 -29.8L1556.4 -33.1L1558 -36.4L1559.6 -39.8L1561.1 -43.3L1562.6 -46.8L1564.1 -50.3L1565.6 -53.9L1567.1 -57.5L1568.5 -61.1L1570 -64.7L1571.5 -68.2L1573 -71.7L1574.5 -75.2L1576.1 -78.6L1577.7 -81.9L1579.3 -85.2L1580.9 -88.3L1582.6 -91.4L1584.4 -94.3L1586.2 -97L1588.1 -99.6L1590 -102.1L1592 -104.4L1594.1 -106.5L1596.3 -108.4L1598.5 -110.1L1600.9 -111.5L1603.3 -112.7L1605.9 -113.7L1608.5 -114.4L1611.3 -114.9L1614.2 -115"
-      class="s-code" />
-    <path d="M1614.2 -115L1764.2 -115" class="s-code" />
-    <path d="M1764.2 -115L1864.2 -115" class="s-code" />
-    <path d="M1864.2 -115L1944.2 -115" class="s-code" />
-    <path
-      d="M1519.9 0L1522.8 0.1L1525.6 0.6L1528.2 1.3L1530.8 2.3L1533.2 3.5L1535.6 4.9L1537.8 6.6L1540 8.5L1542.1 10.6L1544.1 12.9L1546 15.4L1547.9 18L1549.7 20.7L1551.5 23.6L1553.2 26.7L1554.8 29.8L1556.4 33.1L1558 36.4L1559.6 39.8L1561.1 43.3L1562.6 46.8L1564.1 50.3L1565.6 53.9L1567.1 57.5L1568.5 61.1L1570 64.7L1571.5 68.2L1573 71.7L1574.5 75.2L1576.1 78.6L1577.7 81.9L1579.3 85.2L1580.9 88.3L1582.6 91.4L1584.4 94.3L1586.2 97L1588.1 99.6L1590 102.1L1592 104.4L1594.1 106.5L1596.3 108.4L1598.5 110.1L1600.9 111.5L1603.3 112.7L1605.9 113.7L1608.5 114.4L1611.3 114.9L1614.2 115"
-      class="s-code" />
-    <path d="M1614.2 115L1764.2 115" class="s-code" />
-    <path d="M1514.9 -17L1524.9 -17L1519.9 -9Z" class="a-human" />
-    <circle cx="190" cy="0" r="4" class="g-ink" />
-    <circle cx="270" cy="0" r="7.5" class="g-read" />
-    <path d="M625.28 -10L635.28 0L625.28 10L615.28 0Z" class="g-ink" />
-    <path d="M715.28 -7.5L722.78 0L715.28 7.5L707.78 0Z" class="g-model" />
-    <circle cx="1091.09" cy="-70" r="7.5" class="g-read" />
-    <path d="M1199.9 -10L1209.9 0L1199.9 10L1189.9 0Z" class="g-ink" />
-    <rect x="1281.9" y="-8" width="16" height="16" class="g-gate" />
-    <path d="M1519.9 -7.5L1527.4 0L1519.9 7.5L1512.4 0Z" class="g-human" />
-    <path d="M1719.9 -10L1729.9 0L1719.9 10L1709.9 0Z" class="g-danger" />
-    <rect x="1787.9" y="-15" width="4" height="30" rx="1" class="g-ink" />
-    <path d="M931.655 133.75L941.655 143.75L931.655 153.75L921.655 143.75Z" class="g-ink" />
-    <path d="M1041.655 133.75L1051.655 143.75L1041.655 153.75L1031.655 143.75Z" class="g-ink" />
-    <rect x="1109.655" y="128.75" width="4" height="30" rx="1" class="g-ink" />
-    <path d="M975.28 248.75L985.28 258.75L975.28 268.75L965.28 258.75Z" class="g-ink" />
-    <rect x="1043.28" y="243.75" width="4" height="30" rx="1" class="g-ink" />
-    <path d="M975.28 363.75L985.28 373.75L975.28 383.75L965.28 373.75Z" class="g-ink" />
-    <rect x="1043.28" y="358.75" width="4" height="30" rx="1" class="g-ink" />
-    <path d="M1764.2 -125L1774.2 -115L1764.2 -105L1754.2 -115Z" class="g-danger" />
-    <circle cx="1864.2" cy="-115" r="8" class="g-trust" />
-    <rect x="1942.2" y="-130" width="4" height="30" rx="1" class="g-ink" />
-    <rect x="1762.2" y="100" width="4" height="30" rx="1" class="g-ink" />
-    <text x="36" y="-14" font-size="15" text-anchor="start" class="t-ink" font-weight="600">new mail</text>
-    <text x="36" y="26" font-size="13" text-anchor="start" class="t-note">if busy: restart</text>
-    <text x="270" y="32" font-size="15" text-anchor="middle" class="t-code">read thread</text>
-    <text x="447.6" y="-16" font-size="15" text-anchor="middle" class="t-model" font-weight="600">Classify</text>
-    <text x="476.4" y="30" font-size="13" text-anchor="middle"
-      class="t-note">what does this thread need from Sam?</text>
-    <text x="476.4" y="47" font-size="13" text-anchor="middle"
-      class="t-note">policy silent ⇒ unsure · holds no tools</text>
-    <text x="625.3" y="-18" font-size="15" text-anchor="middle" class="t-code">record verdict + reason</text>
-    <text x="810.3" y="-16" font-size="15" text-anchor="middle" class="t-model" font-weight="600">needs reply</text>
-    <text x="1052.6" y="-16" font-size="15" text-anchor="middle" class="t-model" font-weight="600">Draft</text>
-    <text x="1026.1" y="30" font-size="13" text-anchor="middle" class="t-note">writes the reply Sam would send</text>
-    <text x="1026.1" y="47" font-size="13" text-anchor="middle" class="t-note">short, direct, his voice</text>
-    <text x="1107.1" y="-74" font-size="13" text-anchor="start" class="t-note">may search this</text>
-    <text x="1107.1" y="-57" font-size="13" text-anchor="start" class="t-note">sender's mail</text>
-    <text x="1199.9" y="32" font-size="15" text-anchor="middle" class="t-code">save draft</text>
-    <text x="1283.9" y="-43" font-size="15" text-anchor="end" class="t-human" font-weight="600">Send this reply?</text>
-    <text x="1283.9" y="-26" font-size="13" text-anchor="end" class="t-note">shows the draft</text>
-    <text x="1404.9" y="30" font-size="13" text-anchor="middle" class="t-note">asleep · holds no process</text>
-    <text x="1619.9" y="-16" font-size="15" text-anchor="middle" class="t-human" font-weight="600">send</text>
-    <text x="1719.9" y="32" font-size="15" text-anchor="middle" class="t-danger" font-weight="600">send reply</text>
-    <text x="36" y="-192" font-size="15" text-anchor="start" class="t-ink" font-weight="600">every hour</text>
-    <text x="36" y="-175" font-size="13" text-anchor="start" class="t-note">if busy: ignored</text>
-    <text x="36" y="187" font-size="15" text-anchor="start" class="t-human" font-weight="600">a note from Sam</text>
-    <text x="36" y="204" font-size="13" text-anchor="start" class="t-note">if busy: joins the running work</text>
-    <text x="876.7" y="129.8" font-size="15" text-anchor="middle" class="t-model" font-weight="600">noise</text>
-    <text x="931.7" y="175.8" font-size="15" text-anchor="middle" class="t-code">label “noise”</text>
-    <text x="1041.7" y="175.8" font-size="15" text-anchor="middle" class="t-code">archive</text>
-    <text x="920.3" y="244.8" font-size="15" text-anchor="middle" class="t-model" font-weight="600">fyi</text>
-    <text x="975.3" y="290.8" font-size="15" text-anchor="middle" class="t-code">label “fyi”</text>
-    <text x="920.3" y="359.8" font-size="15" text-anchor="middle" class="t-model" font-weight="600">unsure</text>
-    <text x="975.3" y="405.8" font-size="15" text-anchor="middle" class="t-code">label “needs Sam”</text>
-    <text x="1404.9" y="-301" font-size="15" text-anchor="middle" class="t-human" font-weight="600">Sam answers</text>
-    <text x="1404.9" y="-284" font-size="13" text-anchor="middle"
-      class="t-note">a live trust answers “send” for him</text>
-    <text x="1404.9" y="-267" font-size="13" text-anchor="middle"
-      class="t-note">2 days of silence answers “leave it”</text>
-    <text x="1689.2" y="-129" font-size="15" text-anchor="middle" class="t-human"
-      font-weight="600">send, and trust this sender for a day</text>
-    <text x="1764.2" y="-83" font-size="15" text-anchor="middle" class="t-danger" font-weight="600">send reply</text>
-    <text x="1864.2" y="-83" font-size="15" text-anchor="middle" class="t-human">trust 24 h</text>
-    <text x="1689.2" y="101" font-size="15" text-anchor="middle" class="t-human" font-weight="600">leave it</text>
-    <text x="1778.2" y="120" font-size="13" text-anchor="start" class="t-note">nothing sent · draft stays</text>
-  </g>
-  <text x="30" y="923.8" font-size="13" text-anchor="start" class="t-note">time →</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2002.2 947.8" width="2002.2" height="947.8" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">
+<style>
+.bg{fill:#fafafa}
+.card{fill:#ffffff;stroke:#ececec}
+.f-card{fill:#ffffff}
+.k-card{stroke:#ffffff}
+.f-ink{fill:#1f1f1f}
+.k-ink{stroke:#1f1f1f}
+.f-gray{fill:#8a8a8a}
+.k-gray{stroke:#8a8a8a}
+.f-blue{fill:#4a7bf7}
+.k-blue{stroke:#4a7bf7}
+.f-orange{fill:#f0a030}
+.k-orange{stroke:#f0a030}
+.f-red{fill:#e5484d}
+.k-red{stroke:#e5484d}
+.f-green{fill:#2f9e5b}
+.k-green{stroke:#2f9e5b}
+.f-purple{fill:#8b5cf6}
+.k-purple{stroke:#8b5cf6}
+.f-teal{fill:#0f9fa8}
+.k-teal{stroke:#0f9fa8}
+.f-pink{fill:#e04f9b}
+.k-pink{stroke:#e04f9b}
+@media (prefers-color-scheme: dark) {
+.bg{fill:#141414}
+.card{fill:#1b1b1b;stroke:#2a2a2a}
+.f-card{fill:#1b1b1b}
+.k-card{stroke:#1b1b1b}
+.f-ink{fill:#e8e8e8}
+.k-ink{stroke:#e8e8e8}
+.f-gray{fill:#8f8f8f}
+.k-gray{stroke:#8f8f8f}
+.f-blue{fill:#7aa2ff}
+.k-blue{stroke:#7aa2ff}
+.f-orange{fill:#f5b04a}
+.k-orange{stroke:#f5b04a}
+.f-red{fill:#ff6b6f}
+.k-red{stroke:#ff6b6f}
+.f-green{fill:#4cc47e}
+.k-green{stroke:#4cc47e}
+.f-purple{fill:#a98bff}
+.k-purple{stroke:#a98bff}
+.f-teal{fill:#3cc4cc}
+.k-teal{stroke:#3cc4cc}
+.f-pink{fill:#f27ab8}
+.k-pink{stroke:#f27ab8}
+}</style>
+<rect class="bg" width="100%" height="100%"/>
+<rect class="card" x="8" y="8" width="1986.2" height="90" rx="10"/>
+<path d="M24 34L94 34" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<text x="106" y="39" font-size="15" text-anchor="start" class="f-ink">code decides</text>
+<path d="M225.4 34L226.9 36.5L228.4 38.5L229.9 39.7L231.4 39.9L232.9 39.1L234.4 37.3L235.8 35L237.3 32.5L238.8 30.2L240.3 28.6L241.8 28L243.3 28.5L244.8 29.9L246.3 32.1L247.8 34.6L249.3 37L250.7 38.9L252.2 39.9L253.7 39.8L255.2 38.8L256.7 36.8L258.2 34.4L259.7 31.9L261.2 29.8L262.7 28.4L264.1 28L265.6 28.7L267.1 30.3L268.6 32.6L270.1 35.2L271.6 37.5L273.1 39.2L274.6 40L276.1 39.7L277.6 38.4L279 36.3L280.5 33.8L282 31.4L283.5 29.4L285 28.2L286.5 28.1L288 29L289.5 30.8L291 33.2L292.4 35.7L293.9 37.9L295.4 39.5" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-blue"/>
+<text x="307.4" y="39" font-size="15" text-anchor="start" class="f-ink">the model decides</text>
+<path d="M464.1 34L534.1 34" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-orange"/>
+<text x="546.1" y="39" font-size="15" text-anchor="start" class="f-ink">Sam decides</text>
+<path d="M658.1 34L728.1 34" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<text x="740.1" y="39" font-size="15" text-anchor="start" class="f-ink">asleep, waiting</text>
+<circle cx="891.8600000000001" cy="34" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="911.9" y="39" font-size="15" text-anchor="start" class="f-ink">reads the world</text>
+<path d="M1063.6 24L1073.6 34L1063.6 44L1053.6 34Z" class="f-ink"/>
+<text x="1083.6" y="39" font-size="15" text-anchor="start" class="f-ink">changes the world, can be undone</text>
+<path d="M1362.1 24L1372.1 34L1362.1 44L1352.1 34Z" class="f-red"/>
+<text x="1382.1" y="39" font-size="15" text-anchor="start" class="f-ink">changes the world, cannot be undone</text>
+<path d="M1674.8 25.9L1691 25.9L1691 42.1L1674.8 42.1Z" class="f-card k-orange" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="1702.9" y="39" font-size="15" text-anchor="start" class="f-ink">asks a human</text>
+<circle cx="34" cy="72" r="7.5" class="f-card k-orange" stroke-width="2.5" stroke-linejoin="round"/>
+<text x="54" y="77" font-size="15" text-anchor="start" class="f-ink">temporary trust</text>
+<rect x="203.78000000000003" y="57" width="4" height="30" rx="1" class="f-ink"/>
+<text x="225.8" y="77" font-size="15" text-anchor="start" class="f-ink">stops</text>
+<rect class="card" x="8" y="116" width="1986.2" height="823.8" rx="12"/>
+<g transform="translate(4 468)">
+<path d="M40 0L190 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M190 0L270 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M270 0L271.5 2.5L273 4.5L274.5 5.8L276 5.9L277.5 5.1L279 3.3L280.5 0.9L282 -1.7L283.5 -3.9L285 -5.5L286.5 -6L288 -5.5L289.5 -3.9L291 -1.7L292.5 0.8L294 3.2L295.5 5L297 5.9L298.5 5.8L300 4.6L301.5 2.5L303 0L304.5 -2.5L306 -4.5L307.5 -5.7L309 -5.9L310.5 -5.1L312 -3.3L313.5 -0.9L315 1.6L316.5 3.9L318 5.4L319.5 6L321 5.5L322.5 4L324 1.7L325.5 -0.8L327 -3.2L328.5 -5L330 -5.9L331.5 -5.8L333 -4.6L334.5 -2.6L336 -0.1L337.5 2.4L339 4.5L340.5 5.7L342 5.9L343.5 5.1L345 3.3L346.5 0.9L348 -1.6L349.5 -3.9L350.9 -5.4L352.4 -6L353.9 -5.5L355.4 -4L356.9 -1.8L358.4 0.8L359.9 3.2L361.4 5L362.9 5.9L364.4 5.8L365.9 4.6L367.4 2.6L368.9 0.1L370.4 -2.4L371.9 -4.5L373.4 -5.7L374.9 -6L376.4 -5.1L377.9 -3.3L379.4 -1L380.9 1.6L382.4 3.8L383.9 5.4L385.4 6L386.9 5.5L388.4 4L389.9 1.8L391.4 -0.7L392.9 -3.1L394.4 -5L395.9 -5.9L397.4 -5.8L398.9 -4.6L400.4 -2.6L401.9 -0.1L403.4 2.4L404.9 4.4L406.4 5.7L407.9 6L409.4 5.1L410.9 3.4L412.4 1L413.9 -1.5L415.4 -3.8L416.9 -5.4L418.4 -6L419.9 -5.5L421.4 -4L422.9 -1.8L424.4 0.7L425.9 3.1L427.4 5L428.9 5.9L430.4 5.8L431.9 4.6L433.4 2.6L434.9 0.2L436.4 -2.3L437.9 -4.4L439.4 -5.7L440.9 -6L442.4 -5.1L443.9 -3.4L445.4 -1L446.9 1.5L448.4 3.8L449.9 5.4L451.4 6L452.9 5.5L454.4 4.1L455.9 1.9L457.4 -0.7L458.9 -3.1L460.4 -4.9L461.9 -5.9L463.4 -5.8L464.9 -4.7L466.4 -2.7L467.9 -0.2L469.4 2.3L470.9 4.4L472.4 5.7L473.9 6L475.4 5.2L476.9 3.4L478.4 1.1L479.9 -1.5L481.4 -3.8L482.9 -5.4L484.4 -6L485.9 -5.5L487.4 -4.1L488.9 -1.9L490.4 0.6L491.9 3L493.4 4.9L494.9 5.9L496.4 5.8L497.9 4.7L499.4 2.7L500.9 0.2L502.4 -2.3L503.9 -4.4L505.4 -5.7L506.9 -6L508.4 -5.2L509.9 -3.5L511.4 -1.1L512.8 1.4L514.3 3.7L515.8 5.3L517.3 6L518.8 5.6L520.3 4.1L521.8 1.9L523.3 -0.6L524.8 -3L526.3 -4.9L527.8 -5.9L529.3 -5.8L530.8 -4.7L532.3 -2.7L533.8 -0.3L535.3 2.2L536.8 4.3L538.3 5.7L539.8 6L541.3 5.2L542.8 3.5L544.3 1.1L545.8 -1.4L547.3 -3.7L548.8 -5.3L550.3 -6L551.8 -5.6L553.3 -4.2L554.8 -2L556.3 0.6L557.8 3L559.3 4.9L560.8 5.9L562.3 5.8L563.8 4.7L565.3 2.8L566.8 0.3L568.3 -2.2L569.8 -4.3L571.3 -5.7L572.8 -6L574.3 -5.2L575.8 -3.5L577.3 -1.2L578.8 1.4L580.3 3.7L581.8 5.3L583.3 6L584.8 5.6L586.3 4.2L587.8 2L589.3 -0.5L590.8 -3L592.3 -4.9L593.8 -5.9L595.3 -5.8L596.8 -4.8L598.3 -2.8L599.8 -0.3L601.3 2.2L602.8 4.3L604.3 5.6L605.8 6L607.3 5.2L608.8 3.5L610.3 1.2L611.8 -1.3L613.3 -3.6L614.8 -5.3L616.3 -6L617.8 -5.6L619.3 -4.2L620.8 -2L622.3 0.5L623.8 2.9L625.3 4.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-blue"/>
+<path d="M625.3 0L715.3 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M715.3 0L905.3 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M905.3 0L906.8 2.5L908.3 4.5L909.8 5.8L911.3 5.9L912.8 5.1L914.3 3.3L915.7 0.9L917.2 -1.6L918.7 -3.9L920.2 -5.4L921.7 -6L923.2 -5.5L924.7 -4L926.2 -1.8L927.7 0.7L929.2 3.1L930.7 5L932.2 5.9L933.7 5.8L935.2 4.6L936.7 2.6L938.2 0.2L939.7 -2.3L941.2 -4.4L942.7 -5.7L944.2 -6L945.7 -5.2L947.2 -3.4L948.7 -1.1L950.1 1.5L951.6 3.7L953.1 5.4L954.6 6L956.1 5.6L957.6 4.1L959.1 2L960.6 -0.6L962.1 -3L963.6 -4.9L965.1 -5.9L966.6 -5.8L968.1 -4.7L969.6 -2.8L971.1 -0.3L972.6 2.2L974.1 4.3L975.6 5.6L977.1 6L978.6 5.2L980.1 3.6L981.6 1.2L983 -1.3L984.5 -3.6L986 -5.3L987.5 -6L989 -5.6L990.5 -4.2L992 -2.1L993.5 0.4L995 2.8L996.5 4.8L998 5.9L999.5 5.9L1001 4.8L1002.5 2.9L1004 0.5L1005.5 -2L1007 -4.2L1008.5 -5.6L1010 -6L1011.5 -5.3L1013 -3.7L1014.5 -1.4L1015.9 1.1L1017.4 3.5L1018.9 5.2L1020.4 6L1021.9 5.7L1023.4 4.4L1024.9 2.3L1026.4 -0.2L1027.9 -2.7L1029.4 -4.7L1030.9 -5.8L1032.4 -5.9L1033.9 -4.9L1035.4 -3.1L1036.9 -0.7L1038.4 1.9L1039.9 4.1L1041.4 5.5L1042.9 6L1044.4 5.4L1045.9 3.8L1047.4 1.6L1048.9 -1L1050.3 -3.3L1051.8 -5.1L1053.3 -6L1054.8 -5.7L1056.3 -4.5L1057.8 -2.4L1059.3 0.1L1060.8 2.5L1062.3 4.6L1063.8 5.8L1065.3 5.9L1066.8 5L1068.3 3.2L1069.8 0.8L1071.3 -1.7L1072.8 -3.9L1074.3 -5.5L1075.8 -6L1077.3 -5.5L1078.8 -4L1080.3 -1.7L1081.8 0.8L1083.2 3.2L1084.7 5L1086.2 5.9L1087.7 5.8L1089.2 4.6L1090.7 2.6L1092.2 0.1L1093.7 -2.4L1095.2 -4.5L1096.7 -5.7L1098.2 -6L1099.7 -5.1L1101.2 -3.4L1102.7 -1L1104.2 1.5L1105.7 3.8L1107.2 5.4L1108.7 6L1110.2 5.5L1111.7 4.1L1113.2 1.9L1114.7 -0.6L1116.2 -3.1L1117.6 -4.9L1119.1 -5.9L1120.6 -5.8L1122.1 -4.7L1123.6 -2.7L1125.1 -0.3L1126.6 2.2L1128.1 4.3L1129.6 5.7L1131.1 6L1132.6 5.2L1134.1 3.5L1135.6 1.2L1137.1 -1.4L1138.6 -3.7L1140.1 -5.3L1141.6 -6L1143.1 -5.6L1144.6 -4.2L1146.1 -2L1147.6 0.5L1149.1 2.9L1150.5 4.8L1152 5.9L1153.5 5.9L1155 4.8L1156.5 2.9L1158 0.4L1159.5 -2.1L1161 -4.2L1162.5 -5.6L1164 -6L1165.5 -5.3L1167 -3.6L1168.5 -1.3L1170 1.2L1171.5 3.5L1173 5.2L1174.5 6L1176 5.7L1177.5 4.3L1179 2.2L1180.5 -0.3L1182 -2.8L1183.4 -4.7L1184.9 -5.8L1186.4 -5.9L1187.9 -4.9L1189.4 -3L1190.9 -0.6L1192.4 1.9L1193.9 4.1L1195.4 5.5L1196.9 6L1198.4 5.4L1199.9 3.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-blue"/>
+<path d="M1091.1 0L1093.6 -1.5L1095.6 -3L1096.8 -4.5L1097 -6L1096.2 -7.4L1094.4 -8.9L1092.1 -10.4L1089.5 -11.9L1087.3 -13.4L1085.7 -14.9L1085.1 -16.4L1085.5 -17.9L1087 -19.4L1089.2 -20.9L1091.7 -22.3L1094.1 -23.8L1096 -25.3L1097 -26.8L1096.9 -28.3L1095.9 -29.8L1093.9 -31.3L1091.5 -32.8L1089 -34.3L1086.9 -35.7L1085.5 -37.2L1085.1 -38.7L1085.8 -40.2L1087.4 -41.7L1089.7 -43.2L1092.2 -44.7L1094.6 -46.2L1096.3 -47.7L1097.1 -49.1L1096.8 -50.6L1095.5 -52.1L1093.4 -53.6L1090.9 -55.1L1088.4 -56.6L1086.5 -58.1L1085.3 -59.6L1085.2 -61.1L1086.1 -62.6L1087.9 -64L1090.3 -65.5L1092.8 -67L1095 -68.5L1096.5 -70" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-blue"/>
+<path d="M1199.9 0L1289.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1289.9 0L1519.9 0" fill="none" stroke-linejoin="round" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="k-gray"/>
+<path d="M1519.9 0L1719.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1719.9 0L1789.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M40 -161L44.6 -160.8L49 -160.2L53.2 -159.2L57.3 -157.8L61.2 -156.1L64.9 -154.1L68.5 -151.7L71.9 -149.1L75.3 -146.1L78.5 -142.9L81.6 -139.5L84.5 -135.8L87.4 -132L90.2 -127.9L92.9 -123.7L95.6 -119.3L98.1 -114.7L100.6 -110.1L103.1 -105.3L105.5 -100.4L107.9 -95.5L110.3 -90.5L112.7 -85.5L115 -80.5L117.3 -75.5L119.7 -70.5L122.1 -65.5L124.5 -60.6L126.9 -55.7L129.4 -50.9L131.9 -46.3L134.4 -41.7L137.1 -37.3L139.8 -33.1L142.6 -29L145.5 -25.2L148.4 -21.5L151.5 -18.1L154.7 -14.9L158.1 -11.9L161.5 -9.3L165.1 -6.9L168.8 -4.9L172.7 -3.2L176.8 -1.8L181 -0.8L185.4 -0.2L190 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M40 161L44.6 160.8L49 160.2L53.2 159.2L57.3 157.8L61.2 156.1L64.9 154.1L68.5 151.7L71.9 149.1L75.3 146.1L78.5 142.9L81.6 139.5L84.5 135.8L87.4 132L90.2 127.9L92.9 123.7L95.6 119.3L98.1 114.7L100.6 110.1L103.1 105.3L105.5 100.4L107.9 95.5L110.3 90.5L112.7 85.5L115 80.5L117.3 75.5L119.7 70.5L122.1 65.5L124.5 60.6L126.9 55.7L129.4 50.9L131.9 46.3L134.4 41.7L137.1 37.3L139.8 33.1L142.6 29L145.5 25.2L148.4 21.5L151.5 18.1L154.7 14.9L158.1 11.9L161.5 9.3L165.1 6.9L168.8 4.9L172.7 3.2L176.8 1.8L181 0.8L185.4 0.2L190 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-orange"/>
+<path d="M715.3 0L718.5 0.2L721.7 0.7L724.7 1.6L727.5 2.8L730.3 4.4L732.9 6.2L735.5 8.3L737.9 10.6L740.3 13.3L742.6 16.1L744.7 19.2L746.9 22.5L748.9 25.9L750.9 29.6L752.8 33.3L754.7 37.3L756.5 41.3L758.3 45.5L760 49.7L761.8 54.1L763.5 58.5L765.1 62.9L766.8 67.4L768.5 71.9L770.1 76.4L771.8 80.8L773.5 85.3L775.2 89.7L776.9 94L778.6 98.3L780.4 102.4L782.3 106.5L784.1 110.4L786.1 114.2L788 117.8L790.1 121.3L792.2 124.6L794.4 127.6L796.6 130.5L799 133.1L801.4 135.5L804 137.6L806.6 139.4L809.4 140.9L812.3 142.1L815.3 143L818.4 143.6L821.7 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M821.7 143.8L931.7 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M931.7 143.8L1041.7 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1041.7 143.8L1111.7 143.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M715.3 0L719.9 0.3L724.3 1.3L728.5 2.9L732.6 5.1L736.4 7.8L740.2 11.1L743.8 14.9L747.2 19.2L750.5 23.9L753.7 29L756.8 34.5L759.8 40.4L762.7 46.7L765.5 53.2L768.2 60L770.8 67.1L773.4 74.4L775.9 81.9L778.4 89.5L780.8 97.3L783.2 105.2L785.6 113.2L787.9 121.3L790.3 129.4L792.6 137.5L795 145.5L797.3 153.5L799.7 161.4L802.2 169.2L804.6 176.9L807.2 184.4L809.7 191.7L812.4 198.7L815.1 205.6L817.9 212.1L820.7 218.3L823.7 224.2L826.8 229.7L830 234.9L833.3 239.6L836.8 243.8L840.4 247.6L844.1 250.9L848 253.7L852.1 255.8L856.3 257.4L860.7 258.4L865.3 258.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M865.3 258.8L975.3 258.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M975.3 258.8L1045.3 258.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M715.3 0L719.9 0.5L724.3 1.9L728.5 4.2L732.6 7.4L736.4 11.3L740.2 16.1L743.8 21.5L747.2 27.7L750.5 34.5L753.7 41.9L756.8 49.9L759.8 58.4L762.7 67.4L765.5 76.8L768.2 86.7L770.8 96.9L773.4 107.4L775.9 118.3L778.4 129.3L780.8 140.6L783.2 152L785.6 163.6L787.9 175.2L790.3 186.9L792.6 198.5L795 210.2L797.3 221.7L799.7 233.2L802.2 244.4L804.6 255.5L807.2 266.3L809.7 276.9L812.4 287.1L815.1 296.9L817.9 306.4L820.7 315.4L823.7 323.9L826.8 331.8L830 339.3L833.3 346.1L836.8 352.2L840.4 357.7L844.1 362.4L848 366.4L852.1 369.6L856.3 371.9L860.7 373.3L865.3 373.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M865.3 373.8L975.3 373.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M975.3 373.8L1045.3 373.8" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1289.9 0L1289.9 -253" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-orange"/>
+<path d="M1289.9 -253L1519.9 -253" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-orange"/>
+<path d="M1519.9 -253L1519.9 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-dasharray="9 7" class="k-orange"/>
+<path d="M1519.9 0L1522.8 -0.1L1525.6 -0.6L1528.2 -1.3L1530.8 -2.3L1533.2 -3.5L1535.6 -4.9L1537.8 -6.6L1540 -8.5L1542.1 -10.6L1544.1 -12.9L1546 -15.4L1547.9 -18L1549.7 -20.7L1551.5 -23.6L1553.2 -26.7L1554.8 -29.8L1556.4 -33.1L1558 -36.4L1559.6 -39.8L1561.1 -43.3L1562.6 -46.8L1564.1 -50.3L1565.6 -53.9L1567.1 -57.5L1568.5 -61.1L1570 -64.7L1571.5 -68.2L1573 -71.7L1574.5 -75.2L1576.1 -78.6L1577.7 -81.9L1579.3 -85.2L1580.9 -88.3L1582.6 -91.4L1584.4 -94.3L1586.2 -97L1588.1 -99.6L1590 -102.1L1592 -104.4L1594.1 -106.5L1596.3 -108.4L1598.5 -110.1L1600.9 -111.5L1603.3 -112.7L1605.9 -113.7L1608.5 -114.4L1611.3 -114.9L1614.2 -115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1614.2 -115L1764.2 -115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1764.2 -115L1864.2 -115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1864.2 -115L1944.2 -115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1519.9 0L1522.8 0.1L1525.6 0.6L1528.2 1.3L1530.8 2.3L1533.2 3.5L1535.6 4.9L1537.8 6.6L1540 8.5L1542.1 10.6L1544.1 12.9L1546 15.4L1547.9 18L1549.7 20.7L1551.5 23.6L1553.2 26.7L1554.8 29.8L1556.4 33.1L1558 36.4L1559.6 39.8L1561.1 43.3L1562.6 46.8L1564.1 50.3L1565.6 53.9L1567.1 57.5L1568.5 61.1L1570 64.7L1571.5 68.2L1573 71.7L1574.5 75.2L1576.1 78.6L1577.7 81.9L1579.3 85.2L1580.9 88.3L1582.6 91.4L1584.4 94.3L1586.2 97L1588.1 99.6L1590 102.1L1592 104.4L1594.1 106.5L1596.3 108.4L1598.5 110.1L1600.9 111.5L1603.3 112.7L1605.9 113.7L1608.5 114.4L1611.3 114.9L1614.2 115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1614.2 115L1764.2 115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M1514.9 -17L1524.9 -17L1519.9 -9Z" class="f-orange"/>
+<circle cx="190" cy="0" r="4.1" class="f-ink"/>
+<circle cx="270" cy="0" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M625.3 -10L635.3 0L625.3 10L615.3 0Z" class="f-ink"/>
+<path d="M715.3 -8.5L723.8 0L715.3 8.5L706.8 0Z" class="f-blue"/>
+<circle cx="1091.09" cy="-70" r="7.5" class="f-card k-ink" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1199.9 -10L1209.9 0L1199.9 10L1189.9 0Z" class="f-ink"/>
+<path d="M1281.8 -8.1L1298 -8.1L1298 8.1L1281.8 8.1Z" class="f-card k-orange" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M1519.9 -8.5L1528.4 0L1519.9 8.5L1511.4 0Z" class="f-orange"/>
+<path d="M1719.9 -10L1729.9 0L1719.9 10L1709.9 0Z" class="f-red"/>
+<rect x="1787.9" y="-15" width="4" height="30" rx="1" class="f-ink"/>
+<path d="M931.7 133.8L941.7 143.8L931.7 153.8L921.7 143.8Z" class="f-ink"/>
+<path d="M1041.7 133.8L1051.7 143.8L1041.7 153.8L1031.7 143.8Z" class="f-ink"/>
+<rect x="1109.655" y="128.75" width="4" height="30" rx="1" class="f-ink"/>
+<path d="M975.3 248.8L985.3 258.8L975.3 268.8L965.3 258.8Z" class="f-ink"/>
+<rect x="1043.28" y="243.75" width="4" height="30" rx="1" class="f-ink"/>
+<path d="M975.3 363.8L985.3 373.8L975.3 383.8L965.3 373.8Z" class="f-ink"/>
+<rect x="1043.28" y="358.75" width="4" height="30" rx="1" class="f-ink"/>
+<path d="M1764.2 -125L1774.2 -115L1764.2 -105L1754.2 -115Z" class="f-red"/>
+<circle cx="1864.2" cy="-115" r="7.5" class="f-card k-orange" stroke-width="2.5" stroke-linejoin="round"/>
+<rect x="1942.2" y="-130" width="4" height="30" rx="1" class="f-ink"/>
+<rect x="1762.2" y="100" width="4" height="30" rx="1" class="f-ink"/>
+<text x="36" y="-14" font-size="15" text-anchor="start" class="f-ink" font-weight="600">new mail</text>
+<text x="36" y="26" font-size="13" text-anchor="start" class="f-gray">if busy: restart</text>
+<text x="270" y="32" font-size="15" text-anchor="middle" class="f-ink">read thread</text>
+<text x="447.6" y="-16" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">Classify</text>
+<text x="476.4" y="30" font-size="13" text-anchor="middle" class="f-gray">what does this thread need from Sam?</text>
+<text x="476.4" y="47" font-size="13" text-anchor="middle" class="f-gray">policy silent <tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">⇒</tspan> unsure · holds no tools</text>
+<text x="625.3" y="-22" font-size="15" text-anchor="middle" class="f-ink">record verdict + reason</text>
+<text x="810.3" y="-16" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">needs reply</text>
+<text x="1052.6" y="-16" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">Draft</text>
+<text x="1026.1" y="30" font-size="13" text-anchor="middle" class="f-gray">writes the reply Sam would send</text>
+<text x="1026.1" y="47" font-size="13" text-anchor="middle" class="f-gray">short, direct, his voice</text>
+<text x="1107.1" y="-74" font-size="13" text-anchor="start" class="f-gray">may search this</text>
+<text x="1107.1" y="-57" font-size="13" text-anchor="start" class="f-gray">sender's mail</text>
+<text x="1199.9" y="32" font-size="15" text-anchor="middle" class="f-ink">save draft</text>
+<text x="1283.9" y="-43" font-size="15" text-anchor="end" class="f-orange" font-weight="600">Send this reply?</text>
+<text x="1283.9" y="-26" font-size="13" text-anchor="end" class="f-gray">shows the draft</text>
+<text x="1404.9" y="30" font-size="13" text-anchor="middle" class="f-gray">asleep · holds no process</text>
+<text x="1619.9" y="-16" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">send</text>
+<text x="1719.9" y="32" font-size="15" text-anchor="middle" class="f-red" font-weight="600">send reply</text>
+<text x="36" y="-192" font-size="15" text-anchor="start" class="f-ink" font-weight="600">every hour</text>
+<text x="36" y="-175" font-size="13" text-anchor="start" class="f-gray">if busy: ignored</text>
+<text x="36" y="187" font-size="15" text-anchor="start" class="f-orange" font-weight="600">a note from Sam</text>
+<text x="36" y="204" font-size="13" text-anchor="start" class="f-gray">if busy: joins the running work</text>
+<text x="876.7" y="129.8" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">noise</text>
+<text x="931.7" y="175.8" font-size="15" text-anchor="middle" class="f-ink">label “noise”</text>
+<text x="1041.7" y="175.8" font-size="15" text-anchor="middle" class="f-ink">archive</text>
+<text x="920.3" y="244.8" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">fyi</text>
+<text x="975.3" y="290.8" font-size="15" text-anchor="middle" class="f-ink">label “fyi”</text>
+<text x="920.3" y="359.8" font-size="15" text-anchor="middle" class="f-blue" font-weight="600">unsure</text>
+<text x="975.3" y="405.8" font-size="15" text-anchor="middle" class="f-ink">label “needs Sam”</text>
+<text x="1404.9" y="-301" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">Sam answers</text>
+<text x="1404.9" y="-284" font-size="13" text-anchor="middle" class="f-gray">a live trust answers “send” for him</text>
+<text x="1404.9" y="-267" font-size="13" text-anchor="middle" class="f-gray">2 days of silence answers “leave it”</text>
+<text x="1689.2" y="-129" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">send, and trust this sender for a day</text>
+<text x="1764.2" y="-83" font-size="15" text-anchor="middle" class="f-red" font-weight="600">send reply</text>
+<text x="1864.2" y="-83" font-size="15" text-anchor="middle" class="f-orange">trust 24 h</text>
+<text x="1689.2" y="101" font-size="15" text-anchor="middle" class="f-orange" font-weight="600">leave it</text>
+<text x="1778.2" y="120" font-size="13" text-anchor="start" class="f-gray">nothing sent · draft stays</text>
+</g>
+<text x="30" y="923.8" font-size="13" text-anchor="start" class="f-gray">time <tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">→</tspan></text>
 </svg>

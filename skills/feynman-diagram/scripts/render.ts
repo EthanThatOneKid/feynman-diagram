@@ -2,10 +2,14 @@
 /**
  * Feynman diagram renderer: turns a semantic spec (JSON) into an SVG.
  *
- * The spec says *what happens* (who decides each stretch of time, what each
- * event does to the world, where control branches, merges, and stops). This
- * script owns *where it goes*: lanes, spacing, curves, wave lines, labels,
- * legend, and theme. See ../references/spec.md for the format.
+ * A diagram is a set of horizontal tracks through time. Lines are stretches of
+ * time; vertices are moments. The spec declares its own *vocabulary*: which
+ * kinds of line and vertex exist in this domain, what each means, and which
+ * visual primitive (stroke style, glyph shape, color) carries it. Presets
+ * supply ready vocabularies (`agent`, `qed`); any domain can define its own.
+ *
+ * The spec says *what happens*. This script owns *where it goes*: lanes,
+ * spacing, curves, labels, legend, and theme. See ../references/spec.md.
  *
  * Usage:
  *   deno run --allow-read --allow-write render.ts <spec.json> [-o out.svg] [--png out.png]
@@ -13,13 +17,39 @@
 
 // ---------- spec types ----------
 
-export type LineKind = "code" | "model" | "human" | "wait";
-export type Decider = "code" | "model" | "human";
-export type VertexKind = "read" | "reversible" | "irreversible" | "trust" | "stop" | "branch" | "junction" | "gate";
 type Text = string | string[];
 
+export type StrokeStyle = "solid" | "wave" | "coil" | "zigzag" | "dashed" | "dotted" | "double";
+export type Shape = "circle" | "diamond" | "square" | "triangle" | "hexagon" | "star" | "cross" | "dot" | "bar";
+export type LabelPos = "above" | "below" | "right" | "above-left";
+
+/** A palette token (adapts to dark mode) or a literal #hex color. */
+export type Color = "ink" | "gray" | "blue" | "orange" | "red" | "green" | "purple" | "teal" | "pink" | `#${string}`;
+
+export interface LineDef {
+  stroke: StrokeStyle;
+  color?: Color;
+  /** Draw a direction chevron on each stretch of this kind (e.g. a fermion's arrow, a cash flow). */
+  arrow?: boolean;
+  legend?: string;
+  /** Default length of a stretch of this kind, in px. */
+  len?: number;
+}
+
+export interface VertexDef {
+  shape: Shape;
+  fill?: "solid" | "hollow";
+  color?: Color;
+  size?: number;
+  legend?: string;
+  /** Color this vertex's label with the vertex's own color. */
+  labelColor?: boolean;
+  bold?: boolean;
+  labelPos?: LabelPos;
+}
+
 export interface LineStep {
-  line: LineKind;
+  line: string;
   label?: string;
   note?: Text;
   len?: number;
@@ -27,22 +57,23 @@ export interface LineStep {
 }
 
 export interface VertexStep {
-  vertex: VertexKind;
+  vertex: string;
   id?: string;
   label?: string;
   note?: Text;
-  by?: Decider;
-  labelPos?: "above" | "below" | "right" | "above-left";
+  /** On a `branch`: the line kind whose agent chose the route; colors the branch and its route labels. */
+  by?: string;
+  labelPos?: LabelPos;
 }
 
 export interface Probe {
-  vertex?: VertexKind;
-  line?: LineKind;
+  vertex?: string;
+  line?: string;
   label?: string;
   note?: Text;
   height?: number;
   side?: "above" | "below";
-  /** Where along the line the probe leaves, 0..1 (default 0.62, clear of a centered label). */
+  /** Where along the line the probe leaves, 0..1. */
   at?: number;
 }
 
@@ -51,68 +82,111 @@ export type Step = LineStep | VertexStep;
 export interface Track {
   id?: string;
   lane: number;
-  line?: LineKind;
+  line?: string;
   from?: string;
   merge?: string;
   start?: { label: string; note?: Text };
+  end?: { label: string; note?: Text };
+  /** Px from the left margin where a track with no `start` or `from` begins. */
+  offset?: number;
   label?: string;
   note?: Text;
-  shape?: "curve" | "square";
+  shape?: "curve" | "square" | "straight";
+  /** Arrowhead into a square merge (default true). */
   arrow?: boolean;
+  /** Flip direction chevrons on this track (e.g. an antiparticle, a refund). */
+  reverse?: boolean;
   steps?: Step[];
 }
 
 export interface Spec {
   title?: string;
-  legend?: false | Partial<Record<LineKind | VertexKind, string>>;
+  preset?: "agent" | "qed" | "none";
+  lines?: Record<string, LineDef>;
+  vertices?: Record<string, VertexDef>;
+  /** Override legend text per kind, or false to hide the legend. */
+  legend?: false | Record<string, string>;
+  /** Caption for the left-to-right axis (default "time"), or false. */
   time?: false | string;
   lanePx?: number;
   tracks: Track[];
 }
 
+// ---------- vocabulary ----------
+
+interface Vocab {
+  lines: Record<string, LineDef>;
+  vertices: Record<string, VertexDef>;
+}
+
+export const PRESETS: Record<string, Vocab> = {
+  none: { lines: {}, vertices: {} },
+  agent: {
+    lines: {
+      code: { stroke: "solid", color: "ink", legend: "code decides", len: 90 },
+      model: { stroke: "wave", color: "blue", legend: "the model decides", len: 220 },
+      human: { stroke: "dashed", color: "orange", legend: "a human decides", len: 120 },
+      wait: { stroke: "dotted", color: "gray", legend: "asleep, waiting", len: 200 },
+    },
+    vertices: {
+      read: { shape: "circle", fill: "hollow", color: "ink", legend: "reads the world" },
+      reversible: { shape: "diamond", color: "ink", legend: "changes the world, can be undone" },
+      irreversible: {
+        shape: "diamond",
+        color: "red",
+        legend: "changes the world, cannot be undone",
+        labelColor: true,
+        bold: true,
+      },
+      gate: {
+        shape: "square",
+        fill: "hollow",
+        color: "orange",
+        legend: "asks a human",
+        labelColor: true,
+        bold: true,
+        labelPos: "above-left",
+      },
+      trust: { shape: "circle", fill: "hollow", color: "orange", legend: "temporary trust", labelColor: true },
+    },
+  },
+  qed: {
+    lines: {
+      fermion: { stroke: "solid", color: "ink", arrow: true, legend: "fermion (arrow: particle flow)", len: 140 },
+      photon: { stroke: "wave", color: "ink", legend: "photon", len: 160 },
+      gluon: { stroke: "coil", color: "ink", legend: "gluon", len: 160 },
+      boson: { stroke: "zigzag", color: "ink", legend: "W / Z boson", len: 160 },
+      scalar: { stroke: "dashed", color: "ink", legend: "scalar (Higgs)", len: 140 },
+    },
+    vertices: {
+      vertex: { shape: "dot", color: "ink", size: 11, legend: "interaction vertex" },
+      blob: { shape: "circle", color: "gray", size: 16, legend: "unresolved process" },
+    },
+  },
+};
+
+/** Structural vertices every diagram has. */
+const BUILTIN_VERTICES: Record<string, VertexDef> = {
+  branch: { shape: "diamond", color: "ink", size: 7.5 },
+  junction: { shape: "dot", color: "ink", size: 9 },
+  stop: { shape: "bar", color: "ink", legend: "stops", labelPos: "right" },
+};
+
+function vocabOf(spec: Spec): Vocab {
+  const base = PRESETS[spec.preset ?? "none"] ?? PRESETS.none;
+  return {
+    lines: { ...base.lines, ...spec.lines },
+    vertices: { ...BUILTIN_VERTICES, ...base.vertices, ...spec.vertices },
+  };
+}
+
 // ---------- constants ----------
 
-const LINE_KINDS: LineKind[] = ["code", "model", "human", "wait"];
-const VERTEX_KINDS: VertexKind[] = [
-  "read",
-  "reversible",
-  "irreversible",
-  "trust",
-  "stop",
-  "branch",
-  "junction",
-  "gate",
-];
-const DECIDERS: Decider[] = ["code", "model", "human"];
+const STROKES: StrokeStyle[] = ["solid", "wave", "coil", "zigzag", "dashed", "dotted", "double"];
+const SHAPES: Shape[] = ["circle", "diamond", "square", "triangle", "hexagon", "star", "cross", "dot", "bar"];
+const TOKENS = ["ink", "gray", "blue", "orange", "red", "green", "purple", "teal", "pink"];
 
-const DEFAULT_LEGEND: Record<LineKind | VertexKind, string> = {
-  code: "code decides",
-  model: "the model decides",
-  human: "a human decides",
-  wait: "asleep, waiting",
-  read: "reads the world",
-  reversible: "changes the world, can be undone",
-  irreversible: "changes the world, cannot be undone",
-  trust: "temporary trust",
-  gate: "asks a human",
-  stop: "stops",
-  branch: "branches",
-  junction: "joins",
-};
-const LEGEND_ORDER: (LineKind | VertexKind)[] = [
-  "code",
-  "model",
-  "human",
-  "wait",
-  "read",
-  "reversible",
-  "irreversible",
-  "gate",
-  "trust",
-  "stop",
-];
-
-const DEFAULT_LEN: Record<LineKind, number> = { code: 90, model: 220, human: 120, wait: 200 };
+const DEFAULT_LEN = 110;
 const IMPLICIT_LEN = 56;
 const MARGIN = 40;
 const LABEL = 15;
@@ -120,6 +194,10 @@ const NOTE = 13;
 const NOTE_LEAD = 17;
 const WAVE_AMP = 6;
 const WAVE_LEN = 22;
+/** Monospace faces that cover arrows and math symbols, first; Cascadia/Consolas lack them. */
+const MONO = "Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace";
+/** Sans first; anything the sans faces lack falls back to monospace, never serif. */
+const FONT = `ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, ${MONO}`;
 
 // ---------- small helpers ----------
 
@@ -130,6 +208,7 @@ const textW = (s: string, size: number, bold = false) => s.length * size * (bold
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const isLine = (s: Step): s is LineStep => "line" in s;
 const r1 = (n: number) => Math.round(n * 10) / 10;
+const validColor = (c: unknown) => typeof c === "string" && (TOKENS.includes(c) || /^#[0-9a-f]{3,8}$/i.test(c));
 
 function bezier(a: Pt, b: Pt, n = 48): Pt[] {
   const mx = (a[0] + b[0]) / 2;
@@ -146,26 +225,42 @@ function bezier(a: Pt, b: Pt, n = 48): Pt[] {
   return out;
 }
 
-/** Offset a polyline by a sine wave along its normal (the "model decides" squiggle). */
-function wave(pts: Pt[]): Pt[] {
-  const dense: Pt[] = [pts[0]];
+/** Resample a polyline densely, returning points, their arc length, and unit tangents. */
+function dense(pts: Pt[]): { p: Pt; s: number; tx: number; ty: number }[] {
+  const d: Pt[] = [pts[0]];
   for (let i = 1; i < pts.length; i++) {
     const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
-    const d = Math.hypot(x1 - x0, y1 - y0);
-    const n = Math.max(1, Math.ceil(d / 1.5));
-    for (let k = 1; k <= n; k++) dense.push([x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n]);
+    const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 1.5));
+    for (let k = 1; k <= n; k++) d.push([x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n]);
   }
-  const out: Pt[] = [];
   let s = 0;
-  for (let i = 0; i < dense.length; i++) {
-    if (i > 0) s += Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]);
-    const a = dense[Math.max(0, i - 1)], b = dense[Math.min(dense.length - 1, i + 1)];
+  return d.map((p, i) => {
+    if (i > 0) s += Math.hypot(p[0] - d[i - 1][0], p[1] - d[i - 1][1]);
+    const a = d[Math.max(0, i - 1)], b = d[Math.min(d.length - 1, i + 1)];
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
-    const nx = -(b[1] - a[1]) / len, ny = (b[0] - a[0]) / len;
-    const off = WAVE_AMP * Math.sin((2 * Math.PI * s) / WAVE_LEN);
-    out.push([dense[i][0] + nx * off, dense[i][1] + ny * off]);
-  }
-  return out;
+    return { p, s, tx: (b[0] - a[0]) / len, ty: (b[1] - a[1]) / len };
+  });
+}
+
+/** Displace a polyline for wave, coil, and zigzag strokes. */
+function displace(pts: Pt[], style: StrokeStyle): Pt[] {
+  if (style !== "wave" && style !== "coil" && style !== "zigzag") return pts;
+  return dense(pts).map(({ p, s, tx, ty }) => {
+    const nx = -ty, ny = tx;
+    if (style === "wave") {
+      const o = WAVE_AMP * Math.sin((2 * Math.PI * s) / WAVE_LEN);
+      return [p[0] + nx * o, p[1] + ny * o];
+    }
+    if (style === "zigzag") {
+      const ph = (s / 16) % 1;
+      const o = WAVE_AMP * (ph < 0.5 ? 4 * ph - 1 : 3 - 4 * ph);
+      return [p[0] + nx * o, p[1] + ny * o];
+    }
+    // coil: a loop every 13px (gluon)
+    const a = (2 * Math.PI * s) / 13;
+    const o = 7 * Math.sin(a), q = -7 * Math.cos(a) + 7;
+    return [p[0] + nx * o + tx * q * 0.9, p[1] + ny * o + ty * q * 0.9];
+  });
 }
 
 // ---------- validation ----------
@@ -175,21 +270,45 @@ export function validate(spec: Spec): string[] {
   if (!spec || !Array.isArray(spec.tracks) || spec.tracks.length === 0) {
     return ["spec.tracks must be a non-empty array"];
   }
+  if (spec.preset && !PRESETS[spec.preset]) {
+    errs.push(`unknown preset "${spec.preset}" (have: ${Object.keys(PRESETS).join(", ")})`);
+  }
+  for (const [k, d] of Object.entries(spec.lines ?? {})) {
+    if (!STROKES.includes(d.stroke)) errs.push(`lines.${k}: stroke must be one of ${STROKES.join(", ")}`);
+    if (d.color && !validColor(d.color)) errs.push(`lines.${k}: color must be a #hex or one of ${TOKENS.join(", ")}`);
+  }
+  for (const [k, d] of Object.entries(spec.vertices ?? {})) {
+    if (!SHAPES.includes(d.shape)) errs.push(`vertices.${k}: shape must be one of ${SHAPES.join(", ")}`);
+    if (d.color && !validColor(d.color)) {
+      errs.push(`vertices.${k}: color must be a #hex or one of ${TOKENS.join(", ")}`);
+    }
+  }
+  const V = vocabOf(spec);
+  const lineNames = Object.keys(V.lines);
+  if (!lineNames.length) errs.push(`no line kinds: set "preset" or define "lines"`);
+  const lk = (k: string | undefined, at: string) => {
+    if (k !== undefined && !V.lines[k]) errs.push(`${at}: unknown line kind "${k}" (have: ${lineNames.join(", ")})`);
+  };
+  const vk = (k: string | undefined, at: string) => {
+    if (k !== undefined && !V.vertices[k]) {
+      errs.push(`${at}: unknown vertex kind "${k}" (have: ${Object.keys(V.vertices).join(", ")})`);
+    }
+  };
   const ids = new Set<string>();
   spec.tracks.forEach((t, i) => {
     const at = `tracks[${i}]${t.id ? ` (${t.id})` : ""}`;
     if (typeof t.lane !== "number") errs.push(`${at}: lane must be a number`);
-    if (t.line && !LINE_KINDS.includes(t.line)) errs.push(`${at}: unknown line kind "${t.line}"`);
-    if (!t.from && !t.start) errs.push(`${at}: needs "start" (a trigger) or "from" (a vertex id it branches from)`);
+    lk(t.line, at);
     (t.steps ?? []).forEach((s, j) => {
       const sat = `${at}.steps[${j}]`;
       if (isLine(s)) {
-        if (!LINE_KINDS.includes(s.line)) errs.push(`${sat}: unknown line kind "${s.line}"`);
-        if (s.probe?.vertex && !VERTEX_KINDS.includes(s.probe.vertex)) errs.push(`${sat}.probe: unknown vertex kind`);
-        if (s.probe?.line && !LINE_KINDS.includes(s.probe.line)) errs.push(`${sat}.probe: unknown line kind`);
+        lk(s.line, sat);
+        if (s.probe) lk(s.probe.line, `${sat}.probe`), vk(s.probe.vertex, `${sat}.probe`);
       } else if ("vertex" in s) {
-        if (!VERTEX_KINDS.includes(s.vertex)) errs.push(`${sat}: unknown vertex kind "${s.vertex}"`);
-        if (s.by && !DECIDERS.includes(s.by)) errs.push(`${sat}: "by" must be code, model, or human`);
+        vk(s.vertex, sat);
+        if (s.by !== undefined && !V.lines[s.by] && !validColor(s.by)) {
+          errs.push(`${sat}.by: "${s.by}" is neither a line kind (${lineNames.join(", ")}) nor a color`);
+        }
         if (s.id) {
           if (ids.has(s.id)) errs.push(`${sat}: duplicate vertex id "${s.id}"`);
           ids.add(s.id);
@@ -209,20 +328,21 @@ export function validate(spec: Spec): string[] {
 // ---------- layout ----------
 
 interface Stroke {
-  kind: LineKind;
+  kind: string;
   pts: Pt[];
+  reverse?: boolean;
 }
 interface Glyph {
-  kind: VertexKind;
+  kind: string;
   x: number;
   y: number;
-  by?: Decider;
+  by?: string;
 }
 interface Label {
   x: number;
   y: number;
   text: string;
-  cls: string;
+  color: Color;
   size: number;
   anchor: "start" | "middle" | "end";
   bold?: boolean;
@@ -231,7 +351,7 @@ interface Arrow {
   x: number;
   y: number;
   dir: 1 | -1;
-  kind: LineKind;
+  color: Color;
 }
 
 interface Layout {
@@ -242,175 +362,144 @@ interface Layout {
   warnings: string[];
 }
 
-const lineCls = (k: LineKind | Decider) => (k === "wait" ? "t-note" : `t-${k}`);
-
-function vertexLabelCls(v: VertexStep): string {
-  if (v.vertex === "irreversible") return "t-danger";
-  if (v.vertex === "trust" || v.vertex === "gate") return "t-human";
-  return "t-code";
-}
-
-function curveLen(dy: number) {
-  return Math.min(150, 46 + Math.abs(dy) * 0.42);
-}
-
-function labelPosOf(v: VertexStep) {
-  return v.labelPos ?? (v.vertex === "stop" ? "right" : v.vertex === "gate" ? "above-left" : "below");
-}
-
-/** Half the width of a vertex's below-the-line text, which a line's own note must stay clear of. */
-function belowHalf(v: Step | undefined): number {
-  if (!v || isLine(v) || labelPosOf(v) !== "below") return 0;
-  const ws = [...(v.label ? [textW(v.label, LABEL, true)] : []), ...lines(v.note).map((n) => textW(n, NOTE))];
-  return ws.length ? Math.max(...ws) / 2 + 8 : 0;
-}
-
-function insets(steps: Step[], i: number): [number, number] {
-  const s = steps[i] as LineStep;
-  if (!lines(s.note).length) return [0, 0];
-  return [belowHalf(steps[i - 1]), belowHalf(steps[i + 1])];
-}
-
-/** Width of the next vertex's above-left label, which hangs back over this line. */
-function aboveLeftW(v: Step | undefined): number {
-  if (!v || isLine(v) || labelPosOf(v) !== "above-left") return 0;
-  const ws = [...(v.label ? [textW(v.label, LABEL, true)] : []), ...lines(v.note).map((n) => textW(n, NOTE))];
-  return ws.length ? Math.max(...ws) + 14 : 0;
-}
-
-function naturalLen(steps: Step[], i: number) {
-  const s = steps[i] as LineStep;
-  const base = s.len ?? DEFAULT_LEN[s.line];
-  if (s.len !== undefined) return base;
-  const [a, b] = insets(steps, i);
-  const textNeed = Math.max(
-    s.label ? textW(s.label, LABEL, true) + 28 + aboveLeftW(steps[i + 1]) : 0,
-    ...lines(s.note).map((n) => textW(n, NOTE) + 24 + a + b),
-  );
-  return Math.max(base, textNeed);
-}
-
-function normalize(t: Track): Step[] {
-  const implicit = (): LineStep => ({ line: t.line ?? "code", len: IMPLICIT_LEN });
-  const out: Step[] = [];
-  for (const s of t.steps ?? []) {
-    const prev = out[out.length - 1];
-    if (!isLine(s) && (!prev || !isLine(prev))) out.push(implicit());
-    out.push(s);
-  }
-  const last = out[out.length - 1];
-  if (t.merge && last && !isLine(last)) out.push(implicit());
-  return out;
-}
-
 export function layout(spec: Spec): Layout {
+  const V = vocabOf(spec);
   const lanePx = spec.lanePx ?? 115;
+  const firstLine = Object.keys(V.lines)[0];
   const L: Layout = { strokes: [], glyphs: [], labels: [], arrows: [], warnings: [] };
-  const pos = new Map<string, { x: number; y: number; by?: Decider }>();
+  const pos = new Map<string, { x: number; y: number; by?: string }>();
   const done = new Set<number>();
+  const implicitSteps = new WeakSet<Step>();
+
+  /** A line kind's color; a `by` may also name a color directly. */
+  const lineColor = (k: string): Color => V.lines[k]?.color ?? (validColor(k) ? (k as Color) : "ink");
+  const vdef = (k: string) => V.vertices[k];
+  const labelPosOf = (v: VertexStep): LabelPos => v.labelPos ?? vdef(v.vertex).labelPos ?? "below";
+  const textBlockW = (v: VertexStep) =>
+    Math.max(0, ...[...(v.label ? [textW(v.label, LABEL, true)] : []), ...lines(v.note).map((n) => textW(n, NOTE))]);
+
+  /** Half the width of a vertex's below-the-line text, which a line's own note must stay clear of. */
+  const belowHalf = (v: Step | undefined) =>
+    !v || isLine(v) || labelPosOf(v) !== "below" || !textBlockW(v) ? 0 : textBlockW(v) / 2 + 8;
+  /** Width of a vertex's above-left label, which hangs back over the preceding line. */
+  const aboveLeftW = (v: Step | undefined) =>
+    !v || isLine(v) || labelPosOf(v) !== "above-left" || !textBlockW(v) ? 0 : textBlockW(v) + 14;
+  const insets = (steps: Step[], i: number): [number, number] =>
+    lines((steps[i] as LineStep).note).length ? [belowHalf(steps[i - 1]), belowHalf(steps[i + 1])] : [0, 0];
+
+  const naturalLen = (steps: Step[], i: number) => {
+    const s = steps[i] as LineStep;
+    if (s.len !== undefined) return s.len;
+    const [a, b] = insets(steps, i);
+    return Math.max(
+      V.lines[s.line]?.len ?? DEFAULT_LEN,
+      s.label ? textW(s.label, LABEL, true) + 28 + aboveLeftW(steps[i + 1]) : 0,
+      ...lines(s.note).map((n) => textW(n, NOTE) + 24 + a + b),
+    );
+  };
+
+  const normalize = (t: Track): Step[] => {
+    const implicit = (): LineStep => {
+      const s: LineStep = { line: t.line ?? firstLine, len: IMPLICIT_LEN };
+      implicitSteps.add(s);
+      return s;
+    };
+    const out: Step[] = [];
+    (t.steps ?? []).forEach((s, i) => {
+      const prev = out[out.length - 1];
+      // a free-standing track (no start, no from) may begin right on a vertex
+      const freeStart = i === 0 && !t.start && !t.from;
+      if (!isLine(s) && !freeStart && (!prev || !isLine(prev))) out.push(implicit());
+      out.push(s);
+    });
+    const last = out[out.length - 1];
+    if (t.merge && last && !isLine(last)) out.push(implicit());
+    return out;
+  };
+
+  const textStack = (
+    x: number,
+    y: number,
+    label: string | undefined,
+    notes: string[],
+    color: Color,
+    anchor: Label["anchor"],
+    up: boolean,
+    bold = true,
+  ) => {
+    const n = (label ? 1 : 0) + notes.length;
+    let yy = up ? y - (n - 1) * NOTE_LEAD : y;
+    if (label) L.labels.push({ x, y: yy, text: label, color, size: LABEL, anchor, bold }), (yy += NOTE_LEAD);
+    for (const t of notes) L.labels.push({ x, y: yy, text: t, color: "gray", size: NOTE, anchor }), (yy += NOTE_LEAD);
+  };
 
   const place = (t: Track) => {
     const y = t.lane * lanePx;
     const steps = normalize(t);
     const lineSteps = steps.filter(isLine);
-    const kindIn = lineSteps[0]?.line ?? t.line ?? "code";
-    const kindOut = lineSteps[lineSteps.length - 1]?.line ?? t.line ?? "code";
+    const kindIn = lineSteps[0]?.line ?? t.line ?? firstLine;
+    const kindOut = lineSteps[lineSteps.length - 1]?.line ?? t.line ?? firstLine;
     const square = t.shape === "square";
+    const straight = t.shape === "straight";
     const parent = t.from ? pos.get(t.from)! : undefined;
-    let labelColor: string = lineCls(t.line ?? kindIn);
-    if (parent?.by) labelColor = lineCls(parent.by);
+    const rev = t.reverse;
+    const conn = (a: Pt, b: Pt): Pt[] => (straight ? [a, b] : bezier(a, b));
+    const connLen = (dy: number) => (straight ? Math.abs(dy) * 0.9 + 20 : Math.min(150, 46 + Math.abs(dy) * 0.42));
+    const titleColor = (k: string): Color => (lineColor(k) === "gray" ? "ink" : lineColor(k));
 
     let runStart: number;
     if (parent) {
       if (square && parent.y !== y) {
-        L.strokes.push({ kind: t.line ?? kindIn, pts: [[parent.x, parent.y], [parent.x, y]] });
+        L.strokes.push({ kind: t.line ?? kindIn, pts: [[parent.x, parent.y], [parent.x, y]], reverse: rev });
         runStart = parent.x;
       } else if (parent.y !== y) {
-        const c = curveLen(y - parent.y);
-        L.strokes.push({ kind: kindIn, pts: bezier([parent.x, parent.y], [parent.x + c, y]) });
+        const c = connLen(y - parent.y);
+        L.strokes.push({ kind: kindIn, pts: conn([parent.x, parent.y], [parent.x + c, y]), reverse: rev });
         runStart = parent.x + c;
       } else runStart = parent.x;
     } else {
-      runStart = MARGIN;
-      // trigger label: above-main lanes put everything above, below-main lanes below
-      const s = t.start!;
-      const notes = lines(s.note);
-      const cls = lineCls(t.line ?? kindIn);
-      if (t.lane < 0) {
-        let yy = y - 14 - notes.length * NOTE_LEAD;
-        L.labels.push({
-          x: runStart - 4,
-          y: yy,
-          text: s.label,
-          cls: cls === "t-code" ? "t-ink" : cls,
-          size: LABEL,
-          anchor: "start",
-          bold: true,
-        });
-        notes.forEach((n) =>
-          L.labels.push({ x: runStart - 4, y: yy += NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor: "start" })
-        );
-      } else if (t.lane > 0) {
-        let yy = y + 26;
-        L.labels.push({
-          x: runStart - 4,
-          y: yy,
-          text: s.label,
-          cls: cls === "t-code" ? "t-ink" : cls,
-          size: LABEL,
-          anchor: "start",
-          bold: true,
-        });
-        notes.forEach((n) =>
-          L.labels.push({ x: runStart - 4, y: yy += NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor: "start" })
-        );
-      } else {
-        L.labels.push({
-          x: runStart - 4,
-          y: y - 14,
-          text: s.label,
-          cls: cls === "t-code" ? "t-ink" : cls,
-          size: LABEL,
-          anchor: "start",
-          bold: true,
-        });
-        notes.forEach((n, i) =>
-          L.labels.push({
-            x: runStart - 4,
-            y: y + 26 + i * NOTE_LEAD,
-            text: n,
-            cls: "t-note",
-            size: NOTE,
-            anchor: "start",
-          })
-        );
+      runStart = MARGIN + (t.offset ?? 0);
+      if (t.start) {
+        // trigger label: lanes above the main path stack text above; below stack below; on it, split
+        const s = t.start, notes = lines(s.note), color = titleColor(t.line ?? kindIn), x = runStart - 4;
+        if (t.lane < 0) textStack(x, y - 14, s.label, notes, color, "start", true);
+        else if (t.lane > 0) textStack(x, y + 26, s.label, notes, color, "start", false);
+        else {
+          L.labels.push({ x, y: y - 14, text: s.label, color, size: LABEL, anchor: "start", bold: true });
+          textStack(x, y + 26, undefined, notes, color, "start", false);
+        }
       }
     }
 
     const widths = steps.map((s, i) => (isLine(s) ? naturalLen(steps, i) : 0));
+    // a trigger's own label sits over the first stretch, so that stretch must be at least as wide
+    if (t.start && !t.merge && steps[0] && implicitSteps.has(steps[0])) {
+      const need = Math.max(textW(t.start.label, LABEL, true), ...lines(t.start.note).map((n) => textW(n, NOTE)));
+      widths[0] = Math.max(widths[0], need + 18 + belowHalf(steps[1]));
+    }
     const target = t.merge ? pos.get(t.merge)! : undefined;
     let runEnd = runStart + widths.reduce((a, b) => a + b, 0);
     let cOut = 0;
     if (target) {
-      cOut = square || target.y === y ? 0 : curveLen(target.y - y);
+      cOut = square || target.y === y ? 0 : connLen(target.y - y);
       runEnd = target.x - cOut;
-      // a trigger with nothing on it is one sweeping curve into its target
+      // a trigger with nothing on it is one sweep into its target
       if (steps.length === 0 && !parent && !square) {
-        L.strokes.push({ kind: t.line ?? "code", pts: bezier([runStart, y], [target.x, target.y]) });
+        L.strokes.push({ kind: t.line ?? firstLine, pts: conn([runStart, y], [target.x, target.y]), reverse: rev });
         return;
       }
       const nat = widths.reduce((a, b) => a + b, 0);
       const avail = runEnd - runStart;
       if (avail < nat - 1) {
         L.warnings.push(
-          `track ${t.id ?? `lane ${t.lane}`}: needs ${Math.ceil(nat)}px before merging into "${t.merge}" but has ${
-            Math.floor(avail)
-          }px; ` +
-            `lengthen the line before "${t.merge}" (len) or shorten this track`,
+          `track ${t.id ?? `lane ${t.lane}`}: needs ${Math.ceil(nat)}px before merging into "${t.merge}" but has ` +
+            `${Math.floor(avail)}px; lengthen the line before "${t.merge}" (len) or shorten this track`,
         );
       }
       if (nat > 0) widths.forEach((w, i) => (widths[i] = (w * avail) / nat));
-      else if (avail > 0) L.strokes.push({ kind: t.line ?? "code", pts: [[runStart, y], [runEnd, y]] });
+      else if (avail > 0) {
+        L.strokes.push({ kind: t.line ?? firstLine, pts: [[runStart, y], [runEnd, y]], reverse: rev });
+      }
     }
 
     // track label (+ note) centered over the first stretch
@@ -421,61 +510,55 @@ export function layout(spec: Spec): Layout {
         x0 = runStart + widths.slice(0, i0).reduce((a, b) => a + b, 0);
         x1 = x0 + widths[i0];
       }
-      const notes = lines(t.note);
-      let yy = y - 14 - notes.length * NOTE_LEAD;
-      L.labels.push({
-        x: (x0 + x1) / 2,
-        y: yy,
-        text: t.label,
-        cls: labelColor,
-        size: LABEL,
-        anchor: "middle",
-        bold: true,
-      });
-      notes.forEach((n) =>
-        L.labels.push({ x: (x0 + x1) / 2, y: yy += NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor: "middle" })
+      const color = parent?.by ? lineColor(parent.by) : titleColor(t.line ?? kindIn);
+      textStack(
+        (x0 + x1) / 2,
+        y - 14 - lines(t.note).length * NOTE_LEAD,
+        t.label,
+        lines(t.note),
+        color,
+        "middle",
+        false,
       );
     }
 
     let cx = runStart;
-    let lastBranch: Decider | undefined = parent?.by;
+    let lastBranch: string | undefined = parent?.by;
     steps.forEach((s, i) => {
       const w = widths[i];
       if (isLine(s)) {
-        L.strokes.push({ kind: s.line, pts: [[cx, y], [cx + w, y]] });
+        L.strokes.push({ kind: s.line, pts: [[cx, y], [cx + w, y]], reverse: rev });
         const mid = cx + (w - (s.label ? aboveLeftW(steps[i + 1]) : 0)) / 2;
         if (s.label) {
-          const cls = lastBranch ? lineCls(lastBranch) : s.line === "code" ? "t-ink" : lineCls(s.line);
+          const own = lineColor(s.line);
+          const color: Color = lastBranch ? lineColor(lastBranch) : own === "gray" ? "ink" : own;
           L.labels.push({
             x: mid,
             y: y - 16,
             text: s.label,
-            cls,
+            color,
             size: LABEL,
             anchor: "middle",
-            bold: s.line !== "code" || !!lastBranch,
+            bold: color !== "ink" || !!lastBranch,
           });
         }
         const [ia, ib] = insets(steps, i);
-        const noteX = cx + ia + (w - ia - ib) / 2;
-        lines(s.note).forEach((n, k) =>
-          L.labels.push({ x: noteX, y: y + 30 + k * NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor: "middle" })
-        );
+        textStack(cx + ia + (w - ia - ib) / 2, y + 30, undefined, lines(s.note), "gray", "middle", false);
         if (s.probe) {
           const p = s.probe;
           // default: right of center, clear of a centered stretch label
           const clear = s.label ? (textW(s.label, LABEL, true) / 2 + 16) / w : 0;
-          const mid = cx + w * (p.at ?? Math.min(0.85, Math.max(0.62, 0.5 + clear)));
+          const px = cx + w * (p.at ?? Math.min(0.85, Math.max(0.62, 0.5 + clear)));
           const h = (p.height ?? 70) * (p.side === "below" ? 1 : -1);
-          L.strokes.push({ kind: p.line ?? s.line, pts: [[mid, y], [mid, y + h]] });
-          L.glyphs.push({ kind: p.vertex ?? "read", x: mid, y: y + h });
+          L.strokes.push({ kind: p.line ?? s.line, pts: [[px, y], [px, y + h]] });
+          L.glyphs.push({ kind: p.vertex ?? "junction", x: px, y: y + h });
           const pl = [...(p.label ? [p.label] : []), ...lines(p.note)];
           pl.forEach((n, k) =>
             L.labels.push({
-              x: mid + 16,
+              x: px + 16,
               y: y + h - 4 + k * NOTE_LEAD,
               text: n,
-              cls: "t-note",
+              color: "gray",
               size: NOTE,
               anchor: "start",
             })
@@ -484,55 +567,62 @@ export function layout(spec: Spec): Layout {
         lastBranch = undefined;
         cx += w;
       } else {
+        const d = vdef(s.vertex);
         L.glyphs.push({ kind: s.vertex, x: cx, y, by: s.by });
         if (s.id) pos.set(s.id, { x: cx, y, by: s.by });
-        if (s.vertex === "branch") lastBranch = s.by ?? "code";
+        if (s.vertex === "branch") lastBranch = s.by;
         const where = labelPosOf(s);
         const notes = lines(s.note);
-        const cls = vertexLabelCls(s);
-        const bold = s.vertex === "irreversible" || s.vertex === "gate";
+        const color: Color = d.labelColor ? (d.color ?? "ink") : "ink";
+        const bold = !!d.bold;
+        const r = (d.size ?? 9) + 5;
         if (where === "right") {
-          const all = [...(s.label ? [{ t: s.label, c: cls }] : []), ...notes.map((n) => ({ t: n, c: "t-note" }))];
-          all.forEach((a, k) =>
-            L.labels.push({
-              x: cx + 14,
-              y: y + 5 + k * NOTE_LEAD,
-              text: a.t,
-              cls: a.c,
-              size: a.c === "t-note" ? NOTE : LABEL,
-              anchor: "start",
-            })
-          );
+          if (s.label) L.labels.push({ x: cx + r, y: y + 5, text: s.label, color, size: LABEL, anchor: "start", bold });
+          textStack(cx + r, y + 5 + (s.label ? NOTE_LEAD : 0), undefined, notes, color, "start", false);
         } else if (where === "above" || where === "above-left") {
           const left = where === "above-left";
-          const ax = left ? cx - 6 : cx;
-          const anchor = left ? "end" : "middle";
-          let yy = y - (left ? 26 : 18) - notes.length * NOTE_LEAD;
-          if (s.label) L.labels.push({ x: ax, y: yy, text: s.label, cls, size: LABEL, anchor, bold });
-          notes.forEach((n) =>
-            L.labels.push({ x: ax, y: yy += NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor })
+          const top = y - (left ? 26 : r + 8) - notes.length * NOTE_LEAD;
+          if (s.label) {
+            L.labels.push({
+              x: left ? cx - 6 : cx,
+              y: top,
+              text: s.label,
+              color,
+              size: LABEL,
+              anchor: left ? "end" : "middle",
+              bold,
+            });
+          }
+          textStack(
+            left ? cx - 6 : cx,
+            top + (s.label ? NOTE_LEAD : 0),
+            undefined,
+            notes,
+            color,
+            left ? "end" : "middle",
+            false,
           );
         } else {
-          let yy = y + 32;
-          if (s.label) L.labels.push({ x: cx, y: yy, text: s.label, cls, size: LABEL, anchor: "middle", bold });
-          else yy -= NOTE_LEAD;
-          notes.forEach((n) =>
-            L.labels.push({ x: cx, y: yy += NOTE_LEAD, text: n, cls: "t-note", size: NOTE, anchor: "middle" })
-          );
+          const top = y + r + 18;
+          if (s.label) L.labels.push({ x: cx, y: top, text: s.label, color, size: LABEL, anchor: "middle", bold });
+          textStack(cx, top + (s.label ? NOTE_LEAD : 0), undefined, notes, color, "middle", false);
         }
       }
     });
 
+    const endX = cx;
     if (target) {
       if (square) {
         L.strokes.push({ kind: t.line ?? kindOut, pts: [[target.x, y], [target.x, target.y]] });
         if (t.arrow !== false) {
           const dir = target.y > y ? 1 : -1;
-          L.arrows.push({ x: target.x, y: target.y - 11 * dir, dir, kind: t.line ?? kindOut });
+          L.arrows.push({ x: target.x, y: target.y - 11 * dir, dir, color: lineColor(t.line ?? kindOut) });
         }
       } else if (cOut) {
-        L.strokes.push({ kind: kindOut, pts: bezier([runEnd, y], [target.x, target.y]) });
+        L.strokes.push({ kind: kindOut, pts: conn([runEnd, y], [target.x, target.y]), reverse: rev });
       }
+    } else if (t.end) {
+      textStack(endX + 12, y + 5, t.end.label, lines(t.end.note), titleColor(kindOut), "start", false);
     }
   };
 
@@ -556,86 +646,167 @@ export function layout(spec: Spec): Layout {
 
 // ---------- SVG ----------
 
-interface Palette {
-  bg: string;
-  card: string;
-  edge: string;
-  ink: string;
-  muted: string;
-  model: string;
-  human: string;
-  danger: string;
-}
+type Palette = Record<(typeof TOKENS)[number] | "bg" | "card" | "edge", string>;
 const LIGHT: Palette = {
   bg: "#fafafa",
   card: "#ffffff",
   edge: "#ececec",
   ink: "#1f1f1f",
-  muted: "#8a8a8a",
-  model: "#4a7bf7",
-  human: "#f0a030",
-  danger: "#e5484d",
+  gray: "#8a8a8a",
+  blue: "#4a7bf7",
+  orange: "#f0a030",
+  red: "#e5484d",
+  green: "#2f9e5b",
+  purple: "#8b5cf6",
+  teal: "#0f9fa8",
+  pink: "#e04f9b",
 };
 const DARK: Palette = {
   bg: "#141414",
   card: "#1b1b1b",
   edge: "#2a2a2a",
   ink: "#e8e8e8",
-  muted: "#8f8f8f",
-  model: "#7aa2ff",
-  human: "#f5b04a",
-  danger: "#ff6b6f",
+  gray: "#8f8f8f",
+  blue: "#7aa2ff",
+  orange: "#f5b04a",
+  red: "#ff6b6f",
+  green: "#4cc47e",
+  purple: "#a98bff",
+  teal: "#3cc4cc",
+  pink: "#f27ab8",
 };
 
 /** Literal colors, no CSS variables, so rasterizers like resvg render the same thing browsers do. */
 function css(p: Palette): string {
-  return `
-.bg{fill:${p.bg}} .card{fill:${p.card};stroke:${p.edge}}
-.s-code,.s-model,.s-human,.s-wait{fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.s-code{stroke:${p.ink}} .s-model{stroke:${p.model}}
-.s-human{stroke:${p.human};stroke-dasharray:9 7;stroke-linecap:butt}
-.s-wait{stroke:${p.muted};stroke-dasharray:0.1 7;stroke-width:2.6}
-.g-ink,.a-code,.t-ink,.t-code,.t-title{fill:${p.ink}} .g-danger,.t-danger{fill:${p.danger}}
-.g-model,.a-model,.t-model{fill:${p.model}} .g-human,.a-human,.t-human{fill:${p.human}} .a-wait,.t-note{fill:${p.muted}}
-.g-read{fill:${p.card};stroke:${p.ink};stroke-width:2.4}
-.g-trust{fill:${p.card};stroke:${p.human};stroke-width:2.8}
-.g-gate{fill:${p.card};stroke:${p.human};stroke-width:2.4}
-`;
+  const rules = [
+    `.bg{fill:${p.bg}}`,
+    `.card{fill:${p.card};stroke:${p.edge}}`,
+    `.f-card{fill:${p.card}}`,
+    `.k-card{stroke:${p.card}}`,
+  ];
+  for (const t of TOKENS) rules.push(`.f-${t}{fill:${p[t]}}`, `.k-${t}{stroke:${p[t]}}`);
+  return "\n" + rules.join("\n") + "\n";
 }
 
-function strokePath(s: Stroke): string {
-  const pts = s.kind === "model" ? wave(s.pts) : s.pts;
+const fillAttr = (c: Color) => (c.startsWith("#") ? `fill="${c}"` : `class="f-${c}"`);
+const strokeCls = (c: Color) => (c.startsWith("#") ? { cls: "", attr: ` stroke="${c}"` } : { cls: `k-${c}`, attr: "" });
+
+function pathD(pts: Pt[]) {
   return pts.map(([x, y], i) => `${i ? "L" : "M"}${r1(x)} ${r1(y)}`).join("");
 }
 
-function glyphSvg(g: Glyph): string {
+function strokeSvg(V: Vocab, s: Stroke): string {
+  const d = V.lines[s.kind];
+  const color = d.color ?? "ink";
+  const { cls, attr } = strokeCls(color);
+  const dpath = pathD(displace(s.pts, d.stroke));
+  const base = `fill="none" stroke-linejoin="round"`;
+  let out: string;
+  switch (d.stroke) {
+    case "dashed":
+      out = `<path d="${dpath}" ${base} stroke-width="2.2" stroke-dasharray="9 7" class="${cls}"${attr}/>`;
+      break;
+    case "dotted":
+      out =
+        `<path d="${dpath}" ${base} stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="${cls}"${attr}/>`;
+      break;
+    case "double":
+      out = `<path d="${dpath}" ${base} stroke-width="6.5" class="${cls}"${attr}/>` +
+        `<path d="${dpath}" ${base} stroke-width="2.3" class="k-card"/>`;
+      break;
+    default:
+      out = `<path d="${dpath}" ${base} stroke-width="2.2" stroke-linecap="round" class="${cls}"${attr}/>`;
+  }
+  if (d.arrow) out += chevron(s.pts, color, !!s.reverse);
+  return out;
+}
+
+/** A direction chevron at the stroke's midpoint (by arc length), pointing along it. */
+function chevron(pts: Pt[], color: Color, reverse: boolean): string {
+  const ds = dense(pts);
+  const total = ds[ds.length - 1].s;
+  if (total < 24) return "";
+  const m = ds.find((q) => q.s >= total / 2) ?? ds[ds.length - 1];
+  const sgn = reverse ? -1 : 1;
+  const tx = m.tx * sgn, ty = m.ty * sgn, nx = -ty, ny = tx;
+  const [x, y] = m.p;
+  const tip: Pt = [x + tx * 6, y + ty * 6];
+  const a: Pt = [x - tx * 5 + nx * 6, y - ty * 5 + ny * 6];
+  const b: Pt = [x - tx * 5 - nx * 6, y - ty * 5 - ny * 6];
+  return `<path d="${pathD([a, tip, b])}Z" ${fillAttr(color)}/>`;
+}
+
+function glyphSvg(V: Vocab, g: Glyph): string {
+  const d = V.vertices[g.kind];
+  let color: Color = d.color ?? "ink";
+  if (g.kind === "branch" && g.by) color = V.lines[g.by]?.color ?? (validColor(g.by) ? (g.by as Color) : color);
+  const hollow = d.fill === "hollow";
+  const s = d.size ?? 9;
   const { x, y } = g;
-  switch (g.kind) {
-    case "read":
-      return `<circle cx="${x}" cy="${y}" r="7.5" class="g-read"/>`;
-    case "reversible":
-      return `<path d="M${x} ${y - 10}L${x + 10} ${y}L${x} ${y + 10}L${x - 10} ${y}Z" class="g-ink"/>`;
-    case "irreversible":
-      return `<path d="M${x} ${y - 10}L${x + 10} ${y}L${x} ${y + 10}L${x - 10} ${y}Z" class="g-danger"/>`;
-    case "trust":
-      return `<circle cx="${x}" cy="${y}" r="8" class="g-trust"/>`;
-    case "stop":
-      return `<rect x="${x - 2}" y="${y - 15}" width="4" height="30" rx="1" class="g-ink"/>`;
-    case "branch": {
-      const c = g.by === "model" ? "g-model" : g.by === "human" ? "g-human" : "g-ink";
-      return `<path d="M${x} ${y - 7.5}L${x + 7.5} ${y}L${x} ${y + 7.5}L${x - 7.5} ${y}Z" class="${c}"/>`;
+  const { cls, attr } = strokeCls(color);
+  const paint = hollow
+    ? `class="f-card ${cls}"${attr} stroke-width="2.5" stroke-linejoin="round"`
+    : `${fillAttr(color)}`;
+  const poly = (ps: Pt[]) => `<path d="${pathD(ps)}Z" ${paint}/>`;
+  switch (d.shape) {
+    case "circle":
+      return `<circle cx="${x}" cy="${y}" r="${r1(s * 0.83)}" ${paint}/>`;
+    case "dot":
+      return `<circle cx="${x}" cy="${y}" r="${r1(s * 0.45)}" ${paint}/>`;
+    case "diamond":
+      return poly([[x, y - s - 1], [x + s + 1, y], [x, y + s + 1], [x - s - 1, y]]);
+    case "square": {
+      const h = s * 0.9;
+      return poly([[x - h, y - h], [x + h, y - h], [x + h, y + h], [x - h, y + h]]);
     }
-    case "junction":
-      return `<circle cx="${x}" cy="${y}" r="4" class="g-ink"/>`;
-    case "gate":
-      return `<rect x="${x - 8}" y="${y - 8}" width="16" height="16" class="g-gate"/>`;
+    case "triangle":
+      return poly([[x, y - s * 1.05], [x + s, y + s * 0.75], [x - s, y + s * 0.75]]);
+    case "hexagon":
+      return poly(
+        Array.from(
+          { length: 6 },
+          (_, i) => [x + s * Math.cos((Math.PI / 3) * i), y + s * Math.sin((Math.PI / 3) * i)] as Pt,
+        ),
+      );
+    case "star":
+      return poly(Array.from({ length: 10 }, (_, i) => {
+        const r = i % 2 ? s * 0.48 : s * 1.15, a = -Math.PI / 2 + (Math.PI / 5) * i;
+        return [x + r * Math.cos(a), y + r * Math.sin(a)] as Pt;
+      }));
+    case "cross": {
+      const h = s * 0.8;
+      return `<path d="M${x - h} ${y - h}L${x + h} ${y + h}M${x + h} ${y - h}L${x - h} ${
+        y + h
+      }" stroke-width="3" stroke-linecap="round" class="${cls}"${attr}/>`;
+    }
+    case "bar":
+      return `<rect x="${x - 2}" y="${y - 15}" width="4" height="30" rx="1" ${fillAttr(color)}/>`;
   }
 }
 
-function labelSvg(l: Label): string {
-  return `<text x="${r1(l.x)}" y="${r1(l.y)}" font-size="${l.size}" text-anchor="${l.anchor}" class="${l.cls}"${
+/** Symbol blocks (arrows, math operators, technical, shapes, dingbats) that sans faces often lack. */
+const SYMBOLS = /[←-⏿■-➿⤀-⯿]+/g;
+
+/** Escape text and set symbol runs in monospace, so a missing glyph never falls back to a serif face. */
+function textContent(s: string): string {
+  let out = "", last = 0;
+  for (const m of s.matchAll(SYMBOLS)) {
+    out += esc(s.slice(last, m.index)) + `<tspan font-family="${MONO}">${esc(m[0])}</tspan>`;
+    last = m.index! + m[0].length;
+  }
+  return out + esc(s.slice(last));
+}
+
+/**
+ * Browsers fall back per glyph, so only the symbol run goes monospace. resvg switches a whole <text> to its fallback
+ * face when any glyph is missing (a tspan does not stop it), so for PNG a line with symbols is set in monospace.
+ * resvg also honors only the first family in a list, so PNG names one installed monospace face.
+ */
+function labelSvg(l: Label, png = false): string {
+  const sym = png && new RegExp(SYMBOLS.source).test(l.text);
+  return `<text x="${r1(l.x)}" y="${r1(l.y)}" font-size="${l.size}" text-anchor="${l.anchor}" ${fillAttr(l.color)}${
     l.bold ? ` font-weight="600"` : ""
-  }>${esc(l.text)}</text>`;
+  }${sym ? ` font-family="${pngMono()}"` : ""}>${sym ? esc(l.text) : textContent(l.text)}</text>`;
 }
 
 function labelBox(l: Label): [number, number, number, number] {
@@ -644,23 +815,34 @@ function labelBox(l: Label): [number, number, number, number] {
   return [x0, l.y - l.size, x0 + w, l.y + 4];
 }
 
-function legendItems(spec: Spec, L: Layout): { key: LineKind | VertexKind; text: string }[] {
-  if (spec.legend === false) return [];
-  const used = new Set<string>([...L.strokes.map((s) => s.kind), ...L.glyphs.map((g) => g.kind)]);
-  const custom = spec.legend ?? {};
-  return LEGEND_ORDER.filter((k) => used.has(k)).map((k) => ({ key: k, text: custom[k] ?? DEFAULT_LEGEND[k] }));
+interface LegendItem {
+  kind: string;
+  isLine: boolean;
+  text: string;
 }
 
-function legendSample(key: LineKind | VertexKind, x: number, y: number): string {
-  if ((LINE_KINDS as string[]).includes(key)) {
-    return `<path d="${strokePath({ kind: key as LineKind, pts: [[x, y], [x + 70, y]] })}" class="s-${key}"/>`;
+function legendItems(spec: Spec, V: Vocab, L: Layout): LegendItem[] {
+  if (spec.legend === false) return [];
+  const usedL = new Set(L.strokes.map((s) => s.kind));
+  const usedV = new Set(L.glyphs.map((g) => g.kind));
+  const custom = spec.legend ?? {};
+  const out: LegendItem[] = [];
+  for (const [k, d] of Object.entries(V.lines)) {
+    if (usedL.has(k)) out.push({ kind: k, isLine: true, text: custom[k] ?? d.legend ?? k });
   }
-  return glyphSvg({ kind: key as VertexKind, x: x + 10, y, by: undefined });
+  for (const [k, d] of Object.entries(V.vertices)) {
+    if (k === "stop" || !usedV.has(k)) continue;
+    const text = custom[k] ?? d.legend;
+    if (text) out.push({ kind: k, isLine: false, text });
+  }
+  if (usedV.has("stop")) out.push({ kind: "stop", isLine: false, text: custom.stop ?? "stops" });
+  return out;
 }
 
 export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string; warnings: string[] } {
   const errs = validate(spec);
   if (errs.length) throw new Error(`invalid spec:\n  - ${errs.join("\n  - ")}`);
+  const V = vocabOf(spec);
   const L = layout(spec);
 
   // bounds of the diagram body
@@ -668,8 +850,8 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
   const grow = (x0: number, y0: number, x1 = x0, y1 = y0) => {
     minX = Math.min(minX, x0), minY = Math.min(minY, y0), maxX = Math.max(maxX, x1), maxY = Math.max(maxY, y1);
   };
-  L.strokes.forEach((s) => s.pts.forEach(([x, y]) => grow(x, y - WAVE_AMP, x, y + WAVE_AMP)));
-  L.glyphs.forEach((g) => grow(g.x - 16, g.y - 16, g.x + 16, g.y + 16));
+  L.strokes.forEach((s) => s.pts.forEach(([x, y]) => grow(x - 8, y - 8, x + 8, y + 8)));
+  L.glyphs.forEach((g) => grow(g.x - 18, g.y - 18, g.x + 18, g.y + 18));
   L.labels.forEach((l) => {
     const [a, b, c, d] = labelBox(l);
     grow(a, b, c, d);
@@ -681,72 +863,78 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
   const bodyH = maxY - minY + pad * 2 + timeH;
 
   // legend rows, wrapped to the body width
-  const items = legendItems(spec, L);
-  const legendRows: { key: LineKind | VertexKind; text: string; x: number }[][] = [];
+  const items = legendItems(spec, V, L);
+  const rows: (LegendItem & { x: number })[][] = [];
   const width = Math.max(bodyW, 640);
   {
-    let row: { key: LineKind | VertexKind; text: string; x: number }[] = [];
+    let row: (LegendItem & { x: number })[] = [];
     let x = 24;
     for (const it of items) {
-      const sample = (LINE_KINDS as string[]).includes(it.key) ? 82 : 30;
-      const w = sample + textW(it.text, LABEL) * 0.92 + 30;
-      if (row.length && x + w > width - 24) legendRows.push(row), (row = []), (x = 24);
+      const w = (it.isLine ? 82 : 30) + textW(it.text, LABEL) * 0.92 + 30;
+      if (row.length && x + w > width - 24) rows.push(row), (row = []), (x = 24);
       row.push({ ...it, x });
       x += w;
     }
-    if (row.length) legendRows.push(row);
+    if (row.length) rows.push(row);
   }
   const titleH = spec.title ? 44 : 0;
-  const legendH = legendRows.length ? legendRows.length * 38 + 22 : 0;
-  const gap = legendH ? 18 : 0;
-  const top = titleH + legendH + gap;
+  const legendH = rows.length ? rows.length * 38 + 22 : 0;
+  const top = titleH + legendH + (legendH ? 18 : 0);
   const H = top + bodyH;
   const ox = pad - minX + (width - bodyW) / 2, oy = top + pad - minY;
 
   const out: string[] = [];
   out.push(
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${r1(width)} ${r1(H)}" width="${r1(width)}" height="${
-      r1(H)
-    }" ` +
-      `font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">`,
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${r1(width)} ${r1(H)}" width="${r1(width)}" ` +
+      `height="${r1(H)}" font-family="${FONT}">`,
   );
   if (spec.title) out.push(`<title>${esc(spec.title)}</title>`);
-  out.push(`<style>${css(LIGHT)}${
-    opts.png ? "" : `
-@media (prefers-color-scheme: dark) {${css(DARK)}}`
-  }</style>`);
+  out.push(`<style>${css(LIGHT)}${opts.png ? "" : `@media (prefers-color-scheme: dark) {${css(DARK)}}`}</style>`);
   out.push(`<rect class="bg" width="100%" height="100%"/>`);
   if (spec.title) {
-    out.push(`<text x="24" y="32" font-size="20" font-weight="650" class="t-title">${esc(spec.title)}</text>`);
+    out.push(`<text x="24" y="32" font-size="20" font-weight="650" class="f-ink">${esc(spec.title)}</text>`);
   }
-  if (legendRows.length) {
+  if (rows.length) {
     out.push(`<rect class="card" x="8" y="${titleH + 8}" width="${r1(width - 16)}" height="${legendH - 8}" rx="10"/>`);
-    legendRows.forEach((row, ri) => {
+    rows.forEach((row, ri) => {
       const y = titleH + 8 + 26 + ri * 38;
-      row.forEach((it) => {
-        const isL = (LINE_KINDS as string[]).includes(it.key);
-        out.push(legendSample(it.key, it.x, y));
+      for (const it of row) {
         out.push(
-          labelSvg({ x: it.x + (isL ? 82 : 30), y: y + 5, text: it.text, cls: "t-ink", size: LABEL, anchor: "start" }),
+          it.isLine
+            ? strokeSvg(V, { kind: it.kind, pts: [[it.x, y], [it.x + 70, y]] })
+            : glyphSvg(V, { kind: it.kind, x: it.x + 10, y }),
         );
-      });
+        out.push(
+          labelSvg({
+            x: it.x + (it.isLine ? 82 : 30),
+            y: y + 5,
+            text: it.text,
+            color: "ink",
+            size: LABEL,
+            anchor: "start",
+          }, opts.png),
+        );
+      }
     });
   }
   out.push(`<rect class="card" x="8" y="${r1(top)}" width="${r1(width - 16)}" height="${r1(bodyH - 8)}" rx="12"/>`);
   out.push(`<g transform="translate(${r1(ox)} ${r1(oy)})">`);
-  L.strokes.forEach((s) => out.push(`<path d="${strokePath(s)}" class="s-${s.kind}"/>`));
+  L.strokes.forEach((s) => out.push(strokeSvg(V, s)));
   L.arrows.forEach((a) => {
     const d = a.dir;
     out.push(
-      `<path d="M${a.x - 5} ${a.y - 6 * d}L${a.x + 5} ${a.y - 6 * d}L${a.x} ${a.y + 2 * d}Z" class="a-${a.kind}"/>`,
+      `<path d="M${a.x - 5} ${a.y - 6 * d}L${a.x + 5} ${a.y - 6 * d}L${a.x} ${a.y + 2 * d}Z" ${fillAttr(a.color)}/>`,
     );
   });
-  L.glyphs.forEach((g) => out.push(glyphSvg(g)));
-  L.labels.forEach((l) => out.push(labelSvg(l)));
+  L.glyphs.forEach((g) => out.push(glyphSvg(V, g)));
+  L.labels.forEach((l) => out.push(labelSvg(l, opts.png)));
   out.push(`</g>`);
   if (spec.time !== false) {
     out.push(
-      labelSvg({ x: 30, y: H - 24, text: `${spec.time ?? "time"} →`, cls: "t-note", size: NOTE, anchor: "start" }),
+      labelSvg(
+        { x: 30, y: H - 24, text: `${spec.time ?? "time"} →`, color: "gray", size: NOTE, anchor: "start" },
+        opts.png,
+      ),
     );
   }
   out.push(`</svg>`);
@@ -754,6 +942,11 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
 }
 
 // ---------- CLI ----------
+
+/** One monospace face per OS that covers arrows and math symbols (Cascadia Mono and Consolas do not). */
+function pngMono(): string {
+  return Deno.build.os === "windows" ? "MS Gothic" : Deno.build.os === "darwin" ? "Menlo" : "DejaVu Sans Mono";
+}
 
 if (import.meta.main) {
   const args = [...Deno.args];
@@ -787,8 +980,9 @@ if (import.meta.main) {
     const { Resvg } = await import("npm:@resvg/resvg-js@2.6.2");
     const png = new Resvg(render(spec, { png: true }).svg, {
       fitTo: { mode: "zoom", value: 2 },
-      font: { loadSystemFonts: true },
-    }).render().asPng();
+      font: { loadSystemFonts: true, serifFamily: pngMono(), monospaceFamily: pngMono() },
+    })
+      .render().asPng();
     await Deno.writeFile(pngPath, png);
     console.log(`wrote ${pngPath}`);
   }
