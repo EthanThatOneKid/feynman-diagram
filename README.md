@@ -50,7 +50,8 @@ The spec format is in [`references/spec.md`](skills/feynman-diagram/references/s
 
 ## Provenance
 
-The `agent` preset follows a hand-drawn diagram of an inbox-triage agent, which
+The `agent` preset follows a hand-drawn diagram of an inbox-triage agent by Sam Collins
+([@smcllns](https://x.com/smcllns/status/2122390025816207504)), which
 [`examples/inbox-triage.json`](examples/inbox-triage.json) recreates. The split between Substance and Style, where the
 agent writes semantics and the renderer owns geometry, comes from Wen et al.,
 [_Feynman: Knowledge-Infused Diagramming Agent for Scalable Visual Designs_](https://arxiv.org/abs/2603.12597) (CMU,
