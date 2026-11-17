@@ -476,10 +476,17 @@ export function layout(spec: Spec): Layout {
     }
 
     const widths = steps.map((s, i) => (isLine(s) ? naturalLen(steps, i) : 0));
-    // a trigger's own label sits over the first stretch, so that stretch must be at least as wide
-    if (t.start && !t.merge && steps[0] && implicitSteps.has(steps[0])) {
+    // a trigger's own label sits over the start of the first stretch: widen that stretch to clear it, and keep the
+    // stretch's own label and note to the right of it
+    let startInset = 0;
+    if (t.start && !t.merge && steps[0] && isLine(steps[0])) {
       const need = Math.max(textW(t.start.label, LABEL, true), ...lines(t.start.note).map((n) => textW(n, NOTE)));
-      widths[0] = Math.max(widths[0], need + 18 + belowHalf(steps[1]));
+      const first = steps[0] as LineStep;
+      if (implicitSteps.has(first)) widths[0] = Math.max(widths[0], need + 18 + belowHalf(steps[1]));
+      else if (first.label || lines(first.note).length) {
+        startInset = need + 18;
+        if (first.len === undefined) widths[0] += startInset;
+      }
     }
     const target = t.merge ? pos.get(t.merge)! : undefined;
     let runEnd = runStart + widths.reduce((a, b) => a + b, 0);
@@ -532,7 +539,8 @@ export function layout(spec: Spec): Layout {
       const w = widths[i];
       if (isLine(s)) {
         L.strokes.push({ kind: s.line, pts: [[cx, y], [cx + w, y]], reverse: rev });
-        const mid = cx + (w - (s.label ? aboveLeftW(steps[i + 1]) : 0)) / 2;
+        const inset = i === 0 ? startInset : 0;
+        const mid = cx + inset + (w - inset - (s.label ? aboveLeftW(steps[i + 1]) : 0)) / 2;
         if (s.label) {
           const own = lineColor(s.line);
           const color: Color = lastBranch ? lineColor(lastBranch) : own === "gray" ? "ink" : own;
@@ -546,7 +554,8 @@ export function layout(spec: Spec): Layout {
             bold: color !== "ink" || !!lastBranch,
           });
         }
-        const [ia, ib] = insets(steps, i);
+        const [ia0, ib] = insets(steps, i);
+        const ia = Math.max(ia0, inset);
         textStack(cx + ia + (w - ia - ib) / 2, y + 30, undefined, lines(s.note), "gray", "middle", false);
         if (s.probe) {
           const p = s.probe;

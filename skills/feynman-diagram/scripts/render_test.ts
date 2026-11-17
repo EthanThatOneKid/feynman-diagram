@@ -84,3 +84,14 @@ Deno.test("wide diagrams warn unless maxWidth allows them", () => {
   assert(render(spec).warnings.some((w) => w.includes("wide")));
   assertEquals(render({ ...spec, maxWidth: 0 }).warnings, []);
 });
+
+Deno.test("a trigger label never overlaps the first stretch's own label", () => {
+  const { svg } = render({
+    preset: "agent",
+    tracks: [{ lane: 0, start: { label: "agent needs a fact" }, steps: [{ line: "model", label: "Recall" }] }],
+  });
+  const x = (text: string) => Number(svg.match(new RegExp(`<text x="([\\d.]+)"[^>]*>${text}<`))![1]);
+  const startRight = x("agent needs a fact") + "agent needs a fact".length * 15 * 0.6;
+  const recallLeft = x("Recall") - ("Recall".length * 15 * 0.6) / 2;
+  assert(recallLeft > startRight, `Recall starts at ${recallLeft}, trigger label ends at ${startRight}`);
+});
