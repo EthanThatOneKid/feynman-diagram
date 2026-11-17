@@ -95,6 +95,7 @@ and `package-shipment` (custom vocabulary). Each has its `.json` spec and render
 
 ## Provenance
 
-The `agent` preset follows a hand-drawn diagram of an inbox-triage assistant (recreated in `examples/`). The split
-between Substance and Style, where the agent writes semantics and a renderer owns layout, follows Wen et al., "Feynman:
-Knowledge-Infused Diagramming Agent for Scalable Visual Designs" (arXiv:2603.12597).
+The `agent` preset follows a hand-drawn diagram of an inbox-triage assistant by Sam Collins
+([@smcllns](https://x.com/smcllns/status/2122390025816207504)), recreated in `examples/`. The split between Substance
+and Style, where the agent writes semantics and a renderer owns layout, follows Wen et al., "Feynman: Knowledge-Infused
+Diagramming Agent for Scalable Visual Designs" (arXiv:2603.12597).
