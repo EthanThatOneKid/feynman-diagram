@@ -1,0 +1,9 @@
+{
+  "tasks": {
+    "render": "deno run --allow-read --allow-write --allow-env --allow-ffi --allow-sys --allow-net skills/feynman-diagram/scripts/render.ts",
+    "examples": "deno task render examples/inbox-triage.json --png examples/inbox-triage.png",
+    "test": "deno test --allow-read skills/feynman-diagram/scripts/"
+  },
+  "fmt": { "lineWidth": 120 },
+  "lint": { "rules": { "exclude": ["no-sequences", "no-import-prefix"] } }
+}

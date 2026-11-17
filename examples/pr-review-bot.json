@@ -1,0 +1,67 @@
+{
+  "title": "PR review bot",
+  "legend": { "human": "the maintainer decides" },
+  "tracks": [
+    {
+      "id": "main",
+      "lane": 0,
+      "start": { "label": "PR opened", "note": "if busy: queued" },
+      "steps": [
+        { "line": "code", "len": 140 },
+        { "vertex": "junction", "id": "in" },
+        { "line": "code" },
+        { "vertex": "read", "label": "fetch diff" },
+        {
+          "line": "model",
+          "label": "Review",
+          "note": ["find bugs worth a comment", "read-only token"],
+          "probe": { "label": "may open", "note": "related files" }
+        },
+        { "vertex": "reversible", "label": "draft comments", "labelPos": "above" },
+        { "line": "code" },
+        { "vertex": "branch", "id": "sev", "by": "model" },
+        { "line": "code", "label": "blocking" },
+        { "vertex": "gate", "id": "ask", "label": "Post these?" },
+        { "line": "wait", "note": "asleep until a reply", "len": 190 },
+        { "vertex": "branch", "id": "answer", "by": "human" },
+        { "line": "code", "label": "post", "len": 120 },
+        { "vertex": "irreversible", "label": "post review" },
+        { "line": "code", "len": 60 },
+        { "vertex": "stop" }
+      ]
+    },
+    { "lane": -1.4, "start": { "label": "new push", "note": "if busy: restart" }, "merge": "in" },
+    {
+      "lane": 1.25,
+      "from": "sev",
+      "label": "nits only",
+      "steps": [
+        { "line": "code", "len": 110 },
+        { "vertex": "reversible", "label": "add label “nits”" },
+        { "line": "code", "len": 60 },
+        { "vertex": "stop" }
+      ]
+    },
+    {
+      "lane": 2.25,
+      "from": "sev",
+      "label": "clean",
+      "steps": [{ "line": "code", "len": 110 }, { "vertex": "stop", "note": "nothing posted" }]
+    },
+    {
+      "lane": -2,
+      "line": "human",
+      "from": "ask",
+      "merge": "answer",
+      "shape": "square",
+      "label": "maintainer answers",
+      "note": "silence for 3 days answers “drop”"
+    },
+    {
+      "lane": 1,
+      "from": "answer",
+      "label": "drop",
+      "steps": [{ "line": "code", "len": 110 }, { "vertex": "stop", "note": "draft discarded" }]
+    }
+  ]
+}

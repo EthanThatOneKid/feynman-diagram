@@ -1,0 +1,252 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1375.1 816.8" width="1375.1" height="816.8"
+  font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <title>PR review bot</title>
+  <style>
+  .bg {
+    fill: #fafafa;
+  }
+  .card {
+    fill: #ffffff;
+    stroke: #ececec;
+  }
+  .s-code,
+  .s-model,
+  .s-human,
+  .s-wait {
+    fill: none;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .s-code {
+    stroke: #1f1f1f;
+  }
+  .s-model {
+    stroke: #4a7bf7;
+  }
+  .s-human {
+    stroke: #f0a030;
+    stroke-dasharray: 9 7;
+    stroke-linecap: butt;
+  }
+  .s-wait {
+    stroke: #8a8a8a;
+    stroke-dasharray: 0.1 7;
+    stroke-width: 2.6;
+  }
+  .g-ink,
+  .a-code,
+  .t-ink,
+  .t-code,
+  .t-title {
+    fill: #1f1f1f;
+  }
+  .g-danger,
+  .t-danger {
+    fill: #e5484d;
+  }
+  .g-model,
+  .a-model,
+  .t-model {
+    fill: #4a7bf7;
+  }
+  .g-human,
+  .a-human,
+  .t-human {
+    fill: #f0a030;
+  }
+  .a-wait,
+  .t-note {
+    fill: #8a8a8a;
+  }
+  .g-read {
+    fill: #ffffff;
+    stroke: #1f1f1f;
+    stroke-width: 2.4;
+  }
+  .g-trust {
+    fill: #ffffff;
+    stroke: #f0a030;
+    stroke-width: 2.8;
+  }
+  .g-gate {
+    fill: #ffffff;
+    stroke: #f0a030;
+    stroke-width: 2.4;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .bg {
+      fill: #141414;
+    }
+    .card {
+      fill: #1b1b1b;
+      stroke: #2a2a2a;
+    }
+    .s-code,
+    .s-model,
+    .s-human,
+    .s-wait {
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .s-code {
+      stroke: #e8e8e8;
+    }
+    .s-model {
+      stroke: #7aa2ff;
+    }
+    .s-human {
+      stroke: #f5b04a;
+      stroke-dasharray: 9 7;
+      stroke-linecap: butt;
+    }
+    .s-wait {
+      stroke: #8f8f8f;
+      stroke-dasharray: 0.1 7;
+      stroke-width: 2.6;
+    }
+    .g-ink,
+    .a-code,
+    .t-ink,
+    .t-code,
+    .t-title {
+      fill: #e8e8e8;
+    }
+    .g-danger,
+    .t-danger {
+      fill: #ff6b6f;
+    }
+    .g-model,
+    .a-model,
+    .t-model {
+      fill: #7aa2ff;
+    }
+    .g-human,
+    .a-human,
+    .t-human {
+      fill: #f5b04a;
+    }
+    .a-wait,
+    .t-note {
+      fill: #8f8f8f;
+    }
+    .g-read {
+      fill: #1b1b1b;
+      stroke: #e8e8e8;
+      stroke-width: 2.4;
+    }
+    .g-trust {
+      fill: #1b1b1b;
+      stroke: #f5b04a;
+      stroke-width: 2.8;
+    }
+    .g-gate {
+      fill: #1b1b1b;
+      stroke: #f5b04a;
+      stroke-width: 2.4;
+    }
+  }
+  </style>
+  <rect class="bg" width="100%" height="100%" />
+  <text x="24" y="32" font-size="20" font-weight="650" class="t-title">PR review bot</text>
+  <rect class="card" x="8" y="52" width="1359.1" height="90" rx="10" />
+  <path d="M24 78L94 78" class="s-code" />
+  <text x="106" y="83" font-size="15" text-anchor="start" class="t-ink">code decides</text>
+  <path
+    d="M225.4 78L226.9 80.5L228.4 82.5L229.9 83.7L231.4 83.9L232.9 83.1L234.4 81.3L235.8 79L237.3 76.5L238.8 74.2L240.3 72.6L241.8 72L243.3 72.5L244.8 73.9L246.3 76.1L247.8 78.6L249.3 81L250.7 82.9L252.2 83.9L253.7 83.8L255.2 82.8L256.7 80.8L258.2 78.4L259.7 75.9L261.2 73.8L262.7 72.4L264.1 72L265.6 72.7L267.1 74.3L268.6 76.6L270.1 79.2L271.6 81.5L273.1 83.2L274.6 84L276.1 83.7L277.6 82.4L279 80.3L280.5 77.8L282 75.4L283.5 73.4L285 72.2L286.5 72.1L288 73L289.5 74.8L291 77.2L292.4 79.7L293.9 81.9L295.4 83.5"
+    class="s-model" />
+  <text x="307.4" y="83" font-size="15" text-anchor="start" class="t-ink">the model decides</text>
+  <path d="M464.1 78L534.1 78" class="s-human" />
+  <text x="546.1" y="83" font-size="15" text-anchor="start" class="t-ink">the maintainer decides</text>
+  <path d="M740.1 78L810.1 78" class="s-wait" />
+  <text x="822.1" y="83" font-size="15" text-anchor="start" class="t-ink">asleep, waiting</text>
+  <circle cx="973.8320000000001" cy="78" r="7.5" class="g-read" />
+  <text x="993.8" y="83" font-size="15" text-anchor="start" class="t-ink">reads the world</text>
+  <path d="M34 106L44 116L34 126L24 116Z" class="g-ink" />
+  <text x="54" y="121" font-size="15" text-anchor="start" class="t-ink">changes the world, can be undone</text>
+  <path d="M332.46400000000006 106L342.46400000000006 116L332.46400000000006 126L322.46400000000006 116Z"
+    class="g-danger" />
+  <text x="352.5" y="121" font-size="15" text-anchor="start" class="t-ink">changes the world, cannot be undone</text>
+  <rect x="645.2840000000001" y="108" width="16" height="16" class="g-gate" />
+  <text x="673.3" y="121" font-size="15" text-anchor="start" class="t-ink">asks a human</text>
+  <rect x="800.7080000000001" y="101" width="4" height="30" rx="1" class="g-ink" />
+  <text x="822.7" y="121" font-size="15" text-anchor="start" class="t-ink">stops</text>
+  <rect class="card" x="8" y="160" width="1359.1" height="648.8" rx="12" />
+  <g transform="translate(0 472)">
+    <path d="M40 0L180 0" class="s-code" />
+    <path d="M180 0L270 0" class="s-code" />
+    <path
+      d="M270 0L271.5 2.5L273 4.5L274.5 5.7L276 5.9L277.5 5.1L279 3.3L280.5 0.9L282 -1.6L283.4 -3.9L284.9 -5.4L286.4 -6L287.9 -5.5L289.4 -4L290.9 -1.8L292.4 0.7L293.9 3.1L295.4 5L296.9 5.9L298.4 5.8L299.9 4.7L301.4 2.7L302.9 0.2L304.4 -2.3L305.9 -4.4L307.4 -5.7L308.8 -6L310.3 -5.2L311.8 -3.5L313.3 -1.1L314.8 1.4L316.3 3.7L317.8 5.3L319.3 6L320.8 5.6L322.3 4.2L323.8 2L325.3 -0.5L326.8 -2.9L328.3 -4.8L329.8 -5.9L331.3 -5.9L332.8 -4.8L334.2 -2.9L335.7 -0.4L337.2 2.1L338.7 4.2L340.2 5.6L341.7 6L343.2 5.3L344.7 3.7L346.2 1.4L347.7 -1.2L349.2 -3.5L350.7 -5.2L352.2 -6L353.7 -5.7L355.2 -4.3L356.7 -2.2L358.2 0.3L359.6 2.7L361.1 4.7L362.6 5.8L364.1 5.9L365.6 4.9L367.1 3.1L368.6 0.7L370.1 -1.9L371.6 -4.1L373.1 -5.5L374.6 -6L376.1 -5.4L377.6 -3.8L379.1 -1.6L380.6 1L382.1 3.3L383.6 5.1L385 5.9L386.5 5.7L388 4.5L389.5 2.5L391 0L392.5 -2.5L394 -4.5L395.5 -5.8L397 -5.9L398.5 -5.1L400 -3.3L401.5 -0.9L403 1.6L404.5 3.9L406 5.4L407.5 6L408.9 5.5L410.4 4L411.9 1.8L413.4 -0.7L414.9 -3.1L416.4 -5L417.9 -5.9L419.4 -5.8L420.9 -4.6L422.4 -2.7L423.9 -0.2L425.4 2.3L426.9 4.4L428.4 5.7L429.9 6L431.4 5.2L432.9 3.4L434.3 1.1L435.8 -1.4L437.3 -3.7L438.8 -5.3L440.3 -6L441.8 -5.6L443.3 -4.2L444.8 -2L446.3 0.5L447.8 2.9L449.3 4.8L450.8 5.9L452.3 5.9L453.8 4.8L455.3 2.9L456.8 0.4L458.3 -2.1L459.7 -4.2L461.2 -5.6L462.7 -6L464.2 -5.3L465.7 -3.6L467.2 -1.3L468.7 1.2L470.2 3.5L471.7 5.2L473.2 6L474.7 5.7L476.2 4.3L477.7 2.2L479.2 -0.3L480.7 -2.7L482.2 -4.7L483.7 -5.8L485.1 -5.9L486.6 -4.9L488.1 -3L489.6 -0.6L491.1 1.9L492.6 4.1L494.1 5.5L495.6 6L497.1 5.4L498.6 3.8L500.1 1.5L501.6 -1L503.1 -3.4L504.6 -5.1L506.1 -6L507.6 -5.7L509.1 -4.5L510.5 -2.4L512 0.1L513.5 2.5L515 4.6L516.5 5.8L518 5.9L519.5 5L521 3.2L522.5 0.9"
+      class="s-model" />
+    <path
+      d="M439.3 0L441.7 -1.5L443.8 -3L445 -4.5L445.2 -6L444.3 -7.4L442.6 -8.9L440.2 -10.4L437.7 -11.9L435.4 -13.4L433.9 -14.9L433.3 -16.4L433.7 -17.9L435.1 -19.4L437.3 -20.9L439.8 -22.3L442.2 -23.8L444.1 -25.3L445.1 -26.8L445.1 -28.3L444 -29.8L442.1 -31.3L439.7 -32.8L437.1 -34.3L435 -35.7L433.6 -37.2L433.3 -38.7L434 -40.2L435.6 -41.7L437.9 -43.2L440.4 -44.7L442.7 -46.2L444.4 -47.7L445.2 -49.1L444.9 -50.6L443.6 -52.1L441.6 -53.6L439.1 -55.1L436.6 -56.6L434.6 -58.1L433.5 -59.6L433.3 -61.1L434.3 -62.6L436.1 -64L438.5 -65.5L441 -67L443.2 -68.5L444.7 -70"
+      class="s-model" />
+    <path d="M522.5 0L612.5 0" class="s-code" />
+    <path d="M612.5 0L825.5 0" class="s-code" />
+    <path d="M825.5 0L1015.5 0" class="s-wait" />
+    <path d="M1015.5 0L1135.5 0" class="s-code" />
+    <path d="M1135.5 0L1195.5 0" class="s-code" />
+    <path
+      d="M40 -161L44.3 -160.8L48.4 -160.2L52.3 -159.2L56.1 -157.8L59.8 -156.1L63.2 -154.1L66.6 -151.7L69.8 -149.1L72.9 -146.1L75.9 -142.9L78.8 -139.5L81.6 -135.8L84.3 -132L86.9 -127.9L89.4 -123.7L91.9 -119.3L94.3 -114.7L96.6 -110.1L98.9 -105.3L101.2 -100.4L103.4 -95.5L105.6 -90.5L107.8 -85.5L110 -80.5L112.2 -75.5L114.4 -70.5L116.6 -65.5L118.8 -60.6L121.1 -55.7L123.4 -50.9L125.7 -46.3L128.1 -41.7L130.6 -37.3L133.1 -33.1L135.7 -29L138.4 -25.2L141.2 -21.5L144.1 -18.1L147.1 -14.9L150.2 -11.9L153.4 -9.3L156.8 -6.9L160.2 -4.9L163.9 -3.2L167.7 -1.8L171.6 -0.8L175.7 -0.2L180 0"
+      class="s-code" />
+    <path
+      d="M612.5 0L615.8 0.2L618.9 0.7L621.9 1.6L624.8 2.8L627.5 4.4L630.2 6.2L632.7 8.3L635.2 10.6L637.5 13.3L639.8 16.1L642 19.2L644.1 22.5L646.1 25.9L648.1 29.6L650 33.3L651.9 37.3L653.7 41.3L655.5 45.5L657.3 49.7L659 54.1L660.7 58.5L662.4 62.9L664 67.4L665.7 71.9L667.4 76.4L669 80.8L670.7 85.3L672.4 89.7L674.1 94L675.9 98.3L677.7 102.4L679.5 106.5L681.3 110.4L683.3 114.2L685.3 117.8L687.3 121.3L689.4 124.6L691.6 127.6L693.9 130.5L696.2 133.1L698.7 135.5L701.2 137.6L703.9 139.4L706.6 140.9L709.5 142.1L712.5 143L715.6 143.6L718.9 143.8"
+      class="s-code" />
+    <path d="M718.9 143.8L828.9 143.8" class="s-code" />
+    <path d="M828.9 143.8L888.9 143.8" class="s-code" />
+    <path
+      d="M612.5 0L617.1 0.3L621.5 1.3L625.7 2.9L629.8 5.1L633.7 7.8L637.4 11.1L641 14.9L644.4 19.2L647.8 23.9L651 29L654.1 34.5L657 40.4L659.9 46.7L662.7 53.2L665.4 60L668.1 67.1L670.6 74.4L673.1 81.9L675.6 89.5L678 97.3L680.4 105.2L682.8 113.2L685.2 121.3L687.5 129.4L689.8 137.5L692.2 145.5L694.6 153.5L697 161.4L699.4 169.2L701.9 176.9L704.4 184.4L706.9 191.7L709.6 198.7L712.3 205.6L715.1 212.1L718 218.3L720.9 224.2L724 229.7L727.2 234.9L730.6 239.6L734 243.8L737.6 247.6L741.3 250.9L745.2 253.7L749.3 255.8L753.5 257.4L757.9 258.4L762.5 258.8"
+      class="s-code" />
+    <path d="M762.5 258.8L872.5 258.8" class="s-code" />
+    <path d="M825.5 0L825.5 -230" class="s-human" />
+    <path d="M825.5 -230L1015.5 -230" class="s-human" />
+    <path d="M1015.5 -230L1015.5 0" class="s-human" />
+    <path
+      d="M1015.5 0L1018.4 0.1L1021.2 0.6L1023.8 1.3L1026.4 2.3L1028.8 3.5L1031.2 4.9L1033.4 6.6L1035.6 8.5L1037.7 10.6L1039.7 12.9L1041.6 15.4L1043.5 18L1045.3 20.7L1047.1 23.6L1048.8 26.7L1050.4 29.8L1052 33.1L1053.6 36.4L1055.2 39.8L1056.7 43.3L1058.2 46.8L1059.7 50.3L1061.2 53.9L1062.7 57.5L1064.1 61.1L1065.6 64.7L1067.1 68.2L1068.6 71.7L1070.1 75.2L1071.7 78.6L1073.3 81.9L1074.9 85.2L1076.5 88.3L1078.2 91.4L1080 94.3L1081.8 97L1083.7 99.6L1085.6 102.1L1087.6 104.4L1089.7 106.5L1091.9 108.4L1094.1 110.1L1096.5 111.5L1098.9 112.7L1101.5 113.7L1104.1 114.4L1106.9 114.9L1109.8 115"
+      class="s-code" />
+    <path d="M1109.8 115L1219.8 115" class="s-code" />
+    <path d="M1010.5 -17L1020.5 -17L1015.5 -9Z" class="a-human" />
+    <circle cx="180" cy="0" r="4" class="g-ink" />
+    <circle cx="270" cy="0" r="7.5" class="g-read" />
+    <circle cx="439.25" cy="-70" r="7.5" class="g-read" />
+    <path d="M522.5 -10L532.5 0L522.5 10L512.5 0Z" class="g-ink" />
+    <path d="M612.5 -7.5L620 0L612.5 7.5L605 0Z" class="g-model" />
+    <rect x="817.5" y="-8" width="16" height="16" class="g-gate" />
+    <path d="M1015.5 -7.5L1023 0L1015.5 7.5L1008 0Z" class="g-human" />
+    <path d="M1135.5 -10L1145.5 0L1135.5 10L1125.5 0Z" class="g-danger" />
+    <rect x="1193.5" y="-15" width="4" height="30" rx="1" class="g-ink" />
+    <path d="M828.875 133.75L838.875 143.75L828.875 153.75L818.875 143.75Z" class="g-ink" />
+    <rect x="886.875" y="128.75" width="4" height="30" rx="1" class="g-ink" />
+    <rect x="870.5" y="243.75" width="4" height="30" rx="1" class="g-ink" />
+    <rect x="1217.8" y="100" width="4" height="30" rx="1" class="g-ink" />
+    <text x="36" y="-14" font-size="15" text-anchor="start" class="t-ink" font-weight="600">PR opened</text>
+    <text x="36" y="26" font-size="13" text-anchor="start" class="t-note">if busy: queued</text>
+    <text x="270" y="32" font-size="15" text-anchor="middle" class="t-code">fetch diff</text>
+    <text x="396.3" y="-16" font-size="15" text-anchor="middle" class="t-model" font-weight="600">Review</text>
+    <text x="422.8" y="30" font-size="13" text-anchor="middle" class="t-note">find bugs worth a comment</text>
+    <text x="422.8" y="47" font-size="13" text-anchor="middle" class="t-note">read-only token</text>
+    <text x="455.3" y="-74" font-size="13" text-anchor="start" class="t-note">may open</text>
+    <text x="455.3" y="-57" font-size="13" text-anchor="start" class="t-note">related files</text>
+    <text x="522.5" y="-18" font-size="15" text-anchor="middle" class="t-code">draft comments</text>
+    <text x="662.5" y="-16" font-size="15" text-anchor="middle" class="t-model" font-weight="600">blocking</text>
+    <text x="819.5" y="-26" font-size="15" text-anchor="end" class="t-human" font-weight="600">Post these?</text>
+    <text x="920.5" y="30" font-size="13" text-anchor="middle" class="t-note">asleep until a reply</text>
+    <text x="1075.5" y="-16" font-size="15" text-anchor="middle" class="t-human" font-weight="600">post</text>
+    <text x="1135.5" y="32" font-size="15" text-anchor="middle" class="t-danger" font-weight="600">post review</text>
+    <text x="36" y="-192" font-size="15" text-anchor="start" class="t-ink" font-weight="600">new push</text>
+    <text x="36" y="-175" font-size="13" text-anchor="start" class="t-note">if busy: restart</text>
+    <text x="773.9" y="129.8" font-size="15" text-anchor="middle" class="t-model" font-weight="600">nits only</text>
+    <text x="828.9" y="175.8" font-size="15" text-anchor="middle" class="t-code">add label “nits”</text>
+    <text x="817.5" y="244.8" font-size="15" text-anchor="middle" class="t-model" font-weight="600">clean</text>
+    <text x="886.5" y="263.8" font-size="13" text-anchor="start" class="t-note">nothing posted</text>
+    <text x="920.5" y="-261" font-size="15" text-anchor="middle" class="t-human"
+      font-weight="600">maintainer answers</text>
+    <text x="920.5" y="-244" font-size="13" text-anchor="middle" class="t-note">silence for 3 days answers “drop”</text>
+    <text x="1164.8" y="101" font-size="15" text-anchor="middle" class="t-human" font-weight="600">drop</text>
+    <text x="1233.8" y="120" font-size="13" text-anchor="start" class="t-note">draft discarded</text>
+  </g>
+  <text x="30" y="792.8" font-size="13" text-anchor="start" class="t-note">time →</text>
+</svg>
