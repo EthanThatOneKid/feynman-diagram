@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 555" width="640" height="555" font-family="ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">
+<title>e⁻e⁺ → μ⁻μ⁺ (s-channel)</title>
+<style>
+.bg{fill:#fafafa}
+.card{fill:#ffffff;stroke:#ececec}
+.f-card{fill:#ffffff}
+.k-card{stroke:#ffffff}
+.f-ink{fill:#1f1f1f}
+.k-ink{stroke:#1f1f1f}
+.f-gray{fill:#8a8a8a}
+.k-gray{stroke:#8a8a8a}
+.f-blue{fill:#4a7bf7}
+.k-blue{stroke:#4a7bf7}
+.f-orange{fill:#f0a030}
+.k-orange{stroke:#f0a030}
+.f-red{fill:#e5484d}
+.k-red{stroke:#e5484d}
+.f-green{fill:#2f9e5b}
+.k-green{stroke:#2f9e5b}
+.f-purple{fill:#8b5cf6}
+.k-purple{stroke:#8b5cf6}
+.f-teal{fill:#0f9fa8}
+.k-teal{stroke:#0f9fa8}
+.f-pink{fill:#e04f9b}
+.k-pink{stroke:#e04f9b}
+@media (prefers-color-scheme: dark) {
+.bg{fill:#141414}
+.card{fill:#1b1b1b;stroke:#2a2a2a}
+.f-card{fill:#1b1b1b}
+.k-card{stroke:#1b1b1b}
+.f-ink{fill:#e8e8e8}
+.k-ink{stroke:#e8e8e8}
+.f-gray{fill:#8f8f8f}
+.k-gray{stroke:#8f8f8f}
+.f-blue{fill:#7aa2ff}
+.k-blue{stroke:#7aa2ff}
+.f-orange{fill:#f5b04a}
+.k-orange{stroke:#f5b04a}
+.f-red{fill:#ff6b6f}
+.k-red{stroke:#ff6b6f}
+.f-green{fill:#4cc47e}
+.k-green{stroke:#4cc47e}
+.f-purple{fill:#a98bff}
+.k-purple{stroke:#a98bff}
+.f-teal{fill:#3cc4cc}
+.k-teal{stroke:#3cc4cc}
+.f-pink{fill:#f27ab8}
+.k-pink{stroke:#f27ab8}
+}</style>
+<rect class="bg" width="100%" height="100%"/>
+<text x="24" y="32" font-size="20" font-weight="650" class="f-ink">e⁻e⁺ → μ⁻μ⁺ (s-channel)</text>
+<rect class="card" x="8" y="52" width="624" height="90" rx="10"/>
+<path d="M24 78L94 78" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/><path d="M54.7 84L65.7 78L54.7 72Z" class="f-ink"/>
+<text x="106" y="83" font-size="15" text-anchor="start" class="f-ink">fermion (arrow: particle flow)</text>
+<path d="M359.6 78L361 80.5L362.5 82.5L364 83.7L365.5 83.9L367 83.1L368.5 81.3L370 79L371.5 76.5L373 74.2L374.5 72.6L375.9 72L377.4 72.5L378.9 73.9L380.4 76.1L381.9 78.6L383.4 81L384.9 82.9L386.4 83.9L387.9 83.8L389.3 82.8L390.8 80.8L392.3 78.4L393.8 75.9L395.3 73.8L396.8 72.4L398.3 72L399.8 72.7L401.3 74.3L402.8 76.6L404.2 79.2L405.7 81.5L407.2 83.2L408.7 84L410.2 83.7L411.7 82.4L413.2 80.3L414.7 77.8L416.2 75.4L417.6 73.4L419.1 72.2L420.6 72.1L422.1 73L423.6 74.8L425.1 77.2L426.6 79.7L428.1 81.9L429.6 83.5" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<text x="441.6" y="83" font-size="15" text-anchor="start" class="f-ink">photon</text>
+<circle cx="34" cy="116" r="5" class="f-ink"/>
+<text x="54" y="121" font-size="15" text-anchor="start" class="f-ink">interaction vertex</text>
+<rect class="card" x="8" y="160" width="624" height="387" rx="12"/>
+<g transform="translate(12.3 340)">
+<path d="M210 0L211.5 2.5L213 4.5L214.5 5.8L216 5.9L217.5 5.1L219 3.3L220.5 0.9L222 -1.6L223.5 -3.9L225 -5.4L226.5 -6L228 -5.5L229.5 -4L231 -1.8L232.4 0.8L233.9 3.2L235.4 5L236.9 5.9L238.4 5.8L239.9 4.6L241.4 2.6L242.9 0.1L244.4 -2.4L245.9 -4.4L247.4 -5.7L248.9 -6L250.4 -5.1L251.9 -3.4L253.4 -1L254.9 1.5L256.4 3.8L257.9 5.4L259.4 6L260.9 5.5L262.4 4.1L263.9 1.9L265.4 -0.6L266.9 -3.1L268.4 -4.9L269.9 -5.9L271.4 -5.8L272.9 -4.7L274.4 -2.7L275.9 -0.3L277.3 2.3L278.8 4.4L280.3 5.7L281.8 6L283.3 5.2L284.8 3.5L286.3 1.1L287.8 -1.4L289.3 -3.7L290.8 -5.3L292.3 -6L293.8 -5.6L295.3 -4.2L296.8 -2L298.3 0.5L299.8 2.9L301.3 4.8L302.8 5.9L304.3 5.8L305.8 4.8L307.3 2.8L308.8 0.4L310.3 -2.1L311.8 -4.3L313.3 -5.6L314.8 -6L316.3 -5.3L317.8 -3.6L319.3 -1.3L320.7 1.3L322.2 3.6L323.7 5.3L325.2 6L326.7 5.6L328.2 4.3L329.7 2.1L331.2 -0.4L332.7 -2.8L334.2 -4.8L335.7 -5.8L337.2 -5.9L338.7 -4.8L340.2 -2.9L341.7 -0.5L343.2 2L344.7 4.2L346.2 5.6L347.7 6L349.2 5.3L350.7 3.7L352.2 1.4L353.7 -1.1L355.2 -3.5L356.7 -5.2L358.2 -6L359.7 -5.7L361.2 -4.4L362.7 -2.3L364.1 0.3L365.6 2.7L367.1 4.7L368.6 5.8L370.1 5.9L371.6 4.9L373.1 3.1L374.6 0.6L376.1 -1.9L377.6 -4.1L379.1 -5.5L380.6 -6L382.1 -5.4L383.6 -3.8L385.1 -1.5L386.6 1L388.1 3.4L389.6 5.1L391.1 6L392.6 5.7L394.1 4.4L395.6 2.4L397.1 -0.1L398.6 -2.6L400.1 -4.6L401.6 -5.8L403.1 -5.9L404.6 -5L406.1 -3.2L407.6 -0.8L409 1.8L410.5 4L412 5.5L413.5 6L415 5.4L416.5 3.9L418 1.6L419.5 -0.9L421 -3.3L422.5 -5.1L424 -5.9L425.5 -5.8L427 -4.5L428.5 -2.5L430 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/>
+<path d="M40 -115L210 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/><path d="M118.1 -54.9L130.6 -53.7L124.8 -64.9Z" class="f-ink"/>
+<path d="M40 115L210 0" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/><path d="M126.4 49.3L120.7 60.4L133.1 59.2Z" class="f-ink"/>
+<path d="M430 0L553.5 -115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/><path d="M492.7 -50.2L496.7 -62.1L484.5 -59Z" class="f-ink"/>
+<path d="M430 0L553.5 115" fill="none" stroke-linejoin="round" stroke-width="2.2" stroke-linecap="round" class="k-ink"/><path d="M500 57L487.9 53.9L491.9 65.8Z" class="f-ink"/>
+<circle cx="210" cy="0" r="5" class="f-ink"/>
+<circle cx="430" cy="0" r="5" class="f-ink"/>
+<text x="210" y="34" font-size="15" text-anchor="middle" class="f-ink"><tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">−</tspan>ie γ^μ</text>
+<text x="320" y="-16" font-size="15" text-anchor="middle" class="f-ink">γ*</text>
+<text x="320" y="30" font-size="13" text-anchor="middle" class="f-gray">virtual photon</text>
+<text x="430" y="34" font-size="15" text-anchor="middle" class="f-ink"><tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">−</tspan>ie γ^ν</text>
+<text x="36" y="-129" font-size="15" text-anchor="start" class="f-ink" font-weight="600">e⁻</text>
+<text x="36" y="141" font-size="15" text-anchor="start" class="f-ink" font-weight="600">e⁺</text>
+<text x="565.5" y="-110" font-size="15" text-anchor="start" class="f-ink" font-weight="600">μ⁻</text>
+<text x="565.5" y="120" font-size="15" text-anchor="start" class="f-ink" font-weight="600">μ⁺</text>
+</g>
+<text x="30" y="531" font-size="13" text-anchor="start" class="f-gray">time <tspan font-family="Menlo, 'DejaVu Sans Mono', 'MS Gothic', ui-monospace, monospace">→</tspan></text>
+</svg>

@@ -1,4 +1,5 @@
 {
+  "preset": "agent",
   "legend": { "human": "Sam decides" },
   "tracks": [
     {
@@ -23,7 +24,7 @@
           "line": "model",
           "label": "Draft",
           "note": ["writes the reply Sam would send", "short, direct, his voice"],
-          "probe": { "label": "may search this", "note": "sender's mail" }
+          "probe": { "vertex": "read", "label": "may search this", "note": "sender's mail" }
         },
         { "vertex": "reversible", "label": "save draft" },
         { "line": "code", "len": 90 },
