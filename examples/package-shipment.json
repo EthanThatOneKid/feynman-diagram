@@ -1,39 +1,133 @@
 {
   "title": "An international parcel",
   "lines": {
-    "road": { "stroke": "solid", "color": "ink", "legend": "by road", "len": 100 },
-    "air": { "stroke": "double", "color": "blue", "legend": "by air", "len": 200 },
-    "held": { "stroke": "dotted", "color": "gray", "legend": "held, nobody moving it", "len": 180 },
-    "courier": { "stroke": "dashed", "color": "green", "legend": "local courier", "len": 140 }
+    "road": {
+      "stroke": "solid",
+      "color": "ink",
+      "legend": "by road",
+      "len": 80
+    },
+    "air": {
+      "stroke": "double",
+      "color": "blue",
+      "legend": "by air",
+      "len": 140
+    },
+    "held": {
+      "stroke": "dotted",
+      "color": "gray",
+      "legend": "held, nobody moving it",
+      "len": 130
+    },
+    "courier": {
+      "stroke": "dashed",
+      "color": "green",
+      "legend": "local courier",
+      "len": 110
+    }
   },
   "vertices": {
-    "scan": { "shape": "circle", "fill": "hollow", "legend": "scanned" },
-    "handoff": { "shape": "diamond", "legend": "changes hands" },
-    "fee": { "shape": "diamond", "color": "red", "legend": "money changes hands", "labelColor": true, "bold": true },
-    "inspect": { "shape": "triangle", "color": "orange", "legend": "opened and inspected" },
-    "signed": { "shape": "square", "fill": "hollow", "color": "green", "legend": "recipient signs", "labelColor": true }
+    "scan": {
+      "shape": "circle",
+      "fill": "hollow",
+      "legend": "scanned"
+    },
+    "handoff": {
+      "shape": "diamond",
+      "legend": "changes hands"
+    },
+    "fee": {
+      "shape": "diamond",
+      "color": "red",
+      "legend": "money changes hands",
+      "labelColor": true,
+      "bold": true
+    },
+    "inspect": {
+      "shape": "triangle",
+      "color": "orange",
+      "legend": "opened and inspected"
+    },
+    "signed": {
+      "shape": "square",
+      "fill": "hollow",
+      "color": "green",
+      "legend": "recipient signs",
+      "labelColor": true
+    }
   },
-  "legend": { "branch": "customs decides" },
+  "legend": {
+    "branch": "customs decides"
+  },
   "tracks": [
     {
       "id": "main",
       "lane": 0,
-      "start": { "label": "order shipped", "note": "label printed" },
+      "start": {
+        "label": "shipped"
+      },
       "steps": [
-        { "vertex": "scan", "label": "pickup" },
-        { "line": "road", "label": "to hub" },
-        { "vertex": "handoff", "label": "export hub" },
-        { "line": "air", "label": "Flight", "note": "~14 h in the cargo hold" },
-        { "vertex": "scan", "label": "arrival" },
-        { "line": "held", "note": "customs queue · 1–3 days" },
-        { "vertex": "branch", "id": "customs", "by": "orange" },
-        { "line": "road", "label": "cleared", "len": 490 },
-        { "vertex": "handoff", "id": "depot", "label": "local depot" },
-        { "line": "courier", "label": "out for delivery" },
-        { "vertex": "branch", "id": "door", "by": "green" },
-        { "line": "courier", "label": "someone home", "len": 150 },
-        { "vertex": "signed", "label": "signature" },
-        { "vertex": "stop" }
+        {
+          "vertex": "scan",
+          "label": "pickup"
+        },
+        {
+          "line": "road",
+          "label": "to hub"
+        },
+        {
+          "vertex": "handoff",
+          "label": "export hub"
+        },
+        {
+          "line": "air",
+          "label": "Flight",
+          "note": "~14 h"
+        },
+        {
+          "vertex": "scan",
+          "label": "arrival"
+        },
+        {
+          "line": "held",
+          "note": "customs · 1–3 days"
+        },
+        {
+          "vertex": "branch",
+          "id": "customs",
+          "by": "orange"
+        },
+        {
+          "line": "road",
+          "label": "cleared",
+          "len": 330
+        },
+        {
+          "vertex": "handoff",
+          "id": "depot",
+          "label": "local depot"
+        },
+        {
+          "line": "courier",
+          "label": "courier"
+        },
+        {
+          "vertex": "branch",
+          "id": "door",
+          "by": "green"
+        },
+        {
+          "line": "courier",
+          "label": "home",
+          "len": 90
+        },
+        {
+          "vertex": "signed",
+          "label": "signature"
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -43,7 +137,12 @@
       "merge": "depot",
       "line": "held",
       "label": "duty owed",
-      "steps": [{ "line": "held", "note": "waits for payment" }, { "vertex": "fee", "label": "recipient pays" }]
+      "steps": [
+        {
+          "vertex": "fee",
+          "label": "pays duty"
+        }
+      ]
     },
     {
       "id": "refused",
@@ -51,11 +150,25 @@
       "from": "customs",
       "label": "flagged",
       "steps": [
-        { "line": "road", "len": 90 },
-        { "vertex": "inspect", "label": "inspected" },
-        { "line": "road", "len": 110 },
-        { "vertex": "handoff", "label": "returned to sender" },
-        { "vertex": "stop" }
+        {
+          "line": "road",
+          "len": 70
+        },
+        {
+          "vertex": "inspect",
+          "label": "inspected"
+        },
+        {
+          "line": "road",
+          "len": 90
+        },
+        {
+          "vertex": "handoff",
+          "label": "returned"
+        },
+        {
+          "vertex": "stop"
+        }
       ]
     },
     {
@@ -64,10 +177,23 @@
       "from": "door",
       "label": "nobody home",
       "steps": [
-        { "line": "courier", "len": 90 },
-        { "vertex": "scan", "label": "notice left" },
-        { "line": "held", "note": "up to 5 days at the depot" },
-        { "vertex": "stop", "note": "then returned" }
+        {
+          "line": "courier",
+          "len": 60
+        },
+        {
+          "vertex": "scan",
+          "label": "notice"
+        },
+        {
+          "line": "held",
+          "note": "5 days max",
+          "len": 100
+        },
+        {
+          "vertex": "stop",
+          "note": "returned"
+        }
       ]
     }
   ]

@@ -109,6 +109,8 @@ export interface Spec {
   /** Caption for the left-to-right axis (default "time"), or false. */
   time?: false | string;
   lanePx?: number;
+  /** Warn when the diagram body is wider than this many px (default 1400; 0 disables). */
+  maxWidth?: number;
   tracks: Track[];
 }
 
@@ -187,6 +189,8 @@ const SHAPES: Shape[] = ["circle", "diamond", "square", "triangle", "hexagon", "
 const TOKENS = ["ink", "gray", "blue", "orange", "red", "green", "purple", "teal", "pink"];
 
 const DEFAULT_LEN = 110;
+/** Wider than this and a README (shown at ~900px) shrinks labels below ~10px. */
+const MAX_WIDTH = 1400;
 const IMPLICIT_LEN = 56;
 const MARGIN = 40;
 const LABEL = 15;
@@ -866,6 +870,14 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
   const items = legendItems(spec, V, L);
   const rows: (LegendItem & { x: number })[][] = [];
   const width = Math.max(bodyW, 640);
+  const maxWidth = spec.maxWidth ?? MAX_WIDTH;
+  if (maxWidth && bodyW > maxWidth) {
+    L.warnings.push(
+      `diagram is ${Math.round(bodyW)}px wide (limit ${maxWidth}); a README shows images at ~900px, so labels ` +
+        `shrink to ~${Math.round((15 * 900) / bodyW)}px. Split it into an overview and close-ups, shorten notes, ` +
+        `or set "maxWidth" (0 disables this check) if it will be shown full size`,
+    );
+  }
   {
     let row: (LegendItem & { x: number })[] = [];
     let x = 24;

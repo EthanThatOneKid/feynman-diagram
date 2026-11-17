@@ -13,6 +13,7 @@ renderer adds a short implicit line wherever two vertices touch.
   "legend": { "human": "Sam decides" }, // override legend text per kind, or false to hide the legend
   "time": "time", // caption for the left-to-right axis, or false
   "lanePx": 115, // vertical distance between lanes
+  "maxWidth": 1400, // warn when wider (a README shows ~900px); 0 disables
   "tracks": [/* Track */]
 }
 ```

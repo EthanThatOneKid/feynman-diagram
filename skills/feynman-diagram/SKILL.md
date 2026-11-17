@@ -73,6 +73,9 @@ You do the semantics; `scripts/render.ts` does the geometry. You never place pix
    - labels collide → raise `len` on the line between them, or move a vertex label with `labelPos`;
    - branches crowd → spread their `lane` values (fractions are fine);
    - a warning says a merge has no room → lengthen the main-path line before the merge target.
+   - a warning says the diagram is too wide (over 1400px; a README shows images at ~900px) → split it into an overview
+     and close-ups (e.g. a write path and a read path), shorten notes and labels, or tighten `len`. Set `"maxWidth": 0`
+     only when the image will be shown full size.
 
    Iterate until nothing overlaps and every path ends or exits. Hand the user the SVG and the spec.
 
