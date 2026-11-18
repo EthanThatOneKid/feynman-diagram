@@ -8,7 +8,7 @@ description: >-
   physics). Use for /feynman-diagram, "Feynman diagram of X", a timeline or flow diagram where *who or what* carries
   each step and *what each event does* both matter: agent and software workflows, particle interactions, logistics,
   legal or business processes, biology pathways, game turns, protocols. Writes a JSON spec and renders it to SVG and
-  PNG with a bundled Deno script.
+  PNG with a bundled script that runs on Bun or Node.
 ---
 
 # /feynman-diagram
@@ -59,15 +59,16 @@ You do the semantics; `scripts/render.ts` does the geometry. You never place pix
    - loops that return (an approval, a retry) as `shape: "square"` tracks with `from` + `merge`;
    - symmetric, physics-style diagrams as free tracks (`offset`, no `start`) plus `shape: "straight"` legs.
 
-5. **Render** (Deno required):
+5. **Render** (Bun, or Node 22.18+; both run the TypeScript directly):
 
    ```sh
-   deno run --allow-read --allow-write --allow-env --allow-ffi --allow-sys --allow-net \
-     <skill-dir>/scripts/render.ts diagram.feynman.json -o diagram.svg --png diagram.png
+   cd <skill-dir> && npm install   # once, only needed for --png (Bun installs it on demand)
+   bun <skill-dir>/scripts/render.ts diagram.feynman.json -o diagram.svg --png diagram.png
+   # or: node <skill-dir>/scripts/render.ts diagram.feynman.json -o diagram.svg --png diagram.png
    ```
 
-   Drop `--png` (and every permission flag past `--allow-write`) for SVG only. `<skill-dir>` is the directory holding
-   this file. The renderer validates the spec and lists the kinds it knows when you name an unknown one.
+   Drop `--png` for SVG only; that needs no install. `<skill-dir>` is the directory holding this file. The renderer
+   validates the spec and lists the kinds it knows when you name an unknown one.
 
 6. **Look at the PNG** (read the image) and fix what you see:
    - labels collide → raise `len` on the line between them, or move a vertex label with `labelPos`;

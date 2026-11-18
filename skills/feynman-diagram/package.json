@@ -1,0 +1,9 @@
+{
+  "name": "feynman-diagram-skill",
+  "private": true,
+  "type": "module",
+  "description": "Renders Feynman-style diagram specs (JSON) to SVG and PNG. Runs on Bun or Node 22.18+.",
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2"
+  }
+}
