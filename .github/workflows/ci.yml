@@ -6,12 +6,22 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v2
+      - uses: actions/setup-node@v4
         with:
-          deno-version: v2.9.8
-      - run: deno fmt --check
-      - run: deno lint
-      - run: deno check skills/feynman-diagram/scripts/render.ts
-      - run: deno task test
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - run: npm run fmt:check
+      - run: npm run check
+      - run: npm test
+  bun:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: bun install
+      - run: bun test skills

@@ -1,4 +1,4 @@
-#!/usr/bin/env -S deno run --allow-read --allow-write
+#!/usr/bin/env node
 /**
  * Feynman diagram renderer: turns a semantic spec (JSON) into an SVG.
  *
@@ -12,8 +12,13 @@
  * spacing, curves, labels, legend, and theme. See ../references/spec.md.
  *
  * Usage:
- *   deno run --allow-read --allow-write render.ts <spec.json> [-o out.svg] [--png out.png]
+ *   bun render.ts <spec.json> [-o out.svg] [--png out.png]
+ *   node render.ts <spec.json> [-o out.svg] [--png out.png]   (Node 22.18+ runs TypeScript natively)
  */
+
+import { readFileSync, writeFileSync } from "node:fs";
+import { pathToFileURL } from "node:url";
+import process from "node:process";
 
 // ---------- spec types ----------
 
@@ -220,7 +225,8 @@ function bezier(a: Pt, b: Pt, n = 48): Pt[] {
   const c2: Pt = [mx, b[1]];
   const out: Pt[] = [];
   for (let i = 0; i <= n; i++) {
-    const t = i / n, u = 1 - t;
+    const t = i / n,
+      u = 1 - t;
     out.push([
       u * u * u * a[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * b[0],
       u * u * u * a[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * b[1],
@@ -233,14 +239,16 @@ function bezier(a: Pt, b: Pt, n = 48): Pt[] {
 function dense(pts: Pt[]): { p: Pt; s: number; tx: number; ty: number }[] {
   const d: Pt[] = [pts[0]];
   for (let i = 1; i < pts.length; i++) {
-    const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+    const [x0, y0] = pts[i - 1],
+      [x1, y1] = pts[i];
     const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) / 1.5));
-    for (let k = 1; k <= n; k++) d.push([x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n]);
+    for (let k = 1; k <= n; k++) d.push([x0 + ((x1 - x0) * k) / n, y0 + ((y1 - y0) * k) / n]);
   }
   let s = 0;
   return d.map((p, i) => {
     if (i > 0) s += Math.hypot(p[0] - d[i - 1][0], p[1] - d[i - 1][1]);
-    const a = d[Math.max(0, i - 1)], b = d[Math.min(d.length - 1, i + 1)];
+    const a = d[Math.max(0, i - 1)],
+      b = d[Math.min(d.length - 1, i + 1)];
     const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || 1;
     return { p, s, tx: (b[0] - a[0]) / len, ty: (b[1] - a[1]) / len };
   });
@@ -250,7 +258,8 @@ function dense(pts: Pt[]): { p: Pt; s: number; tx: number; ty: number }[] {
 function displace(pts: Pt[], style: StrokeStyle): Pt[] {
   if (style !== "wave" && style !== "coil" && style !== "zigzag") return pts;
   return dense(pts).map(({ p, s, tx, ty }) => {
-    const nx = -ty, ny = tx;
+    const nx = -ty,
+      ny = tx;
     if (style === "wave") {
       const o = WAVE_AMP * Math.sin((2 * Math.PI * s) / WAVE_LEN);
       return [p[0] + nx * o, p[1] + ny * o];
@@ -262,7 +271,8 @@ function displace(pts: Pt[], style: StrokeStyle): Pt[] {
     }
     // coil: a loop every 13px (gluon)
     const a = (2 * Math.PI * s) / 13;
-    const o = 7 * Math.sin(a), q = -7 * Math.cos(a) + 7;
+    const o = 7 * Math.sin(a),
+      q = -7 * Math.cos(a) + 7;
     return [p[0] + nx * o + tx * q * 0.9, p[1] + ny * o + ty * q * 0.9];
   });
 }
@@ -307,7 +317,7 @@ export function validate(spec: Spec): string[] {
       const sat = `${at}.steps[${j}]`;
       if (isLine(s)) {
         lk(s.line, sat);
-        if (s.probe) lk(s.probe.line, `${sat}.probe`), vk(s.probe.vertex, `${sat}.probe`);
+        if (s.probe) (lk(s.probe.line, `${sat}.probe`), vk(s.probe.vertex, `${sat}.probe`));
       } else if ("vertex" in s) {
         vk(s.vertex, sat);
         if (s.by !== undefined && !V.lines[s.by] && !validColor(s.by)) {
@@ -433,8 +443,8 @@ export function layout(spec: Spec): Layout {
   ) => {
     const n = (label ? 1 : 0) + notes.length;
     let yy = up ? y - (n - 1) * NOTE_LEAD : y;
-    if (label) L.labels.push({ x, y: yy, text: label, color, size: LABEL, anchor, bold }), (yy += NOTE_LEAD);
-    for (const t of notes) L.labels.push({ x, y: yy, text: t, color: "gray", size: NOTE, anchor }), (yy += NOTE_LEAD);
+    if (label) (L.labels.push({ x, y: yy, text: label, color, size: LABEL, anchor, bold }), (yy += NOTE_LEAD));
+    for (const t of notes) (L.labels.push({ x, y: yy, text: t, color: "gray", size: NOTE, anchor }), (yy += NOTE_LEAD));
   };
 
   const place = (t: Track) => {
@@ -454,7 +464,14 @@ export function layout(spec: Spec): Layout {
     let runStart: number;
     if (parent) {
       if (square && parent.y !== y) {
-        L.strokes.push({ kind: t.line ?? kindIn, pts: [[parent.x, parent.y], [parent.x, y]], reverse: rev });
+        L.strokes.push({
+          kind: t.line ?? kindIn,
+          pts: [
+            [parent.x, parent.y],
+            [parent.x, y],
+          ],
+          reverse: rev,
+        });
         runStart = parent.x;
       } else if (parent.y !== y) {
         const c = connLen(y - parent.y);
@@ -465,7 +482,10 @@ export function layout(spec: Spec): Layout {
       runStart = MARGIN + (t.offset ?? 0);
       if (t.start) {
         // trigger label: lanes above the main path stack text above; below stack below; on it, split
-        const s = t.start, notes = lines(s.note), color = titleColor(t.line ?? kindIn), x = runStart - 4;
+        const s = t.start,
+          notes = lines(s.note),
+          color = titleColor(t.line ?? kindIn),
+          x = runStart - 4;
         if (t.lane < 0) textStack(x, y - 14, s.label, notes, color, "start", true);
         else if (t.lane > 0) textStack(x, y + 26, s.label, notes, color, "start", false);
         else {
@@ -509,14 +529,22 @@ export function layout(spec: Spec): Layout {
       }
       if (nat > 0) widths.forEach((w, i) => (widths[i] = (w * avail) / nat));
       else if (avail > 0) {
-        L.strokes.push({ kind: t.line ?? firstLine, pts: [[runStart, y], [runEnd, y]], reverse: rev });
+        L.strokes.push({
+          kind: t.line ?? firstLine,
+          pts: [
+            [runStart, y],
+            [runEnd, y],
+          ],
+          reverse: rev,
+        });
       }
     }
 
     // track label (+ note) centered over the first stretch
     if (t.label) {
       const i0 = steps.findIndex(isLine);
-      let x0 = runStart, x1 = runEnd;
+      let x0 = runStart,
+        x1 = runEnd;
       if (i0 >= 0) {
         x0 = runStart + widths.slice(0, i0).reduce((a, b) => a + b, 0);
         x1 = x0 + widths[i0];
@@ -538,7 +566,14 @@ export function layout(spec: Spec): Layout {
     steps.forEach((s, i) => {
       const w = widths[i];
       if (isLine(s)) {
-        L.strokes.push({ kind: s.line, pts: [[cx, y], [cx + w, y]], reverse: rev });
+        L.strokes.push({
+          kind: s.line,
+          pts: [
+            [cx, y],
+            [cx + w, y],
+          ],
+          reverse: rev,
+        });
         const inset = i === 0 ? startInset : 0;
         const mid = cx + inset + (w - inset - (s.label ? aboveLeftW(steps[i + 1]) : 0)) / 2;
         if (s.label) {
@@ -563,7 +598,13 @@ export function layout(spec: Spec): Layout {
           const clear = s.label ? (textW(s.label, LABEL, true) / 2 + 16) / w : 0;
           const px = cx + w * (p.at ?? Math.min(0.85, Math.max(0.62, 0.5 + clear)));
           const h = (p.height ?? 70) * (p.side === "below" ? 1 : -1);
-          L.strokes.push({ kind: p.line ?? s.line, pts: [[px, y], [px, y + h]] });
+          L.strokes.push({
+            kind: p.line ?? s.line,
+            pts: [
+              [px, y],
+              [px, y + h],
+            ],
+          });
           L.glyphs.push({ kind: p.vertex ?? "junction", x: px, y: y + h });
           const pl = [...(p.label ? [p.label] : []), ...lines(p.note)];
           pl.forEach((n, k) =>
@@ -574,7 +615,7 @@ export function layout(spec: Spec): Layout {
               color: "gray",
               size: NOTE,
               anchor: "start",
-            })
+            }),
           );
         }
         lastBranch = undefined;
@@ -626,7 +667,13 @@ export function layout(spec: Spec): Layout {
     const endX = cx;
     if (target) {
       if (square) {
-        L.strokes.push({ kind: t.line ?? kindOut, pts: [[target.x, y], [target.x, target.y]] });
+        L.strokes.push({
+          kind: t.line ?? kindOut,
+          pts: [
+            [target.x, y],
+            [target.x, target.y],
+          ],
+        });
         if (t.arrow !== false) {
           const dir = target.y > y ? 1 : -1;
           L.arrows.push({ x: target.x, y: target.y - 11 * dir, dir, color: lineColor(t.line ?? kindOut) });
@@ -720,11 +767,11 @@ function strokeSvg(V: Vocab, s: Stroke): string {
       out = `<path d="${dpath}" ${base} stroke-width="2.2" stroke-dasharray="9 7" class="${cls}"${attr}/>`;
       break;
     case "dotted":
-      out =
-        `<path d="${dpath}" ${base} stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="${cls}"${attr}/>`;
+      out = `<path d="${dpath}" ${base} stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0.1 7" class="${cls}"${attr}/>`;
       break;
     case "double":
-      out = `<path d="${dpath}" ${base} stroke-width="6.5" class="${cls}"${attr}/>` +
+      out =
+        `<path d="${dpath}" ${base} stroke-width="6.5" class="${cls}"${attr}/>` +
         `<path d="${dpath}" ${base} stroke-width="2.3" class="k-card"/>`;
       break;
     default:
@@ -741,7 +788,10 @@ function chevron(pts: Pt[], color: Color, reverse: boolean): string {
   if (total < 24) return "";
   const m = ds.find((q) => q.s >= total / 2) ?? ds[ds.length - 1];
   const sgn = reverse ? -1 : 1;
-  const tx = m.tx * sgn, ty = m.ty * sgn, nx = -ty, ny = tx;
+  const tx = m.tx * sgn,
+    ty = m.ty * sgn,
+    nx = -ty,
+    ny = tx;
   const [x, y] = m.p;
   const tip: Pt = [x + tx * 6, y + ty * 6];
   const a: Pt = [x - tx * 5 + nx * 6, y - ty * 5 + ny * 6];
@@ -767,13 +817,27 @@ function glyphSvg(V: Vocab, g: Glyph): string {
     case "dot":
       return `<circle cx="${x}" cy="${y}" r="${r1(s * 0.45)}" ${paint}/>`;
     case "diamond":
-      return poly([[x, y - s - 1], [x + s + 1, y], [x, y + s + 1], [x - s - 1, y]]);
+      return poly([
+        [x, y - s - 1],
+        [x + s + 1, y],
+        [x, y + s + 1],
+        [x - s - 1, y],
+      ]);
     case "square": {
       const h = s * 0.9;
-      return poly([[x - h, y - h], [x + h, y - h], [x + h, y + h], [x - h, y + h]]);
+      return poly([
+        [x - h, y - h],
+        [x + h, y - h],
+        [x + h, y + h],
+        [x - h, y + h],
+      ]);
     }
     case "triangle":
-      return poly([[x, y - s * 1.05], [x + s, y + s * 0.75], [x - s, y + s * 0.75]]);
+      return poly([
+        [x, y - s * 1.05],
+        [x + s, y + s * 0.75],
+        [x - s, y + s * 0.75],
+      ]);
     case "hexagon":
       return poly(
         Array.from(
@@ -782,10 +846,13 @@ function glyphSvg(V: Vocab, g: Glyph): string {
         ),
       );
     case "star":
-      return poly(Array.from({ length: 10 }, (_, i) => {
-        const r = i % 2 ? s * 0.48 : s * 1.15, a = -Math.PI / 2 + (Math.PI / 5) * i;
-        return [x + r * Math.cos(a), y + r * Math.sin(a)] as Pt;
-      }));
+      return poly(
+        Array.from({ length: 10 }, (_, i) => {
+          const r = i % 2 ? s * 0.48 : s * 1.15,
+            a = -Math.PI / 2 + (Math.PI / 5) * i;
+          return [x + r * Math.cos(a), y + r * Math.sin(a)] as Pt;
+        }),
+      );
     case "cross": {
       const h = s * 0.8;
       return `<path d="M${x - h} ${y - h}L${x + h} ${y + h}M${x + h} ${y - h}L${x - h} ${
@@ -802,7 +869,8 @@ const SYMBOLS = /[←-⏿■-➿⤀-⯿]+/g;
 
 /** Escape text and set symbol runs in monospace, so a missing glyph never falls back to a serif face. */
 function textContent(s: string): string {
-  let out = "", last = 0;
+  let out = "",
+    last = 0;
   for (const m of s.matchAll(SYMBOLS)) {
     out += esc(s.slice(last, m.index)) + `<tspan font-family="${MONO}">${esc(m[0])}</tspan>`;
     last = m.index! + m[0].length;
@@ -859,9 +927,15 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
   const L = layout(spec);
 
   // bounds of the diagram body
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  let minX = Infinity,
+    minY = Infinity,
+    maxX = -Infinity,
+    maxY = -Infinity;
   const grow = (x0: number, y0: number, x1 = x0, y1 = y0) => {
-    minX = Math.min(minX, x0), minY = Math.min(minY, y0), maxX = Math.max(maxX, x1), maxY = Math.max(maxY, y1);
+    ((minX = Math.min(minX, x0)),
+      (minY = Math.min(minY, y0)),
+      (maxX = Math.max(maxX, x1)),
+      (maxY = Math.max(maxY, y1)));
   };
   L.strokes.forEach((s) => s.pts.forEach(([x, y]) => grow(x - 8, y - 8, x + 8, y + 8)));
   L.glyphs.forEach((g) => grow(g.x - 18, g.y - 18, g.x + 18, g.y + 18));
@@ -892,7 +966,7 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
     let x = 24;
     for (const it of items) {
       const w = (it.isLine ? 82 : 30) + textW(it.text, LABEL) * 0.92 + 30;
-      if (row.length && x + w > width - 24) rows.push(row), (row = []), (x = 24);
+      if (row.length && x + w > width - 24) (rows.push(row), (row = []), (x = 24));
       row.push({ ...it, x });
       x += w;
     }
@@ -902,7 +976,8 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
   const legendH = rows.length ? rows.length * 38 + 22 : 0;
   const top = titleH + legendH + (legendH ? 18 : 0);
   const H = top + bodyH;
-  const ox = pad - minX + (width - bodyW) / 2, oy = top + pad - minY;
+  const ox = pad - minX + (width - bodyW) / 2,
+    oy = top + pad - minY;
 
   const out: string[] = [];
   out.push(
@@ -922,18 +997,27 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
       for (const it of row) {
         out.push(
           it.isLine
-            ? strokeSvg(V, { kind: it.kind, pts: [[it.x, y], [it.x + 70, y]] })
+            ? strokeSvg(V, {
+                kind: it.kind,
+                pts: [
+                  [it.x, y],
+                  [it.x + 70, y],
+                ],
+              })
             : glyphSvg(V, { kind: it.kind, x: it.x + 10, y }),
         );
         out.push(
-          labelSvg({
-            x: it.x + (it.isLine ? 82 : 30),
-            y: y + 5,
-            text: it.text,
-            color: "ink",
-            size: LABEL,
-            anchor: "start",
-          }, opts.png),
+          labelSvg(
+            {
+              x: it.x + (it.isLine ? 82 : 30),
+              y: y + 5,
+              text: it.text,
+              color: "ink",
+              size: LABEL,
+              anchor: "start",
+            },
+            opts.png,
+          ),
         );
       }
     });
@@ -966,11 +1050,15 @@ export function render(spec: Spec, opts: { png?: boolean } = {}): { svg: string;
 
 /** One monospace face per OS that covers arrows and math symbols (Cascadia Mono and Consolas do not). */
 function pngMono(): string {
-  return Deno.build.os === "windows" ? "MS Gothic" : Deno.build.os === "darwin" ? "Menlo" : "DejaVu Sans Mono";
+  return process.platform === "win32" ? "MS Gothic" : process.platform === "darwin" ? "Menlo" : "DejaVu Sans Mono";
 }
 
-if (import.meta.main) {
-  const args = [...Deno.args];
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  await main();
+}
+
+async function main() {
+  const args = process.argv.slice(2);
   const take = (flag: string) => {
     const i = args.indexOf(flag);
     if (i < 0) return undefined;
@@ -983,28 +1071,29 @@ if (import.meta.main) {
   const input = args[0];
   if (!input) {
     console.error("usage: render.ts <spec.json> [-o out.svg] [--png out.png]");
-    Deno.exit(2);
+    process.exit(2);
   }
-  const spec = JSON.parse(await Deno.readTextFile(input)) as Spec;
+  const spec = JSON.parse(readFileSync(input, "utf8")) as Spec;
   let result;
   try {
     result = render(spec);
   } catch (e) {
     console.error((e as Error).message);
-    Deno.exit(1);
+    process.exit(1);
   }
   for (const w of result.warnings) console.error(`warning: ${w}`);
   const svgPath = outPath ?? input.replace(/\.json$/i, "") + ".svg";
-  await Deno.writeTextFile(svgPath, result.svg);
+  writeFileSync(svgPath, result.svg);
   console.log(`wrote ${svgPath}`);
   if (pngPath) {
-    const { Resvg } = await import("npm:@resvg/resvg-js@2.6.2");
+    const { Resvg } = await import("@resvg/resvg-js");
     const png = new Resvg(render(spec, { png: true }).svg, {
       fitTo: { mode: "zoom", value: 2 },
       font: { loadSystemFonts: true, serifFamily: pngMono(), monospaceFamily: pngMono() },
     })
-      .render().asPng();
-    await Deno.writeFile(pngPath, png);
+      .render()
+      .asPng();
+    writeFileSync(pngPath, png);
     console.log(`wrote ${pngPath}`);
   }
 }

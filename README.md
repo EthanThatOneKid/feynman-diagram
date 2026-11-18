@@ -36,14 +36,14 @@ Or copy or symlink `skills/feynman-diagram/` into your agent's skills directory:
 ln -s "$PWD/skills/feynman-diagram" ~/.claude/skills/feynman-diagram
 ```
 
-Then ask for `/feynman-diagram <thing to diagram>`. Rendering requires [Deno](https://deno.com).
+Then ask for `/feynman-diagram <thing to diagram>`. Rendering runs on [Bun](https://bun.sh) or Node 22.18+ (PNG output needs a one-time `npm install` in the skill directory; Bun installs on demand).
 
 ## Render by hand
 
 ```sh
-deno task render examples/package-shipment.json --png examples/package-shipment.png
-deno task examples   # re-render every example
-deno task test
+npm run render -- examples/package-shipment.json --png examples/package-shipment.png
+npm run examples   # re-render every example
+npm test
 ```
 
 The spec format is in [`references/spec.md`](skills/feynman-diagram/references/spec.md).
