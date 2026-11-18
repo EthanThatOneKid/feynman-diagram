@@ -1,3 +1,4 @@
 package-lock.json
 examples/*.svg
 *.md
+examples/*.json
